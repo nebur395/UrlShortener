@@ -11,4 +11,4 @@ This is the shared repository for the project developed in this course. Go to th
 
 ## Teams
 
-To be completed.
+- [**Aeternum:**](https://github.com/nebur395/UrlShortener/tree/master/team) Alberto Martínez, Ana Roig, Beatriz Pérez y Rubén Moreno. [![Build Status](https://travis-ci.org/nebur395/UrlShortener.svg?branch=master)](https://travis-ci.org/nebur395/UrlShortener)
