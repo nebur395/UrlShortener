@@ -1,7 +1,4 @@
 package urlshortener.aeternum.web;
-/**
- * Created by belbus on 6/11/16.
- */
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
