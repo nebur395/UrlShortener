@@ -26,6 +26,11 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 											  @RequestParam(value = "sponsor", required = false) String sponsor,
 											  HttpServletRequest request) {
 		logger.info("Requested new short for uri " + url);
-		return super.shortener(url, sponsor, request);
+        ResponseEntity<ShortURL> r = super.shortener(url, sponsor, request);
+        String ip = r.getBody().getIP();
+        System.out.println("ip: "+ip);
+        ReadLocation l = new ReadLocation(ip);
+        l.location();
+        return r;
 	}
 }
