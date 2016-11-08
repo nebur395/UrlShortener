@@ -19,6 +19,7 @@ eclipse {
 
 dependencies {
     compile project(':common')
+    compile 'org.glassfish.jersey.core:jersey-server:2.24'
 
     // Provides the production database
     runtime 'org.hsqldb:hsqldb'

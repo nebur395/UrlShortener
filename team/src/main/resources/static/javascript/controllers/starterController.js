@@ -1,6 +1,6 @@
 angular.module('urlShortener')
 
-    .controller('starterCtrl', ['$scope', '$state', function ($scope, $state) {
+    .controller('starterCtrl', ['$scope', '$state', 'urlShortener', function ($scope, $state,urlShortener) {
 
         $scope.url = "";
 

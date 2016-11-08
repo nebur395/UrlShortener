@@ -7,6 +7,7 @@ angular.module('urlShortener')
 
             //send the register info to the server
             shortURL: function (url, callbackSuccess,callbackError) {
+                console.log(JSON.stringify(url));
                 $http({
                     method: 'POST',
                     url: '/link',
