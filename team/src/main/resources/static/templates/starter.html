@@ -8,9 +8,9 @@
       <form class="col-lg-12" role="form" ng-submit="shortURL()">
         <div class="input-group input-group-lg col-sm-offset-4 col-sm-4">
           <input type="text" class="center-block form-control input-lg"ng-model="url"
-                 title="Enter a URL" placeholder="Enter a URL" ng-click="hideError();hideSuccess()" />
+                 title="Enter a URL" placeholder="Enter a URL"  />
           <span class="input-group-btn"><button
-            class="btn btn-lg btn-primary" type="submit">Short me!</button></span>
+            class="btn btn-lg btn-primary" type="submit" ng-click="hideError();hideSuccess()">Short me!</button></span>
         </div>
       </form>
     </div>
@@ -27,6 +27,7 @@
         <span class="input-group-btn"><button
           class="btn btn-lg btn-primary" type="submit">Get QR!</button></span>
         </div>
+
         <!-- this div will show only when an error occurs -->
         <div ng-if="error" class="alert alert-danger lead">
           <strong>X</strong> {{errorMsg}}
@@ -35,7 +36,3 @@
     </div>
   </div>
 </div>
-
-
-
-
