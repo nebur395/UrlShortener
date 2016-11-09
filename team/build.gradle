@@ -23,6 +23,9 @@ dependencies {
     // Provides the production database
     runtime 'org.hsqldb:hsqldb'
 
+    // Provides libraries, javax.ms included
+    compile 'org.glassfish.jersey.core:jersey-server:2.24'
+
     // Provides java script libraries for static content
     compile 'org.webjars:bootstrap:3.3.5'
     compile 'org.webjars:jquery:2.1.4'
