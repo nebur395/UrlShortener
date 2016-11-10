@@ -1,10 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<!--menu -->
+<nav class="navbar navbar-inverse navbar-fixed-top theme-color-strong">
+  <div class="container-fluid">
+    <!-- collapsed NavBar-->
+    <div class="navbar-header">
+      <!-- Right button collapsed-->
+      <button type="button" class="navbar-toggle"
+              data-toggle="collapse"
+              data-target="#myNavbar">
+        <!-- collapsed button bars -->
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#/starter" rel="home" id="hombeButton">
+        Url Shortener
+      </a>
+    </div>
+    <!-- NavBar buttons-->
+    <div  class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#/viewStatistics">View Statistics</a></li>
+        <!-- sign in/up button -->
+        <li ng-if="!logged()"><a href="#/signIn">Sign In</a></li>
+        <li ng-if="!logged()"><a href="#/signUp">Sign Up</a></li>
+        <!-- log out button -->
+        <li ng-if="logged()"><a ng-click="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

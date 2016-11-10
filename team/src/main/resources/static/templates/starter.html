@@ -14,11 +14,11 @@
 
     <!-- this div will show only when the save operation has been a success -->
     <div ng-if="success" class="alert alert-success feedbackMessages">
-      <strong>¡Success!</strong> <a target='_blank' ng-href="{{successMsg}}">{{successMsg}}</a>
+      <strong>&#10004</strong> <a target='_blank' ng-href="{{successMsg}}">{{successMsg}}</a>
     </div>
     <!-- this div will show only when an error occurs -->
     <div ng-if="error" class="alert alert-danger feedbackMessages">
-      <strong>Woops!</strong> {{errorMsg}}
+      <strong>&#10008</strong> {{errorMsg}}
     </div>
 
   </div>
