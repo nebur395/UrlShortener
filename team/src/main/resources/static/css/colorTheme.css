@@ -1,0 +1,74 @@
+/*500*/
+.theme-color {
+  color: #fff !important;
+  background-color: #9C27B0 !important
+}
+
+/*700*/
+.theme-color-strong {
+  color: #fff !important;
+  background-color: #7B1FA2 !important
+}
+
+/*100*/
+.theme-color-soft {
+  color: rgba(77, 77, 77, 0.7) !important;
+  background-color: #E1BEE7 !important
+}
+
+/*action 200*/
+.theme-accent {
+  color: #fff !important;
+  background-color: #B2FF59 !important;
+  border: 1px solid #93d755;
+  padding: 10px 20px;
+  font-weight: 600;
+}
+
+/*action 400*/
+.theme-accent-strong {
+  color: #fff !important;
+  background-color: #76FF03 !important;
+  border: 1px solid #69d703;
+  padding: 10px 20px;
+  font-weight: 600;
+}
+
+/*action 100*/
+.theme-accent-soft {
+  color: #fff !important;
+  background-color: #CCFF90 !important;
+  border: 1px solid #aad778;
+  font-weight: 600;
+}
+
+/*maybe removed*/
+.theme-color-text {
+  color: #9C27B0 !important
+}
+/*maybe removed*/
+.theme-color-text-action {
+  color: #B2FF59 !important
+}
+
+body {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #f1f1f1;
+  font-family: 'Vollkorn', serif;
+}
+
+/* remove the underline link style */
+a:focus, a:hover {
+  text-decoration: none;
+}
+
+/* add a gap under the navbar */
+#firstContent:before {
+  display: block;
+  content: " ";
+  height: 100px;
+  visibility: hidden;
+}
