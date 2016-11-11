@@ -36,4 +36,39 @@ angular.module('urlShortener')
                 });
             }
         };
+    })
+
+    // 'viewStatistics' service manage the view statistics functionallity
+    .factory('viewStatistics', function ($state, $http) {
+
+        return {
+
+            //get the statistics of the system
+            getStats: function (callbackSuccess,callbackError) {
+                $http({
+                    method: 'GET',
+                    url: '/viewStatistics',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    var statistics = {
+                        upTime: 112,
+                        totalURL: 10,
+                        totalUser: 3,
+                        averageAccessURL: 2,
+                        responseTime: 12,
+                        memoryUsed: 50,
+                        memoryAvailable: 10,
+                        topURL: [
+                            "hola","hola2","hola3"
+                        ]
+                    };
+                    callbackSuccess(statistics);
+                    callbackError('ERROR POR IDIOTA');
+                });
+            }
+        };
     });
