@@ -1,5 +1,20 @@
 angular.module('urlShortener')
 
+    // 'auth' service manage the authentication function of the page with the server
+    .factory('auth', function ($state, $http) {
+
+        return {
+            //return true if the user is authenticated
+            isAuthenticated: function () {
+                return false;
+            },
+
+            //logout function
+            logout: function () {
+            }
+        };
+    })
+
     // 'urlShortener' service manage the url shortener controller in common
     .factory('urlShortener', function ($state, $http, $httpParamSerializer) {
 
