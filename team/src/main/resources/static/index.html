@@ -13,6 +13,9 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
+  <!-- Google fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet" />
   <!--load the favicons-->
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
@@ -21,8 +24,11 @@
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
 
-  <!-- own imports
-  <link rel="stylesheet" href="css/colorTheme.css"> -->
+  <!-- own imports -->
+  <link rel="stylesheet" href="css/colorTheme.css">
+  <link rel="stylesheet" href="css/starterStyle.css">
+  <link rel="stylesheet" href="css/viewStatisticsStyle.css">
+  <link rel="stylesheet" href="css/navbarStyle.css">
 
   <!-- OWN SCRIPTS -->
   <!-- App states-->
@@ -34,10 +40,12 @@
   <!-- controllers -->
   <script type="text/javascript" src="javascript/controllers/navbarController.js"></script>
   <script type="text/javascript" src="javascript/controllers/starterController.js"></script>
+  <script type="text/javascript" src="javascript/controllers/viewStatistics.js"></script>
 </head>
 
 
 <body ng-app="urlShortener">
+<navbar></navbar>
 <!-- the content here will be the 'body page' and it will change dependending of the current state -->
 <ui-view></ui-view>
 </body>
