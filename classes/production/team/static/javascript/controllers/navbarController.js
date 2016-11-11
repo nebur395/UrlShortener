@@ -1,5 +1,12 @@
 angular.module('urlShortener')
 
-    .controller('navbarCtrl', ['$scope', '$state', function ($scope, $state) {
+    .controller('navbarCtrl', ['$scope', '$state', 'auth', function ($scope, $state, auth) {
 
+        $scope.logged = function () {
+            return auth.isAuthenticated();
+        };
+
+        $scope.logout = function () {
+            auth.logout();
+        }
     }]);
