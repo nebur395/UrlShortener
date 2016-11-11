@@ -38,6 +38,30 @@ angular.module('urlShortener')
         };
     })
 
+
+    // 'qrGenerator' service manage the QR generator
+    .factory('qrGenerator', function ($state, $http, $httpParamSerializer) {
+
+        return {
+
+            //send the register info to the server
+            generateQR: function (url, callbackSuccess) {
+                $http({
+                    method: 'GET',
+                    url: '/qr',
+                    data: $httpParamSerializer(url),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                });
+            }
+        };
+    })
+
+
     // 'viewStatistics' service manage the view statistics functionallity
     .factory('viewStatistics', function ($state, $http) {
 
