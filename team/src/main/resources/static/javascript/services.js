@@ -54,19 +54,6 @@ angular.module('urlShortener')
                 }).success(function (data) {
                     callbackSuccess(data);
                 }).error(function (data) {
-                    var statistics = {
-                        upTime: 112,
-                        totalURL: 10,
-                        totalUser: 3,
-                        averageAccessURL: 2,
-                        responseTime: 12,
-                        memoryUsed: 50,
-                        memoryAvailable: 10,
-                        topURL: [
-                            "hola","hola2","hola3"
-                        ]
-                    };
-                    callbackSuccess(statistics);
                     callbackError(data);
                 });
             }
