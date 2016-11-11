@@ -15,7 +15,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 	private static final Logger logger = LoggerFactory.getLogger(UrlShortenerControllerWithLogs.class);
 
 	@Override
-	@RequestMapping(value = "/{id:(?!link|index|app).*}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics).*}", method = RequestMethod.GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id, HttpServletRequest request) {
 		logger.info("Requested redirection with hash " + id);
 		return super.redirectTo(id, request);
