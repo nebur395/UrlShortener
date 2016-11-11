@@ -1,0 +1,13 @@
+#viewStatisticsStyle h1 {
+  font-size: 200%;
+  text-align: center;
+}
+
+#viewStatisticsStyle #statList {
+  margin-top: 3%;
+}
+
+#viewStatisticsStyle .feedbackMessages {
+  text-align: center;
+  margin: 3%;
+}
