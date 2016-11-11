@@ -1,8 +1,10 @@
 angular.module('urlShortener')
 
-    .controller('starterCtrl', ['$scope', '$state', 'urlShortener', function ($scope, $state,urlShortener) {
+    .controller('starterCtrl', ['$scope', '$state', 'urlShortener', 'qrGenerator', function ($scope, $state, urlShortener, qrGenerator) {
 
         $scope.url = "";
+        $scope.qr = "";
+        $scope.avaiableQR = false;
 
         // FEEDBACK MESSAGES
 
@@ -40,11 +42,16 @@ angular.module('urlShortener')
                 url: $scope.url
             };
             urlShortener.shortURL(url,showSuccess,showError);
-        }
+        };
 
         $scope.getQR = function () {
-
-            QrGenerator.generateQR($scope.successMsg);
+            var url = {
+                url: $scope.url
+            };
+            qrGenerator.generateQR($scope.successMsg, function (urlQR) {
+                $scope.qr = urlQR;
+                $scope.avaiableQR = true;
+            });
         }
 
     }]);
