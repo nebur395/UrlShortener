@@ -42,4 +42,9 @@ angular.module('urlShortener')
             urlShortener.shortURL(url,showSuccess,showError);
         }
 
+        $scope.getQR = function () {
+
+            QrGenerator.generateQR($scope.successMsg);
+        }
+
     }]);
