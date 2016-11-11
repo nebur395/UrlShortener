@@ -67,7 +67,7 @@ angular.module('urlShortener')
                         ]
                     };
                     callbackSuccess(statistics);
-                    callbackError('ERROR POR IDIOTA');
+                    callbackError(data);
                 });
             }
         };
