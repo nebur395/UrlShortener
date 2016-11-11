@@ -40,7 +40,7 @@ angular.module('urlShortener')
 
 
     // 'qrGenerator' service manage the QR generator
-    .factory('qrGenerator', function ($state, $http, $httpParamSerializer) {
+    .factory('qrGenerator', function ($state, $http) {
 
         return {
 
@@ -49,9 +49,9 @@ angular.module('urlShortener')
                 $http({
                     method: 'GET',
                     url: '/qr',
-                    data: $httpParamSerializer(url),
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'url': url
                     }
                 }).success(function (data) {
                     callbackSuccess(data);
