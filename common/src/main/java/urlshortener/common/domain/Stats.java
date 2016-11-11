@@ -5,7 +5,7 @@ import java.util.List;
 public class Stats {
 
     private int upTime;
-    private int totalURL;
+    private Long totalURL;
     private int totalUser;
     private int averageAccessURL;
     private int responseTime;
@@ -13,7 +13,7 @@ public class Stats {
     private int memoryAvailable;
     private List<String> topURL;
 
-    public Stats(int upTime, int totalURL, int totalUser, int averageAccessURL, int responseTime,
+    public Stats(int upTime, Long totalURL, int totalUser, int averageAccessURL, int responseTime,
                  int memoryUsed, int memoryAvailable, List<String> topURL) {
         this.upTime = upTime;
         this.totalURL = totalURL;
@@ -32,7 +32,7 @@ public class Stats {
         return upTime;
     }
 
-    public int getTotalURL() {
+    public Long getTotalURL() {
         return totalURL;
     }
 

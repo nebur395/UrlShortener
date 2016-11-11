@@ -78,7 +78,7 @@ angular.module('urlShortener')
                 }).success(function (data) {
                     callbackSuccess(data);
                 }).error(function (data) {
-                    callbackError(data);
+                    callbackError('Error to get the system statistics');
                 });
             }
         };

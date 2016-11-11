@@ -33,24 +33,24 @@ public class ViewStats {
 
     @RequestMapping(value = "/viewStatistics", method = RequestMethod.GET)
     public ResponseEntity<Stats> shortener() {
-        int upTime = 1;
-        int totalURL = 2;
-        int totalUser = 3;
-        int averageAccessURL = 4;
-        int responseTime = 5;
-        int memoryUsed = 6;
-        int memoryAvailable = 7;
+        int upTime = 69;
+        Long totalURL = shortURLRepository.count();
+        int totalUser = 69;
+        int averageAccessURL = 69;
+        int responseTime = 69;
+        int memoryUsed = 69;
+        int memoryAvailable = 69;
         List<String> topURL = new ArrayList<String>();
         topURL.add("hola1");
         topURL.add("hola2");
         topURL.add("hola3");
-        Stats statisticsSystem = new Stats(upTime, totalUser, totalURL, averageAccessURL,
+        Stats statisticsSystem = new Stats(upTime, totalURL, totalUser, averageAccessURL,
             responseTime, memoryUsed, memoryAvailable, topURL);
         if (statisticsSystem != null) {
-            LOG.info("Estadisticas del sistema " + statisticsSystem.toString());
+            LOG.info("System statistics");
             return new ResponseEntity<>(statisticsSystem, HttpStatus.CREATED);
         } else {
-            LOG.info("Fallo al recoger las estadisticas del sistema");
+            LOG.info("Error to get the system statistics");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
