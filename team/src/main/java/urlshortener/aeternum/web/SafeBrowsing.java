@@ -6,6 +6,7 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import org.springframework.http.HttpEntity;
+import urlshortener.common.domain.*;
 
 public class SafeBrowsing {
 
@@ -13,6 +14,29 @@ public class SafeBrowsing {
 
     public SafeBrowsing() {}
 
+    /*public void listasInseguras() {
+        System.out.println("Listas inseguras..");
+        String peticionSafe = "https://safebrowsing.googleapis.com/v4/threatLists?key=AIzaSyDG39Zc-4BtPjLR_6gVj7LUJjbGEdV-oqI";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity entity = new HttpEntity(headers);
+        //HTTP GET request and extract response with JSON format
+        RestTemplate restTemplate = new RestTemplate();
+        //ThreatMatch tm = restTemplate.getForObject(peticionSafe, ThreatMatch.class);
+        ResponseEntity<ThreatInfo> r = restTemplate.exchange(peticionSafe, HttpMethod.GET, entity, ThreatInfo.class);
+
+        if (r.getStatusCodeValue() == 200) {
+            System.out.println("Peticion correcta");
+            System.out.println(r.getBody().getPlatformTypes());
+            System.out.println(r.getBody().getThreatEntries());
+            System.out.println(r.getBody().getThreatEntryTypes());
+            System.out.println(r.getBody().getThreatEntries().getUrl());
+        }
+        else System.out.println("Peticion incorrecta");
+    }
+*/
     public boolean safe(String url) throws JsonProcessingException {
 
         String peticionSafe = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyDG39Zc-4BtPjLR_6gVj7LUJjbGEdV-oqI";

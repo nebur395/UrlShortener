@@ -1,4 +1,4 @@
-package urlshortener.aeternum.web;
+package urlshortener.common.domain;
 
 public class ThreatEntries {
 

@@ -1,4 +1,4 @@
-package urlshortener.aeternum.web;
+package urlshortener.common.domain;
 
 /**
  * Created by anicacortes on 08/11/2016.
