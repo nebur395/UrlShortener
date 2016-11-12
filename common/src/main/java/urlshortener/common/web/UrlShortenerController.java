@@ -50,7 +50,7 @@ public class UrlShortenerController {
 
 	private void createAndSaveClick(String hash, String ip) {
 		Click cl = new Click(null, hash, new Date(System.currentTimeMillis()),
-				null, null, null, ip, null);
+				null, null, null, ip, null, 0, 0);
 		cl=clickRepository.save(cl);
 		LOG.info(cl!=null?"["+hash+"] saved with id ["+cl.getId()+"]":"["+hash+"] was not saved");
 	}

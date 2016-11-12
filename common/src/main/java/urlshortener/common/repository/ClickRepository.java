@@ -21,4 +21,6 @@ public interface ClickRepository {
 	Long count();
 
 	List<Click> list(Long limit, Long offset);
+
+    void addLocationInfo(String hash, long id, String country, double latitude, double longitude);
 }
