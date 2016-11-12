@@ -35,7 +35,10 @@ public class ViewStats {
         int upTime = 69;
         Long totalURL = shortURLRepository.count();
         Long totalUser = userRepository.count();
-        int averageAccessURL = 69;
+        Long averageAccessURL = new Long(0);
+        if (!totalURL.equals(new Long(0))) {
+            averageAccessURL = clickRepository.count() / totalURL ;
+        }
         int responseTime = 69;
         int memoryUsed = 69;
         int memoryAvailable = 69;
