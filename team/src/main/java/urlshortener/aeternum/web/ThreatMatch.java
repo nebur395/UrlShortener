@@ -29,4 +29,12 @@ public class ThreatMatch {
     public void setCacheDuration(String cacheDuration) {
         this.cacheDuration = cacheDuration;
     }
+
+    @Override
+    public String toString() {
+        return "ThreatMatch{" +
+            "te=" + te +
+            ", cacheDuration='" + cacheDuration + '\'' +
+            '}';
+    }
 }

@@ -22,14 +22,7 @@ public class ThreatEntries {
         this.url = url;
     }
 
-   /* public String getDigest() {
-        return digest;
-    }
-
-    public void setDigest(String digest) {
-        this.digest = digest;
-    }
-
+   /*
     public String getHash() {
         return hash;
     }
@@ -37,4 +30,11 @@ public class ThreatEntries {
     public void setHash(String hash) {
         this.hash = hash;
     }*/
+
+    @Override
+    public String toString() {
+        return "ThreatEntries{" +
+            "url='" + url + '\'' +
+            '}';
+    }
 }

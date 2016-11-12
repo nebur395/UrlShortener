@@ -6,21 +6,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import urlshortener.common.domain.ShortURL;
+import urlshortener.common.repository.ShortURLRepositoryImpl;
 import urlshortener.common.web.UrlShortenerController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 @RestController
 public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UrlShortenerControllerWithLogs.class);
+    private boolean isSafe;
 
-	@Override
+    @Override
 	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr).*}", method = RequestMethod
         .GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id, HttpServletRequest request) {
@@ -41,10 +38,16 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         Union u = new Union(new ClientInfo("id","version blabla"), new ThreatInfo(new ThreatEntries(url)));
         SafeBrowsing sb = new SafeBrowsing();
         try {
-            sb.safe(url);
+            isSafe = sb.safe(url);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+
+        if(isSafe) logger.info("The URL " + url + " is safe");
+        else logger.info("The URL " + url + "is unsafe");
+        ShortURL miShort = r.getBody();
+        shortURLRepository.mark(miShort, isSafe);
+        //System.out.println(shortURLRepository.findByKey(miShort.getHash()));
 
         return r;
 	}
