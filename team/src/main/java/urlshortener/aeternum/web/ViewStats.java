@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import urlshortener.common.domain.Click;
 import urlshortener.common.domain.Stats;
 import urlshortener.common.repository.ClickRepository;
 import urlshortener.common.repository.ShortURLRepository;
@@ -39,6 +40,9 @@ public class ViewStats {
         if (!totalURL.equals(new Long(0))) {
             averageAccessURL = clickRepository.count() / totalURL ;
         }
+
+        List<Click> topClicks = getTopUrl(new Long(10));
+
         int responseTime = 69;
         int memoryUsed = 69;
         int memoryAvailable = 69;
@@ -55,5 +59,9 @@ public class ViewStats {
             LOG.info("Error to get the system statistics");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public List<Click> getTopUrl (Long limit) {
+        return clickRepository.topURL(limit);
     }
 }

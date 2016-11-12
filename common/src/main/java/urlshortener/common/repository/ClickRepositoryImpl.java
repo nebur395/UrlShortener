@@ -152,6 +152,17 @@ public class ClickRepositoryImpl implements ClickRepository {
 		}
 	}
 
+    @Override
+    public List<Click> topURL(Long limit) {
+        try {
+            return jdbc.query("SELECT *, count(*) AS TopUrl FROM click GROUP BY hash ORDER BY " +
+                "TopUrl DESC LIMIT ?", new Object[] { limit }, rowMapper);
+        } catch (Exception e) {
+            log.debug("When select for limit " + limit + " and offset ", e);
+            return null;
+        }
+    }
+
 	@Override
 	public Long clicksByHash(String hash) {
 		try {
