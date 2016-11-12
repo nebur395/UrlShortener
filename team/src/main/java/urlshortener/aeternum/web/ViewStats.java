@@ -13,6 +13,7 @@ import java.util.List;
 import urlshortener.common.domain.Stats;
 import urlshortener.common.repository.ClickRepository;
 import urlshortener.common.repository.ShortURLRepository;
+import urlshortener.common.repository.UserRepository;
 import urlshortener.common.web.UrlShortenerController;
 
 @RestController
@@ -26,11 +27,14 @@ public class ViewStats {
     @Autowired
     protected ClickRepository clickRepository;
 
+    @Autowired
+    protected UserRepository userRepository;
+
     @RequestMapping(value = "/viewStatistics", method = RequestMethod.GET)
     public ResponseEntity<Stats> shortener() {
         int upTime = 69;
         Long totalURL = shortURLRepository.count();
-        int totalUser = 69;
+        Long totalUser = userRepository.count();
         int averageAccessURL = 69;
         int responseTime = 69;
         int memoryUsed = 69;

@@ -18,12 +18,12 @@ import urlshortener.common.domain.User;
 public class UserRepositoryImpl implements UserRepository {
 
     private static final Logger log = LoggerFactory
-        .getLogger(ShortURLRepositoryImpl.class);
+        .getLogger(UserRepositoryImpl.class);
 
     private static final RowMapper<User> rowMapper = new RowMapper<User>() {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new User(rs.getString("name"), rs.getString("pass"), rs.getString("email"),
+            return new User(rs.getString("username"), rs.getString("pass"), rs.getString("email"),
                 rs.getBoolean("admin"), rs.getDate("created"));
         }
     };
@@ -41,7 +41,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findByName(String name) {
         try {
-            return jdbc.queryForObject("SELECT * FROM user WHERE name=?",
+            return jdbc.queryForObject("SELECT * FROM users WHERE username=?",
                 rowMapper, name);
         } catch (Exception e) {
             log.debug("When select for name " + name, e);
@@ -52,7 +52,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User save(User user) {
         try {
-            jdbc.update("INSERT INTO user VALUES (?,?,?,?,?)",
+            jdbc.update("INSERT INTO users VALUES (?,?,?,?,?)",
                 user.getName(), user.getPass(), user.getEmail(),
                 user.getAdmin(), user.getCreated());
         } catch (DuplicateKeyException e) {
@@ -70,7 +70,7 @@ public class UserRepositoryImpl implements UserRepository {
     public void update(User user) {
         try {
             jdbc.update(
-                "update user set pass=?, email=?, admin=?, created=? where name=?",
+                "update users set pass=?, email=?, admin=?, created=? where username=?",
                 user.getPass(), user.getEmail(), user.getAdmin(),
                 user.getCreated(), user.getName());
         } catch (Exception e) {
@@ -81,7 +81,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void delete(String name) {
         try {
-            jdbc.update("delete from user where name=?", name);
+            jdbc.update("delete from users where username=?", name);
         } catch (Exception e) {
             log.debug("When delete for name " + name, e);
         }
@@ -90,7 +90,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Long count() {
         try {
-            return jdbc.queryForObject("select count(*) from user",
+            return jdbc.queryForObject("select count(*) from users",
                 Long.class);
         } catch (Exception e) {
             log.debug("When counting", e);
@@ -101,7 +101,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> list(Long limit, Long offset) {
         try {
-            return jdbc.query("SELECT * FROM user LIMIT ? OFFSET ?",
+            return jdbc.query("SELECT * FROM users LIMIT ? OFFSET ?",
                 new Object[] { limit, offset }, rowMapper);
         } catch (Exception e) {
             log.debug("When select for limit " + limit + " and offset "
