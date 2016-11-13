@@ -21,6 +21,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import urlshortener.common.domain.Click;
+import urlshortener.common.domain.ShortURL;
 
 
 @Repository
@@ -35,7 +36,8 @@ public class ClickRepositoryImpl implements ClickRepository {
 			return new Click(rs.getLong("id"), rs.getString("hash"),
 					rs.getDate("created"), rs.getString("referrer"),
 					rs.getString("browser"), rs.getString("platform"),
-					rs.getString("ip"), rs.getString("country"));
+					rs.getString("ip"), rs.getString("country"),
+                    rs.getInt("latitude"), rs.getInt("longitude"));
 		}
 	};
 
@@ -71,7 +73,7 @@ public class ClickRepositoryImpl implements ClickRepository {
 						throws SQLException {
 					PreparedStatement ps = conn
 							.prepareStatement(
-									"INSERT INTO CLICK VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+									"INSERT INTO CLICK VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 									Statement.RETURN_GENERATED_KEYS);
 					ps.setNull(1, Types.BIGINT);
 					ps.setString(2, cl.getHash());
@@ -81,6 +83,8 @@ public class ClickRepositoryImpl implements ClickRepository {
 					ps.setString(6, cl.getPlatform());
 					ps.setString(7, cl.getIp());
 					ps.setString(8, cl.getCountry());
+                    ps.setDouble(9, cl.getLatitude());
+                    ps.setDouble(10, cl.getLongitude());
 					return ps;
 				}
 			}, holder);
@@ -98,13 +102,13 @@ public class ClickRepositoryImpl implements ClickRepository {
 
 	@Override
 	public void update(Click cl) {
-		log.info("ID2: "+cl.getId()+"navegador: "+cl.getBrowser()+" SO: "+cl.getPlatform()+" Date:"+cl.getCreated());
+		log.info("ID2: "+cl.getId()+" navegador: "+cl.getBrowser()+" SO: "+cl.getPlatform()+" Date:"+cl.getCreated());
 		try {
 			jdbc.update(
-					"update click set hash=?, created=?, referrer=?, browser=?, platform=?, ip=?, country=? where id=?",
+					"update click set hash=?, created=?, referrer=?, browser=?, platform=?, ip=?, country=?, latitude=?, longitude=? where id=?",
 					cl.getHash(), cl.getCreated(), cl.getReferrer(),
 					cl.getBrowser(), cl.getPlatform(), cl.getIp(),
-					cl.getCountry(), cl.getId());
+					cl.getCountry(), cl.getLatitude(), cl.getLongitude(), cl.getId());
 			
 		} catch (Exception e) {
 			log.info("When update for id " + cl.getId(), e);
@@ -176,5 +180,16 @@ public class ClickRepositoryImpl implements ClickRepository {
 		}
 		return -1L;
 	}
+
+    public void addLocationInfo(String hash, long id, String country, double latitude, double longitude) {
+        try {
+            log.info("country: "+country+" lat: "+latitude+" long: "+longitude+" id:"+id);
+            jdbc.update(
+                "update click set country=?, latitude=?, longitude=? where hash=? and id=?",
+                country, latitude, longitude, hash, id);
+        } catch (Exception e) {
+            log.debug("When update for hash " + hash, e);
+        }
+    }
 
 }

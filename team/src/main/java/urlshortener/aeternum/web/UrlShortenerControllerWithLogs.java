@@ -5,9 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import urlshortener.common.domain.Location;
+import urlshortener.common.domain.ShortURL;
 import urlshortener.common.domain.*;
 import urlshortener.common.web.UrlShortenerController;
-
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
@@ -21,7 +22,17 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         .GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id, HttpServletRequest request) {
 		logger.info("Requested redirection with hash " + id);
-		return super.redirectTo(id, request);
+		ResponseEntity<?> r = super.redirectTo(id, request);
+
+        ShortURL s = shortURLRepository.findByKey(id);
+        //Read ip client from shortURL and obtain its location info if there is a click with this hash
+        if (s != null) {
+            String ip = s.getIP();
+            ReadLocation l = new ReadLocation(ip);
+            Location loc = l.location();
+            updateLocation(s, loc);
+        }
+        return r;
 	}
 
 	@Override
@@ -29,9 +40,6 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 											  @RequestParam(value = "sponsor", required = false) String sponsor,
 											  HttpServletRequest request) {
 		logger.info("Requested new short for uri " + url);
-
-        //Request to Google safe browsing
-
         ResponseEntity<ShortURL> r = super.shortener(url, sponsor, request);
 
         Union u = new Union(new ClientInfo("id","version blabla"), new ThreatInfo(new ThreatEntries(url)));
@@ -46,11 +54,16 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         else logger.info("The URL " + url + "is unsafe");
         ShortURL miShort = r.getBody();
         shortURLRepository.mark(miShort, isSafe);
-        //System.out.println(shortURLRepository.findByKey(miShort.getHash()));
-
         return r;
 	}
 
-    //Clave de API para el proyecto "SafeProject": AIzaSyDG39Zc-4BtPjLR_6gVj7LUJjbGEdV-oqI
-    //GET https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyDG39Zc-4BtPjLR_6gVj7LUJjbGEdV-oqI HTTP/1.1
+    /**
+     * Update location from shortURL in db
+     */
+	private void updateLocation(ShortURL s, Location loc){
+        String hash = s.getHash();
+        long n = clickRepository.clicksByHash(hash);
+        //Update shortURL coordinates and country
+        clickRepository.addLocationInfo(hash, n-1, loc.getCountryName(), loc.getLatitude(), loc.getLongitude());
+    }
 }

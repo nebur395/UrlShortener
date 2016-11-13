@@ -12,9 +12,12 @@ public class Click {
 	private String platform;
 	private String ip;
 	private String country;
+    private double latitude;
+    private double longitude;
 
-	public Click(Long id, String hash, Date created, String referrer,
-			String browser, String platform, String ip, String country) {
+    public Click(Long id, String hash, Date created, String referrer,
+                 String browser, String platform, String ip, String country,
+                double latitude, double longitude) {
 		this.id = id;
 		this.hash = hash;
 		this.created = created;
@@ -23,6 +26,8 @@ public class Click {
 		this.platform = platform;
 		this.ip = ip;
 		this.country = country;
+        this.latitude = latitude;
+        this.longitude = longitude;
 	}
 
 	public Long getId() {
@@ -56,4 +61,30 @@ public class Click {
 	public String getCountry() {
 		return country;
 	}
+
+    public double getLatitude() { return latitude;}
+
+    public void setLatitude(double latitude) { this.latitude = latitude; }
+
+    public double getLongitude() { return longitude; }
+
+    public void setLongitude(double longitude) { this.longitude = longitude; }
+
+    public void setCountry(String country) { this.country = country; }
+
+    @Override
+    public String toString() {
+        return "Click{" +
+            "id=" + id +
+            ", hash='" + hash + '\'' +
+            ", created=" + created +
+            ", referrer='" + referrer + '\'' +
+            ", browser='" + browser + '\'' +
+            ", platform='" + platform + '\'' +
+            ", ip='" + ip + '\'' +
+            ", country='" + country + '\'' +
+            ", latitude=" + latitude +
+            ", longitude=" + longitude +
+            '}';
+    }
 }
