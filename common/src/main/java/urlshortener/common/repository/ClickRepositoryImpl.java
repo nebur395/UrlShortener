@@ -159,8 +159,8 @@ public class ClickRepositoryImpl implements ClickRepository {
     @Override
     public List<Click> topURL(Long limit) {
         try {
-            return jdbc.query("SELECT *, count(*) AS TopUrl FROM click GROUP BY hash ORDER BY " +
-                "TopUrl DESC LIMIT ?", new Object[] { limit }, rowMapper);
+            return jdbc.query("SELECT count(hash) FROM click GROUP BY hash " +
+                " LIMIT ?", new Object[] { limit }, rowMapper);
         } catch (Exception e) {
             log.error("TOPURL EXCEPCION");
             log.error(e.getMessage());

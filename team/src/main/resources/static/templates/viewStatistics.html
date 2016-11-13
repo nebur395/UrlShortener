@@ -9,21 +9,21 @@
     </div>
 
     <ul class="list-group" id="statList">
-      <li class="list-group-item"><strong>Tiempo que el sistema está en marcha:</strong>
+      <li class="list-group-item"><strong>Uptime of the system (seconds): </strong>
         {{statistics.upTime}}</li>
-      <li class="list-group-item"><strong>Total de URL acortadas en el sistema: </strong>
+      <li class="list-group-item"><strong>Total of shortened URLs in the system: </strong>
         {{statistics.totalURL}}</li>
       <li class="list-group-item"><strong>Las 10 URLs más visitadas: </strong>
         <ul style="list-style-type:disc">
           <li ng-repeat="url in statistics.topURL">{{url}}</li>
         </ul></li>
-      <li class="list-group-item"><strong>Total de usuarios registrados en el sistema: </strong>
+      <li class="list-group-item"><strong>Total of registered users in the system: </strong>
         {{statistics.totalUser}}
       </li>
-      <li class="list-group-item"><strong>Media de accesos por URL: </strong>
+      <li class="list-group-item"><strong>Access average per URL: </strong>
         {{statistics.averageAccessURL}}</li>
-      <li class="list-group-item"><strong>Tiempo que tardó en responder la última redirección:
-      </strong>{{statistics.responseTime}}</li>
+      <li class="list-group-item"><strong>Time to answer the last redirect (milliseconds): </strong>
+        {{statistics.responseTime}}</li>
       <li class="list-group-item"><strong>Memoria utilizada por el sistema: </strong>
         {{statistics.memoryUsed}}</li>
       <li class="list-group-item"><strong>Memoria disponible por el sistema: </strong>

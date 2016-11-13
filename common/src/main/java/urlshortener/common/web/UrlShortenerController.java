@@ -30,6 +30,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class UrlShortenerController {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(UrlShortenerController.class);
+    private static Long lastResponseTime = new Long(0);
+
 	@Autowired
 	protected ShortURLRepository shortURLRepository;
 
@@ -39,9 +41,11 @@ public class UrlShortenerController {
 	@RequestMapping(value = "/{id:(?!link).*}", method = RequestMethod.GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id,
 			HttpServletRequest request) {
+        long tiempoInicio = System.currentTimeMillis();
 		ShortURL l = shortURLRepository.findByKey(id);
 		if (l != null) {
 			createAndSaveClick(id, extractIP(request));
+            lastResponseTime = System.currentTimeMillis() - tiempoInicio;
 			return createSuccessfulRedirectToResponse(l);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -98,4 +102,8 @@ public class UrlShortenerController {
 			return null;
 		}
 	}
+
+	public static Long getLastResponseTime () {
+        return lastResponseTime;
+    }
 }
