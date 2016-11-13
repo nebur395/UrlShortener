@@ -7,9 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import urlshortener.common.domain.Click;
 import urlshortener.common.domain.Stats;
 import urlshortener.common.repository.ClickRepository;
 import urlshortener.common.repository.ShortURLRepository;
@@ -32,10 +35,16 @@ public class ViewStats {
 
     @RequestMapping(value = "/viewStatistics", method = RequestMethod.GET)
     public ResponseEntity<Stats> shortener() {
-        int upTime = 69;
+        Long upTime = getUpTime();
         Long totalURL = shortURLRepository.count();
         Long totalUser = userRepository.count();
-        int averageAccessURL = 69;
+        Long averageAccessURL = new Long(0);
+        if (!totalURL.equals(new Long(0))) {
+            averageAccessURL = clickRepository.count() / totalURL ;
+        }
+
+        List<Click> topClicks = getTopUrl(new Long(10));
+
         int responseTime = 69;
         int memoryUsed = 69;
         int memoryAvailable = 69;
@@ -52,5 +61,14 @@ public class ViewStats {
             LOG.info("Error to get the system statistics");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public List<Click> getTopUrl (Long limit) {
+        return clickRepository.topURL(limit);
+    }
+
+    public Long getUpTime () {
+        RuntimeMXBean rb = ManagementFactory.getRuntimeMXBean();
+        return (rb.getUptime()/1000);   // milliseconds to seconds
     }
 }
