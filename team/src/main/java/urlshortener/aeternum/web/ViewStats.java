@@ -22,7 +22,7 @@ import urlshortener.common.web.UrlShortenerController;
 @RestController
 public class ViewStats {
     private static final Logger LOG = LoggerFactory
-        .getLogger(UrlShortenerController.class);
+        .getLogger(ViewStats.class);
 
     @Autowired
     protected ShortURLRepository shortURLRepository;
@@ -41,7 +41,7 @@ public class ViewStats {
         Long averageAccessURL = getAverageAccessURL(totalURL);
         List<Click> topClicks = getTopUrl(new Long(10));
 
-        int responseTime = 69;
+        Long responseTime = UrlShortenerController.getLastResponseTime();
         int memoryUsed = 69;
         int memoryAvailable = 69;
         List<String> topURL = new ArrayList<String>();

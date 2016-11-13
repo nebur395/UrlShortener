@@ -8,12 +8,12 @@ public class Stats {
     private Long totalURL;
     private Long totalUser;
     private Long averageAccessURL;
-    private int responseTime;
+    private Long responseTime;
     private int memoryUsed;
     private int memoryAvailable;
     private List<String> topURL;
 
-    public Stats(Long upTime, Long totalURL, Long totalUser, Long averageAccessURL, int responseTime,
+    public Stats(Long upTime, Long totalURL, Long totalUser, Long averageAccessURL, Long responseTime,
                  int memoryUsed, int memoryAvailable, List<String> topURL) {
         this.upTime = upTime;
         this.totalURL = totalURL;
@@ -44,7 +44,7 @@ public class Stats {
         return averageAccessURL;
     }
 
-    public int getResponseTime() {
+    public Long getResponseTime() {
         return responseTime;
     }
 
