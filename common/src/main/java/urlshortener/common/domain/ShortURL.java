@@ -74,4 +74,19 @@ public class ShortURL {
 		return country;
 	}
 
+    @Override
+    public String toString() {
+        return "ShortURL{" +
+            "hash='" + hash + '\'' +
+            ", target='" + target + '\'' +
+            ", uri=" + uri +
+            ", sponsor='" + sponsor + '\'' +
+            ", created=" + created +
+            ", owner='" + owner + '\'' +
+            ", mode=" + mode +
+            ", safe=" + safe +
+            ", ip='" + ip + '\'' +
+            ", country='" + country + '\'' +
+            '}';
+    }
 }
