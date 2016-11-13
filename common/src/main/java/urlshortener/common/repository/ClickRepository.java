@@ -23,4 +23,6 @@ public interface ClickRepository {
 	List<Click> list(Long limit, Long offset);
 
     void addLocationInfo(String hash, long id, String country, double latitude, double longitude);
+
+    List<Click> topURL(Long limit);
 }

@@ -8,6 +8,8 @@ import urlshortener.common.repository.ClickRepository;
 import urlshortener.common.repository.ClickRepositoryImpl;
 import urlshortener.common.repository.ShortURLRepository;
 import urlshortener.common.repository.ShortURLRepositoryImpl;
+import urlshortener.common.repository.UserRepository;
+import urlshortener.common.repository.UserRepositoryImpl;
 
 @Configuration
 public class PersistenceContext {
@@ -24,5 +26,9 @@ public class PersistenceContext {
 	ClickRepository clickRepository() {
 		return new ClickRepositoryImpl(jdbc);
 	}
-	
+
+    @Bean
+    UserRepository userRepository() {
+        return new UserRepositoryImpl(jdbc);
+    }
 }
