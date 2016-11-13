@@ -3,7 +3,7 @@ build/
 gradle
 gradlew
 gradlew.bat
-classes/
+#classes/
 
 # Ignore Gradle GUI config
 gradle-app.setting
