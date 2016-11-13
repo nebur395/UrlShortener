@@ -36,6 +36,7 @@ public class QrGenerator {
         Response response = client.target("https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl="
             + shortURL).request().get();
 
+        System.out.println(shortURL);
         if(response.getStatus() == 200){
             String qrCode= "https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=" + shortURL;
             LOG.info("QR code generated");
