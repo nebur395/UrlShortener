@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class ViewStats {
 
     @RequestMapping(value = "/viewStatistics", method = RequestMethod.GET)
     public ResponseEntity<Stats> shortener() {
-        int upTime = 69;
+        Long upTime = getUpTime();
         Long totalURL = shortURLRepository.count();
         Long totalUser = userRepository.count();
         Long averageAccessURL = new Long(0);
@@ -63,5 +65,10 @@ public class ViewStats {
 
     public List<Click> getTopUrl (Long limit) {
         return clickRepository.topURL(limit);
+    }
+
+    public Long getUpTime () {
+        RuntimeMXBean rb = ManagementFactory.getRuntimeMXBean();
+        return (rb.getUptime()/1000);   // milliseconds to seconds
     }
 }
