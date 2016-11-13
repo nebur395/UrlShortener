@@ -39,11 +39,13 @@ public class ViewStats {
         Long totalURL = shortURLRepository.count();
         Long totalUser = userRepository.count();
         Long averageAccessURL = getAverageAccessURL(totalURL);
-        List<Click> topClicks = getTopUrl(new Long(10));
-
         Long responseTime = UrlShortenerController.getLastResponseTime();
-        int memoryUsed = 69;
-        int memoryAvailable = 69;
+
+        Runtime runtime = Runtime.getRuntime();
+        Long memoryUsed = getUsedMemory(runtime);
+        Long memoryAvailable = getAvailableMemory(runtime);
+
+        List<Click> topClicks = getTopUrl(new Long(10));
         List<String> topURL = new ArrayList<String>();
         topURL.add("hola1");
         topURL.add("hola2");
@@ -74,5 +76,15 @@ public class ViewStats {
         } else {
             return clickRepository.count() / totalURL;
         }
+    }
+
+    private Long getUsedMemory (Runtime runTime) {
+        int mb = 1024;
+        return ((runTime.totalMemory() - runTime.freeMemory()) / mb);
+    }
+
+    private Long getAvailableMemory (Runtime runTime) {
+        int mb = 1024; // 1024 *1024 = MB; 1024 = KB
+        return (runTime.freeMemory() / mb);
     }
 }

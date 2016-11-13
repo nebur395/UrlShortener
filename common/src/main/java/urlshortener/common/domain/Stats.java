@@ -9,12 +9,12 @@ public class Stats {
     private Long totalUser;
     private Long averageAccessURL;
     private Long responseTime;
-    private int memoryUsed;
-    private int memoryAvailable;
+    private Long memoryUsed;
+    private Long memoryAvailable;
     private List<String> topURL;
 
     public Stats(Long upTime, Long totalURL, Long totalUser, Long averageAccessURL, Long responseTime,
-                 int memoryUsed, int memoryAvailable, List<String> topURL) {
+                 Long memoryUsed, Long memoryAvailable, List<String> topURL) {
         this.upTime = upTime;
         this.totalURL = totalURL;
         this.totalUser = totalUser;
@@ -48,11 +48,11 @@ public class Stats {
         return responseTime;
     }
 
-    public int getMemoryUsed() {
+    public Long getMemoryUsed() {
         return memoryUsed;
     }
 
-    public int getMemoryAvailable() {
+    public Long getMemoryAvailable() {
         return memoryAvailable;
     }
 
