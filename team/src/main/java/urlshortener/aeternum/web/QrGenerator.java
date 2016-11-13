@@ -28,14 +28,16 @@ public class QrGenerator {
     protected ClickRepository clickRepository;
 
     @RequestMapping(value = "/qr", method = RequestMethod.GET)
-    public ResponseEntity<String> generateQR(@RequestParam("url") String url, HttpServletRequest request) {
+    public ResponseEntity<String> generateQR(HttpServletRequest request) {
         Client client = ClientBuilder.newClient();
 
+        String shortURL = request.getHeader("url");
+
         Response response = client.target("https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl="
-            + url).request().get();
+            + shortURL).request().get();
 
         if(response.getStatus() == 200){
-            String qrCode= "https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=" + url;
+            String qrCode= "https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=" + shortURL;
             LOG.info("QR code generated");
             return new ResponseEntity<>(qrCode, HttpStatus.CREATED);
         }else{
