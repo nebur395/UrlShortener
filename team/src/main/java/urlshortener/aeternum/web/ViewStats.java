@@ -38,11 +38,7 @@ public class ViewStats {
         Long upTime = getUpTime();
         Long totalURL = shortURLRepository.count();
         Long totalUser = userRepository.count();
-        Long averageAccessURL = new Long(0);
-        if (!totalURL.equals(new Long(0))) {
-            averageAccessURL = clickRepository.count() / totalURL ;
-        }
-
+        Long averageAccessURL = getAverageAccessURL(totalURL);
         List<Click> topClicks = getTopUrl(new Long(10));
 
         int responseTime = 69;
@@ -63,12 +59,20 @@ public class ViewStats {
         }
     }
 
-    public List<Click> getTopUrl (Long limit) {
+    private List<Click> getTopUrl (Long limit) {
         return clickRepository.topURL(limit);
     }
 
-    public Long getUpTime () {
+    private Long getUpTime () {
         RuntimeMXBean rb = ManagementFactory.getRuntimeMXBean();
         return (rb.getUptime()/1000);   // milliseconds to seconds
+    }
+
+    private Long getAverageAccessURL (Long totalURL) {
+        if (totalURL.equals(new Long(0))) {
+            return new Long(0);
+        } else {
+            return clickRepository.count() / totalURL;
+        }
     }
 }
