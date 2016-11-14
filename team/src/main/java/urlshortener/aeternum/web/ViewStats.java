@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import urlshortener.common.domain.Click;
+import urlshortener.common.domain.ClickTop;
+import urlshortener.common.domain.ShortURL;
 import urlshortener.common.domain.Stats;
 import urlshortener.common.repository.ClickRepository;
 import urlshortener.common.repository.ShortURLRepository;
@@ -40,18 +42,13 @@ public class ViewStats {
         Long totalUser = userRepository.count();
         Long averageAccessURL = getAverageAccessURL(totalURL);
         Long responseTime = UrlShortenerController.getLastResponseTime();
-
         Runtime runtime = Runtime.getRuntime();
         Long memoryUsed = getUsedMemory(runtime);
         Long memoryAvailable = getAvailableMemory(runtime);
 
-        List<Click> topClicks = getTopUrl(new Long(10));
-        List<String> topURL = new ArrayList<String>();
-        topURL.add("hola1");
-        topURL.add("hola2");
-        topURL.add("hola3");
+        List<String> topUrl = getTopUrl(new Long(11));
         Stats statisticsSystem = new Stats(upTime, totalURL, totalUser, averageAccessURL,
-            responseTime, memoryUsed, memoryAvailable, topURL);
+            responseTime, memoryUsed, memoryAvailable, topUrl);
         if (statisticsSystem != null) {
             LOG.info("System statistics");
             return new ResponseEntity<>(statisticsSystem, HttpStatus.CREATED);
@@ -61,8 +58,17 @@ public class ViewStats {
         }
     }
 
-    private List<Click> getTopUrl (Long limit) {
-        return clickRepository.topURL(limit);
+    private List<String> getTopUrl (Long limit) {
+        List<ClickTop> clicksTop = clickRepository.topURL(limit);
+        List<ShortURL> topUrl = new ArrayList<ShortURL>();
+        for (ClickTop click : clicksTop) {
+            topUrl.add(shortURLRepository.findByKey(click.getHash()));
+        }
+        List <String> hashUrl = new ArrayList<String>();
+        for (ShortURL url : topUrl) {
+            hashUrl.add(url.getTarget());
+        }
+        return hashUrl;
     }
 
     private Long getUpTime () {
@@ -79,12 +85,12 @@ public class ViewStats {
     }
 
     private Long getUsedMemory (Runtime runTime) {
-        int mb = 1024;
-        return ((runTime.totalMemory() - runTime.freeMemory()) / mb);
+        int kb = 1024;
+        return ((runTime.totalMemory() - runTime.freeMemory()) / kb);
     }
 
     private Long getAvailableMemory (Runtime runTime) {
-        int mb = 1024; // 1024 *1024 = MB; 1024 = KB
-        return (runTime.freeMemory() / mb);
+        int kb = 1024; // 1024 *1024 = MB; 1024 = KB
+        return (runTime.freeMemory() / kb);
     }
 }

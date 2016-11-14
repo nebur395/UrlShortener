@@ -21,6 +21,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import urlshortener.common.domain.Click;
+import urlshortener.common.domain.ClickTop;
 import urlshortener.common.domain.ShortURL;
 
 
@@ -40,6 +41,12 @@ public class ClickRepositoryImpl implements ClickRepository {
                     rs.getInt("latitude"), rs.getInt("longitude"));
 		}
 	};
+    private static final RowMapper<ClickTop> rowMapperTopUrl = new RowMapper<ClickTop>() {
+        @Override
+        public ClickTop mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new ClickTop(rs.getString("hash"), rs.getInt("TopUrl"));
+        }
+    };
 
 	@Autowired
 	protected JdbcTemplate jdbc;
@@ -157,10 +164,10 @@ public class ClickRepositoryImpl implements ClickRepository {
 	}
 
     @Override
-    public List<Click> topURL(Long limit) {
+    public List<ClickTop> topURL(Long limit) {
         try {
-            return jdbc.query("SELECT count(hash) FROM click GROUP BY hash " +
-                " LIMIT ?", new Object[] { limit }, rowMapper);
+            return jdbc.query("SELECT hash, count(hash) AS TopUrl FROM click GROUP BY hash " +
+                "ORDER BY TopUrl DESC LIMIT ?", new Object[] { limit }, rowMapperTopUrl);
         } catch (Exception e) {
             log.error("TOPURL EXCEPCION");
             log.error(e.getMessage());

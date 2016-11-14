@@ -3,6 +3,7 @@ package urlshortener.common.repository;
 import java.util.List;
 
 import urlshortener.common.domain.Click;
+import urlshortener.common.domain.ClickTop;
 
 public interface ClickRepository {
 
@@ -24,5 +25,5 @@ public interface ClickRepository {
 
     void addLocationInfo(String hash, long id, String country, double latitude, double longitude);
 
-    List<Click> topURL(Long limit);
+    List<ClickTop> topURL(Long limit);
 }
