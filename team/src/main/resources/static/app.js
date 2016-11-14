@@ -11,6 +11,13 @@ angular.module('urlShortener', ['ui.router'])
                 controller: "starterCtrl"
             })
 
+            //sign up screen
+            .state('signUp', {
+                url: "/signUp",
+                templateUrl: "templates/signUp.html",
+                controller: "signUpCtrl"
+            })
+
             //starter screen
             .state('viewStatistics', {
                 url: "/viewStatistics",

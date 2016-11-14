@@ -1,7 +1,7 @@
 angular.module('urlShortener')
 
     // 'auth' service manage the authentication function of the page with the server
-    .factory('auth', function ($state, $http) {
+    .factory('auth', function ($state, $http, $httpParamSerializer) {
 
         return {
             //return true if the user is authenticated
@@ -11,6 +11,22 @@ angular.module('urlShortener')
 
             //logout function
             logout: function () {
+            },
+
+            //send the register info to the server
+            signUp: function (userObject, callbackSuccess, callbackError) {
+                $http({
+                    method: 'POST',
+                    url: '/signUp',
+                    data: $httpParamSerializer(userObject),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError(data);
+                });
             }
         };
     })
