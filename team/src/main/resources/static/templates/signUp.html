@@ -1,7 +1,7 @@
 <div id="signUpStyle">
   <div class="container">
 
-    <h1 id="firstContent" style="text-align:center">Sign up in our URL Shortener!</h1>
+    <h1 id="firstContent">Sign up in our URL Shortener!</h1>
 
     <form role="form" ng-submit="signUp()">
       <!-- this div will show only when an error occurs -->
@@ -15,26 +15,26 @@
 
       <!-- user name input form -->
       <div class="form-group">
-        <input ng-click="hideError()" type="text" ng-model="userName" class="form-control"
-               placeholder="Enter the user name" required />
+        <input ng-click="hideError();hideSuccess()" type="text" ng-model="userName"
+               class="form-control" placeholder="Enter the user name" required />
       </div>
 
       <!-- email input form -->
       <div class="form-group">
-        <input ng-click="hideError()" type="email" ng-model="email" class="form-control"
-               placeholder="Enter the email" required />
+        <input ng-click="hideError();hideSuccess()" type="email" ng-model="email"
+               class="form-control" placeholder="Enter the email" required />
       </div>
 
       <!-- password input form-->
       <div class="form-group">
-        <input ng-click="hideError()" type="password" ng-model="password" class="form-control"
-               placeholder="Enter the password" required />
+        <input ng-click="hideError();hideSuccess()" type="password" ng-model="password"
+               class="form-control" placeholder="Enter the password" required />
       </div>
 
       <!-- repassword input form -->
       <div class="form-group">
-        <input ng-click="hideError()" type="password" ng-model="rePassword" class="form-control"
-               placeholder="Repeat password" required />
+        <input ng-click="hideError();hideSuccess()" type="password" ng-model="rePassword"
+               class="form-control" placeholder="Repeat password" required />
       </div>
 
       <!-- submit button form-->

@@ -1,7 +1,7 @@
 angular.module('urlShortener')
 
     // 'auth' service manage the authentication function of the page with the server
-    .factory('auth', function ($state, $http, $httpParamSerializer) {
+    .factory('auth', function ($state, $http, $httpParamSerializer, $base64) {
 
         return {
             //return true if the user is authenticated
@@ -11,6 +11,24 @@ angular.module('urlShortener')
 
             //logout function
             logout: function () {
+            },
+
+            //send the login info to the server
+            signIn: function (user, password, callback) {
+                var that = this;
+                $http({
+                    method: 'GET',
+                    url: 'signIn',
+                    headers: {
+                        'Authorization': 'Basic ' +
+                        $base64.encode(user + ":" + password)
+                    }
+                }).success(function (data) {
+                    $state.go('starter');
+
+                }).error(function (data) {
+                    callback(data);
+                });
             },
 
             //send the register info to the server

@@ -1,4 +1,4 @@
-angular.module('urlShortener', ['ui.router'])
+angular.module('urlShortener', ['ui.router', 'base64'])
 
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
@@ -16,6 +16,13 @@ angular.module('urlShortener', ['ui.router'])
                 url: "/signUp",
                 templateUrl: "templates/signUp.html",
                 controller: "signUpCtrl"
+            })
+
+            //sign in screen
+            .state('signIn', {
+                url: "/signIn",
+                templateUrl: "templates/signIn.html",
+                controller: "signInCtrl"
             })
 
             //starter screen
