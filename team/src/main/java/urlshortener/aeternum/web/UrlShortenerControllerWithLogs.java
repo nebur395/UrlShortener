@@ -18,8 +18,8 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
     private boolean isSafe;
 
     @Override
-	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr).*}", method = RequestMethod
-        .GET)
+	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp).*}",
+        method = RequestMethod.GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id, HttpServletRequest request) {
 		logger.info("Requested redirection with hash " + id);
 		ResponseEntity<?> r = super.redirectTo(id, request);
