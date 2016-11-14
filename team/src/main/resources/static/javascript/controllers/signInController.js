@@ -27,6 +27,6 @@ angular.module('urlShortener')
             var user = $scope.userName;
             var password = $scope.password;
             // Standard 'authorization basic'
-            auth.login(user, password, showError);
+            auth.signIn(user, password, showError);
         }
     }]);
