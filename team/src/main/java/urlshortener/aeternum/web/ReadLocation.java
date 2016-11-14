@@ -7,7 +7,7 @@ import urlshortener.common.domain.Location;
 
 public class ReadLocation {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UrlShortenerControllerWithLogs.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ReadLocation.class);
 
     private String ip;
 

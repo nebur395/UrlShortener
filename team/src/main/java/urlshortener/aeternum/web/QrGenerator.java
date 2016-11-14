@@ -19,7 +19,7 @@ import javax.ws.rs.core.*;
 @RestController
 public class QrGenerator {
     private static final Logger LOG = LoggerFactory
-        .getLogger(UrlShortenerController.class);
+        .getLogger(QrGenerator.class);
 
     @Autowired
     protected ShortURLRepository shortURLRepository;
