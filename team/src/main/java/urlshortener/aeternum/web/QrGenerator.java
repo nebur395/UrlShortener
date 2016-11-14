@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import urlshortener.common.domain.Qr;
 import urlshortener.common.repository.ClickRepository;
 import urlshortener.common.repository.ShortURLRepository;
 import urlshortener.common.web.UrlShortenerController;
@@ -29,7 +28,7 @@ public class QrGenerator {
     protected ClickRepository clickRepository;
 
     @RequestMapping(value = "/qr", method = RequestMethod.GET)
-    public ResponseEntity<Qr> generateQR(HttpServletRequest request) {
+    public ResponseEntity<String> generateQR(HttpServletRequest request) {
         Client client = ClientBuilder.newClient();
 
         String shortURL = request.getHeader("url");
@@ -37,11 +36,11 @@ public class QrGenerator {
         Response response = client.target("https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl="
             + shortURL).request().get();
 
-        System.out.println(shortURL);
+        System.out.println("URL de la que generar QR: " + shortURL);
         if(response.getStatus() == 200){
-            Qr qrCode = new Qr("https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=" + shortURL);
+            String qrCode = "\"https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=" + shortURL + "\"";
             LOG.info("QR code generated");
-            return new ResponseEntity<>(qrCode, HttpStatus.CREATED);
+            return new ResponseEntity<String>(qrCode, HttpStatus.CREATED);
         }else{
             LOG.info("Error to get the qr code");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
