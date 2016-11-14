@@ -45,7 +45,7 @@ angular.module('urlShortener')
         };
 
         $scope.getQR = function () {
-            qrGenerator.generateQR($scope.url, function (urlQR) {
+            qrGenerator.generateQR($scope.successMsg, function (urlQR) {
                 $scope.qr = urlQR;
                 $scope.avaiableQR = true;
             });
