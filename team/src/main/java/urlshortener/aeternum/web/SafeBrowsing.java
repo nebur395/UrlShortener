@@ -46,29 +46,29 @@ public class SafeBrowsing {
         ObjectMapper mapper = new ObjectMapper();
         ThreatEntries entries = new ThreatEntries(url);
         ThreatInfo info = new ThreatInfo(entries);
-        ClientInfo client = new ClientInfo("100","1.5.2");
+        ClientInfo client = new ClientInfo("1","1.5.2");
 
         RestTemplate restTemplate = new RestTemplate();
         Union u = new Union(client, info);
 
         String jsonUnion = mapper.writeValueAsString(u);
-
+        System.out.println(jsonUnion);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity request= new HttpEntity(jsonUnion, headers );
 
-        //System.out.println(jsonUnion);
+
         //ThreatMatch tm = restTemplate.postForObject(peticionSafe, request, ThreatMatch.class);
-        ResponseEntity<ThreatMatch> tm = restTemplate.exchange(peticionSafe, HttpMethod.POST, request, ThreatMatch.class);
+        ResponseEntity<Matches> tm = restTemplate.exchange(peticionSafe, HttpMethod.POST, request, Matches.class);
 
         if(tm.getStatusCodeValue() == 200) {
             LOG.info("Ha ido bien la peticion");
-            //String jsonRespuesta = mapper.writeValueAsString(tm);
-            //System.out.println(jsonRespuesta);
-            //System.out.println(tm.getBody());
-            if(tm.getBody().getTe() == null) {
+            String jsonRespuesta = mapper.writeValueAsString(tm.getBody());
+            System.out.println(jsonRespuesta);
+            System.out.println(tm.getBody().getMatches());
+            if(tm.getBody().getMatches() == null) {
                 LOG.info("La URL " + url + " es segura");
                 isSafe = true;
             }
