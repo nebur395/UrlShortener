@@ -20,8 +20,8 @@ angular.module('urlShortener')
                     method: 'GET',
                     url: 'signIn',
                     headers: {
-                        'Authorization': 'Basic ' +
-                        $base64.encode(user + ":" + password)
+                        'user': user,
+                        'pass': password
                     }
                 }).success(function (data) {
                     $state.go('starter');

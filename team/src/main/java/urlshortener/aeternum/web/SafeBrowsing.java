@@ -2,6 +2,8 @@ package urlshortener.aeternum.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -9,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import urlshortener.common.domain.*;
 
 public class SafeBrowsing {
+    private static final Logger LOG = LoggerFactory.getLogger(SafeBrowsing.class);
 
     private boolean isSafe;
 
@@ -61,16 +64,16 @@ public class SafeBrowsing {
         ResponseEntity<ThreatMatch> tm = restTemplate.exchange(peticionSafe, HttpMethod.POST, request, ThreatMatch.class);
 
         if(tm.getStatusCodeValue() == 200) {
-            System.out.println("Ha ido bien la peticion");
+            LOG.info("Ha ido bien la peticion");
             //String jsonRespuesta = mapper.writeValueAsString(tm);
             //System.out.println(jsonRespuesta);
             //System.out.println(tm.getBody());
             if(tm.getBody().getTe() == null) {
-                System.out.println("La URL " + url + " es segura");
+                LOG.info("La URL " + url + " es segura");
                 isSafe = true;
             }
             else {
-                System.out.println("La URL " + url + " NO es segura");
+                LOG.info("La URL " + url + " NO es segura");
                 isSafe = false;
             }
         }
