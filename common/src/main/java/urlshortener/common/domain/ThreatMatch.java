@@ -1,25 +1,63 @@
 package urlshortener.common.domain;
 
 public class ThreatMatch {
+    private String threatType;
+    private String platformType;
+    private String threatEntryType;
 
-    private enum threadType {MALWARE, SOCIAL_ENGINEERING, UNWANTED_SOFTWARE, POTENTIALLY_HARMFUL_APPLICATION}
-    private enum platformTypes {WINDOWS, LINUX, ANDROID, OSX, IOS, ANY_PLATFORM, ALL_PLATFORMS, CHROME}
-    private enum threatEntryType {URL, EXECUTABLE, IP_RANGE}
-    private ThreatEntries te;
+    private Threat threat;
+    private ThreatEntryMetadata threatEntryMetadata;
     private String cacheDuration;
 
-    public ThreatMatch(ThreatEntries te) {
-        this.te = te;
+    public ThreatMatch(String threatType, String platformType, String threatEntryType, Threat threat,
+                       ThreatEntryMetadata threatEntryMetadata, String cacheDuration) {
+        this.threatType = threatType;
+        this.platformType = platformType;
+        this.threatEntryType = threatEntryType;
+        this.threat = threat;
+        this.threatEntryMetadata = threatEntryMetadata;
+        this.cacheDuration = cacheDuration;
+    }
+    public ThreatMatch() {}
+
+    public String getThreatType() {
+        return threatType;
     }
 
-    public ThreatMatch(){}
-
-    public ThreatEntries getTe() {
-        return te;
+    public void setThreatType(String threatType) {
+        this.threatType = threatType;
     }
 
-    public void setTe(ThreatEntries te) {
-        this.te = te;
+    public String getPlatformType() {
+        return platformType;
+    }
+
+    public void setPlatformType(String platformType) {
+        this.platformType = platformType;
+    }
+
+    public String getThreatEntryType() {
+        return threatEntryType;
+    }
+
+    public void setThreatEntryType(String threatEntryType) {
+        this.threatEntryType = threatEntryType;
+    }
+
+    public Threat getThreat() {
+        return threat;
+    }
+
+    public void setThreat(Threat threat) {
+        this.threat = threat;
+    }
+
+    public ThreatEntryMetadata getThreatEntryMetadata() {
+        return threatEntryMetadata;
+    }
+
+    public void setThreatEntryMetadata(ThreatEntryMetadata threatEntryMetadata) {
+        this.threatEntryMetadata = threatEntryMetadata;
     }
 
     public String getCacheDuration() {
@@ -33,7 +71,11 @@ public class ThreatMatch {
     @Override
     public String toString() {
         return "ThreatMatch{" +
-            "te=" + te +
+            "threatType='" + threatType + '\'' +
+            ", platformType='" + platformType + '\'' +
+            ", threatEntryType='" + threatEntryType + '\'' +
+            ", threat=" + threat +
+            ", threatEntryMetadata=" + threatEntryMetadata +
             ", cacheDuration='" + cacheDuration + '\'' +
             '}';
     }
