@@ -48,7 +48,7 @@ public class ViewStats {
         Long upTime = upTimeVisibility?getUpTime() :null;
         Long totalURL = totalURLVisibility?shortURLRepository.count() :null;
         Long totalUser = totalUserVisibility?userRepository.count() :null;
-        Long averageAccessURL = averageAccessURLVisibility?getAverageAccessURL(totalURL) :null;
+        Long averageAccessURL = averageAccessURLVisibility?getAverageAccessURL(shortURLRepository.count()) :null;
         Long responseTime = responseTimeVisibility?UrlShortenerController.getLastResponseTime() :null;
         Runtime runtime = Runtime.getRuntime();
         Long memoryUsed = memoryUsedVisibility?getUsedMemory(runtime) :null;
@@ -68,7 +68,7 @@ public class ViewStats {
 
     @RequestMapping(value = "/viewStatistics/admin", method = RequestMethod.GET)
     public ResponseEntity<Stats> getStatsAdmin() {
-        if (true) { //comprobar en el header si es un admin
+        if (true) { // TODO comprobar en el header si es un admin
             Long upTime = getUpTime();
             Long totalURL = shortURLRepository.count();
             Long totalUser = userRepository.count();
@@ -108,7 +108,7 @@ public class ViewStats {
                                                      @RequestParam("memoryUsed") boolean memoryUsed,
                                                      @RequestParam("memoryAvailable") boolean memoryAvailable,
                                                      HttpServletRequest request) {
-        if (true) { //comprobar en el request si es un admin
+        if (true) { // TODO comprobar en el request si es un admin
             upTimeVisibility = upTime;
             totalURLVisibility = totalURL;
             totalUserVisibility = totalUser;

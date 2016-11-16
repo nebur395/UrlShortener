@@ -1,9 +1,12 @@
 angular.module('urlShortener')
 
-    .controller('viewStatisticsCtrl', ['$scope', '$state', 'viewStatistics', function ($scope, $state, viewStatistics) {
+    .controller('viewStatisticsCtrl', ['$scope', '$state', 'auth', 'viewStatistics', function ($scope, $state, auth, viewStatistics) {
 
         $scope.statistics = {};
         $scope.visibility = {};
+        $scope.logged = function () {
+            return auth.isAuthenticated();
+        };
 
         // FEEDBACK MESSAGES
 
@@ -38,10 +41,16 @@ angular.module('urlShortener')
         };
 
         $scope.getStats = function () {
-            viewStatistics.getStats(function (stats, visibilityStats) {
-                $scope.statistics = stats;
-                $scope.visibility = visibilityStats;
-            },showError);
+            if ($scope.logged()) {
+                viewStatistics.getAdminStats(function (stats, visibilityStats) {
+                    $scope.statistics = stats;
+                    $scope.visibility = visibilityStats;
+                },showError);
+            } else {
+                viewStatistics.getStats(function (stats) {
+                    $scope.statistics = stats;
+                },showError);
+            }
         };
         $scope.getStats();
 

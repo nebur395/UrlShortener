@@ -13,56 +13,56 @@
     </div>
 
     <ul class="list-group" id="statList">
-      <li class="list-group-item" style="text-align:right;">
+      <li class="list-group-item" style="text-align:right;" ng-if="logged()">
         <strong>Stats visibility</strong>
       </li>
 
-      <li class="list-group-item">
+      <li class="list-group-item" ng-if="statistics.upTime != null">
         <strong>Uptime of the system (seconds): </strong>{{statistics.upTime}}
         <input type="checkbox" ng-model="visibility.upTime" class="visibility"
-               ng-click="hideError();hideSuccess()"></li>
+               ng-click="hideError();hideSuccess()" ng-if="logged()"></li>
 
-      <li class="list-group-item">
+      <li class="list-group-item" ng-if="statistics.totalURL != null">
         <strong>Total of shortened URLs in the system: </strong>{{statistics.totalURL}}
         <input type="checkbox" ng-model="visibility.totalURL" class="visibility"
-               ng-click="hideError();hideSuccess()"></li>
+               ng-click="hideError();hideSuccess()" ng-if="logged()"></li>
 
-      <li class="list-group-item">
+      <li class="list-group-item" ng-if="statistics.topURL != null">
         <strong>Top 10 URL most visited: </strong>
         <input type="checkbox" ng-model="visibility.topUrl" class="visibility"
-               ng-click="hideError();hideSuccess()">
+               ng-click="hideError();hideSuccess()" ng-if="logged()">
         <ul style="list-style-type:disc">
           <li ng-repeat="url in statistics.topURL">{{url}}</li>
         </ul></li>
 
-      <li class="list-group-item">
+      <li class="list-group-item" ng-if="statistics.totalUser != null">
         <strong>Total of registered users in the system: </strong>{{statistics.totalUser}}
         <input type="checkbox" ng-model="visibility.totalUser" class="visibility"
-               ng-click="hideError();hideSuccess()"></li>
+               ng-click="hideError();hideSuccess()" ng-if="logged()"></li>
 
-      <li class="list-group-item">
+      <li class="list-group-item" ng-if="statistics.averageAccessURL != null">
         <strong>Access average per URL: </strong>{{statistics.averageAccessURL}}
         <input type="checkbox" ng-model="visibility.averageAccessURL" class="visibility"
-               ng-click="hideError();hideSuccess()"></li>
+               ng-click="hideError();hideSuccess()" ng-if="logged()"></li>
 
-      <li class="list-group-item">
+      <li class="list-group-item" ng-if="statistics.responseTime != null">
         <strong>Time to answer the last redirect (milliseconds): </strong>{{statistics.responseTime}}
         <input type="checkbox" ng-model="visibility.responseTime" class="visibility"
-               ng-click="hideError();hideSuccess()"></li>
+               ng-click="hideError();hideSuccess()" ng-if="logged()"></li>
 
-      <li class="list-group-item">
+      <li class="list-group-item" ng-if="statistics.memoryUsed != null">
         <strong>Memory used for the system (kilobytes): </strong>{{statistics.memoryUsed}}
         <input type="checkbox" ng-model="visibility.memoryUsed" class="visibility"
-               ng-click="hideError();hideSuccess()"></li>
+               ng-click="hideError();hideSuccess()" ng-if="logged()"></li>
 
-      <li class="list-group-item">
+      <li class="list-group-item" ng-if="statistics.memoryAvailable != null">
         <strong>Memory available for the system (kilobytes): </strong>{{statistics.memoryAvailable}}
         <input type="checkbox" ng-model="visibility.memoryAvailable" class="visibility"
-               ng-click="hideError();hideSuccess()"></li>
+               ng-click="hideError();hideSuccess()" ng-if="logged()"></li>
     </ul>
     <p style="text-align:center">
-      <button ng-click="sendVisibility()" class="btn btn-default theme-accent">Save stats
-        visibility</button>
+      <button ng-click="sendVisibility()" class="btn btn-default theme-accent" ng-if="logged()">
+        Save stats visibility</button>
     </p>
   </div>
 </div>

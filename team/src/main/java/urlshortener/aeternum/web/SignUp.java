@@ -12,9 +12,9 @@ import urlshortener.common.repository.UserRepository;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-public class signUp {
+public class SignUp {
     private static final Logger LOG = LoggerFactory
-        .getLogger(signUp.class);
+        .getLogger(SignUp.class);
 
     @Autowired
     protected UserRepository userRepository;
@@ -25,7 +25,7 @@ public class signUp {
                                            @RequestParam("pass") String pass,
                                            @RequestParam("repass") String repass,
                                            HttpServletRequest request) {
-
+        // TODO
         if (true) {
             LOG.info("System statistics");
             return new ResponseEntity<String>("\"Usuario creado correctamente\"", HttpStatus

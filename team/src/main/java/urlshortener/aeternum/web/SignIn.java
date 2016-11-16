@@ -12,9 +12,9 @@ import urlshortener.common.repository.UserRepository;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-public class signIn {
+public class SignIn {
     private static final Logger LOG = LoggerFactory
-        .getLogger(signIn.class);
+        .getLogger(SignIn.class);
 
     @Autowired
     protected UserRepository userRepository;
@@ -23,7 +23,7 @@ public class signIn {
     public ResponseEntity<String> shortener(HttpServletRequest request) {
         String userName = request.getHeader("user");
         String pass = request.getHeader("pass");
-        if (false) {
+        if (false) {// TODO
             LOG.info("System statistics");
             return new ResponseEntity<String>(HttpStatus.CREATED);
         } else {

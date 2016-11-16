@@ -110,9 +110,24 @@ angular.module('urlShortener')
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 }).success(function (data) {
-                    callbackSuccess(data, data.statsVisibility);
+                    callbackSuccess(data);
                 }).error(function (data) {
                     callbackError('Error to get the system statistics');
+                });
+            },
+
+            //get the statistics of the system
+            getAdminStats: function (callbackSuccess,callbackError) {
+                $http({
+                    method: 'GET',
+                    url: '/viewStatistics/admin',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data, data.statsVisibility);
+                }).error(function (data) {
+                    callbackError('Error to get the system admin statistics. You are not an administrator.');
                 });
             },
 
