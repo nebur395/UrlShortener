@@ -11,6 +11,15 @@ angular.module('urlShortener')
 
             //logout function
             logout: function () {
+                $http({
+                    method: 'POST',
+                    url: '/logout',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                }).error(function (data) {
+                });
             },
 
             //send the login info to the server

@@ -20,7 +20,7 @@ public class SignIn {
     protected UserRepository userRepository;
 
     @RequestMapping(value = "/signIn", method = RequestMethod.GET)
-    public ResponseEntity<String> shortener(HttpServletRequest request) {
+    public ResponseEntity<String> signIn(HttpServletRequest request) {
         String userName = request.getHeader("user");
         String pass = request.getHeader("pass");
         if (false) {// TODO
