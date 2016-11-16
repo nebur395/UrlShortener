@@ -97,7 +97,7 @@ angular.module('urlShortener')
 
 
     // 'viewStatistics' service manage the view statistics functionallity
-    .factory('viewStatistics', function ($state, $http) {
+    .factory('viewStatistics', function ($state, $http, $httpParamSerializer) {
 
         return {
 
@@ -110,9 +110,25 @@ angular.module('urlShortener')
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 }).success(function (data) {
-                    callbackSuccess(data);
+                    callbackSuccess(data, data.statsVisibility);
                 }).error(function (data) {
                     callbackError('Error to get the system statistics');
+                });
+            },
+
+            // send the stats visibility of the system
+            sendVisibility: function (statsVisibility, callbackSuccess,callbackError) {
+                $http({
+                    method: 'POST',
+                    url: '/viewStatistics',
+                    data: $httpParamSerializer(statsVisibility),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError(data);
                 });
             }
         };

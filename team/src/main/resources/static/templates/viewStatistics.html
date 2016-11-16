@@ -7,27 +7,62 @@
     <div ng-if="error" class="alert alert-danger feedbackMessages">
       <strong>&#10008</strong> {{errorMsg}}
     </div>
+    <!-- this div will show only when the operation has been a success -->
+    <div ng-if="success" class="alert alert-success feedbackMessages">
+      <strong>&#10004</strong> {{successMsg}}
+    </div>
 
     <ul class="list-group" id="statList">
-      <li class="list-group-item"><strong>Uptime of the system (seconds): </strong>
-        {{statistics.upTime}}</li>
-      <li class="list-group-item"><strong>Total of shortened URLs in the system: </strong>
-        {{statistics.totalURL}}</li>
-      <li class="list-group-item"><strong>Top 10 URL most visited: </strong>
+      <li class="list-group-item" style="text-align:right;">
+        <strong>Stats visibility</strong>
+      </li>
+
+      <li class="list-group-item">
+        <strong>Uptime of the system (seconds): </strong>{{statistics.upTime}}
+        <input type="checkbox" ng-model="visibility.upTime" class="visibility"
+               ng-click="hideError();hideSuccess()"></li>
+
+      <li class="list-group-item">
+        <strong>Total of shortened URLs in the system: </strong>{{statistics.totalURL}}
+        <input type="checkbox" ng-model="visibility.totalURL" class="visibility"
+               ng-click="hideError();hideSuccess()"></li>
+
+      <li class="list-group-item">
+        <strong>Top 10 URL most visited: </strong>
+        <input type="checkbox" ng-model="visibility.topUrl" class="visibility"
+               ng-click="hideError();hideSuccess()">
         <ul style="list-style-type:disc">
           <li ng-repeat="url in statistics.topURL">{{url}}</li>
         </ul></li>
-      <li class="list-group-item"><strong>Total of registered users in the system: </strong>
-        {{statistics.totalUser}}
-      </li>
-      <li class="list-group-item"><strong>Access average per URL: </strong>
-        {{statistics.averageAccessURL}}</li>
-      <li class="list-group-item"><strong>Time to answer the last redirect (milliseconds): </strong>
-        {{statistics.responseTime}}</li>
-      <li class="list-group-item"><strong>Memory used for the system (kilobytes): </strong>
-        {{statistics.memoryUsed}}</li>
-      <li class="list-group-item"><strong>Memory available for the system (kilobytes): </strong>
-        {{statistics.memoryAvailable}}</li>
+
+      <li class="list-group-item">
+        <strong>Total of registered users in the system: </strong>{{statistics.totalUser}}
+        <input type="checkbox" ng-model="visibility.totalUser" class="visibility"
+               ng-click="hideError();hideSuccess()"></li>
+
+      <li class="list-group-item">
+        <strong>Access average per URL: </strong>{{statistics.averageAccessURL}}
+        <input type="checkbox" ng-model="visibility.averageAccessURL" class="visibility"
+               ng-click="hideError();hideSuccess()"></li>
+
+      <li class="list-group-item">
+        <strong>Time to answer the last redirect (milliseconds): </strong>{{statistics.responseTime}}
+        <input type="checkbox" ng-model="visibility.responseTime" class="visibility"
+               ng-click="hideError();hideSuccess()"></li>
+
+      <li class="list-group-item">
+        <strong>Memory used for the system (kilobytes): </strong>{{statistics.memoryUsed}}
+        <input type="checkbox" ng-model="visibility.memoryUsed" class="visibility"
+               ng-click="hideError();hideSuccess()"></li>
+
+      <li class="list-group-item">
+        <strong>Memory available for the system (kilobytes): </strong>{{statistics.memoryAvailable}}
+        <input type="checkbox" ng-model="visibility.memoryAvailable" class="visibility"
+               ng-click="hideError();hideSuccess()"></li>
     </ul>
+    <p style="text-align:center">
+      <button ng-click="sendVisibility()" class="btn btn-default theme-accent">Save stats
+        visibility</button>
+    </p>
   </div>
 </div>

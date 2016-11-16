@@ -11,3 +11,9 @@
   text-align: center;
   margin: 3%;
 }
+
+#viewStatisticsStyle .visibility {
+  margin-top: 0.3%;
+  margin-right: 3.5%;
+  float: right;
+}
