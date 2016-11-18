@@ -5,16 +5,16 @@ package urlshortener.common.domain;
  */
 public class ThreatEntryMetadata {
 
-    private MetadataEntry me;
+    private MetadataEntry[] entries;
 
     public ThreatEntryMetadata() {
     }
 
-    public MetadataEntry getMe() {
-        return me;
+    public MetadataEntry[] getEntries() {
+        return entries;
     }
 
-    public void setMe(MetadataEntry me) {
-        this.me = me;
+    public void setEntries(MetadataEntry[] entries) {
+        this.entries = entries;
     }
 }

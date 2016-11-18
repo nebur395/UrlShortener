@@ -11,6 +11,15 @@ angular.module('urlShortener')
 
             //logout function
             logout: function () {
+                $http({
+                    method: 'POST',
+                    url: '/logout',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                }).error(function (data) {
+                });
             },
 
             //send the login info to the server
@@ -97,7 +106,7 @@ angular.module('urlShortener')
 
 
     // 'viewStatistics' service manage the view statistics functionallity
-    .factory('viewStatistics', function ($state, $http) {
+    .factory('viewStatistics', function ($state, $http, $httpParamSerializer) {
 
         return {
 
@@ -113,6 +122,37 @@ angular.module('urlShortener')
                     callbackSuccess(data);
                 }).error(function (data) {
                     callbackError('Error to get the system statistics');
+                });
+            },
+
+            //get the statistics of the system
+            getAdminStats: function (callbackSuccess,callbackError) {
+                $http({
+                    method: 'GET',
+                    url: '/viewStatistics/admin',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data, data.statsVisibility);
+                }).error(function (data) {
+                    callbackError('Error to get the system admin statistics. You are not an administrator.');
+                });
+            },
+
+            // send the stats visibility of the system
+            sendVisibility: function (statsVisibility, callbackSuccess,callbackError) {
+                $http({
+                    method: 'POST',
+                    url: '/viewStatistics',
+                    data: $httpParamSerializer(statsVisibility),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError(data);
                 });
             }
         };

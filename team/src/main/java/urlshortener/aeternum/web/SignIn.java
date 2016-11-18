@@ -12,24 +12,20 @@ import urlshortener.common.repository.UserRepository;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-public class signUp {
+public class SignIn {
     private static final Logger LOG = LoggerFactory
-        .getLogger(signUp.class);
+        .getLogger(SignIn.class);
 
     @Autowired
     protected UserRepository userRepository;
 
-    @RequestMapping(value = "/signUp", method = RequestMethod.POST)
-    public ResponseEntity<String> shortener(@RequestParam("user") String username,
-                                           @RequestParam("email") String email,
-                                           @RequestParam("pass") String pass,
-                                           @RequestParam("repass") String repass,
-                                           HttpServletRequest request) {
-
-        if (true) {
+    @RequestMapping(value = "/signIn", method = RequestMethod.GET)
+    public ResponseEntity<String> signIn(HttpServletRequest request) {
+        String userName = request.getHeader("user");
+        String pass = request.getHeader("pass");
+        if (false) {// TODO
             LOG.info("System statistics");
-            return new ResponseEntity<String>("\"Usuario creado correctamente\"", HttpStatus
-                .CREATED);
+            return new ResponseEntity<String>(HttpStatus.CREATED);
         } else {
             LOG.info("Error to get the system statistics");
             return new ResponseEntity<String>("\"Usuario no creado\"",HttpStatus.BAD_REQUEST);
