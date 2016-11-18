@@ -33,12 +33,12 @@ public class QrGenerator {
 
         String shortURL = request.getHeader("url");
 
-        Response response = client.target("https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl="
+        Response response = client.target("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl="
             + shortURL).request().get();
 
         System.out.println("URL de la que generar QR: " + shortURL);
         if(response.getStatus() == 200){
-            String qrCode = "\"https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=" + shortURL + "\"";
+            String qrCode = "\"https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=" + shortURL + "\"";
             LOG.info("QR code generated");
             return new ResponseEntity<String>(qrCode, HttpStatus.CREATED);
         }else{

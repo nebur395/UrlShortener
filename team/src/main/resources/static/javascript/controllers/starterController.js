@@ -5,6 +5,7 @@ angular.module('urlShortener')
         $scope.url = "";
         $scope.qr = "";
         $scope.avaiableQR = false;
+        $scope.wantVcard = false;
 
         // FEEDBACK MESSAGES
 
@@ -31,10 +32,26 @@ angular.module('urlShortener')
             $scope.success = true;
         };
 
+        // show the vcard panel
+        $scope.showVcard = function () {
+            $scope.wantVcard = true;
+        };
+
         // hide the success mensage
         $scope.hideSuccess = function () {
             $scope.success = false;
             $scope.successMsg = "";
+        };
+
+        // hide the generated Qr
+        $scope.hideImage = function () {
+            $scope.avaiableQR = false;
+            $scope.qr = "";
+        };
+
+        // hide the Vcard panel
+        $scope.hideVcard = function () {
+            $scope.wantVcard = false;
         };
 
         $scope.shortURL = function () {
@@ -49,6 +66,16 @@ angular.module('urlShortener')
                 $scope.qr = urlQR;
                 $scope.avaiableQR = true;
             });
-        }
+        };
+
+        $scope.download = function () {
+            if (avaiableQR = true) {
+                var link = document.createElement('a');
+                link.href = $scope.qr;
+                link.download = 'qrCode.jpg';
+                document.body.appendChild(link);
+                link.click();
+            }
+        };
 
     }]);
