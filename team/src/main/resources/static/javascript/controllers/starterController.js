@@ -7,6 +7,17 @@ angular.module('urlShortener')
         $scope.avaiableQR = false;
         $scope.wantVcard = false;
 
+        // variables for vcard/qr generator
+        $scope.qrFName = "";
+        $scope.qrLName = "";
+        $scope.qrEmail = "";
+        $scope.qrPhone = "";
+        $scope.qrCompany = "";
+        $scope.qrStreet = "";
+        $scope.qrZip = "";
+        $scope.qrCity = "";
+        $scope.qrCountry = "";
+
         // FEEDBACK MESSAGES
 
         // feedback handling variables
@@ -58,11 +69,32 @@ angular.module('urlShortener')
             var url = {
                 url: $scope.url
             };
-            urlShortener.shortURL(url,showSuccess,showError);
+            urlShortener.shortURL(url, showSuccess, showError);
         };
 
+        // read values from the textFields and generate Qr
         $scope.getQR = function () {
-            qrGenerator.generateQR($scope.successMsg, function (urlQR) {
+            $scope.qrFName = document.getElementById('firstName').value;
+            $scope.qrLName = document.getElementById('lastName').value;
+            $scope.qrEmail = document.getElementById('email').value;
+            $scope.qrPhone = document.getElementById('phone').value;
+            $scope.qrCompany = document.getElementById('company').value;
+            $scope.qrStreet = document.getElementById('street').value;
+            $scope.qrZip = document.getElementById('zipCode').value;
+            $scope.qrCity = document.getElementById('city').value;
+            $scope.qrCountry = document.getElementById('country').value;
+
+            qrGenerator.generateQR($scope.successMsg,
+                $scope.qrFName,
+                $scope.qrLName,
+                $scope.qrEmail,
+                $scope.qrPhone,
+                $scope.qrCompany,
+                $scope.qrStreet,
+                $scope.qrZip,
+                $scope.qrCity,
+                $scope.qrCountry, function (urlQR) {
+
                 $scope.qr = urlQR;
                 $scope.avaiableQR = true;
             });
