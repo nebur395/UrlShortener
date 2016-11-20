@@ -5,6 +5,18 @@ angular.module('urlShortener')
         $scope.url = "";
         $scope.qr = "";
         $scope.avaiableQR = false;
+        $scope.wantVcard = false;
+
+        // variables for vcard/qr generator
+        $scope.qrFName = "";
+        $scope.qrLName = "";
+        $scope.qrEmail = "";
+        $scope.qrPhone = "";
+        $scope.qrCompany = "";
+        $scope.qrStreet = "";
+        $scope.qrZip = "";
+        $scope.qrCity = "";
+        $scope.qrCountry = "";
 
         // FEEDBACK MESSAGES
 
@@ -31,24 +43,71 @@ angular.module('urlShortener')
             $scope.success = true;
         };
 
+        // show the vcard panel
+        $scope.showVcard = function () {
+            $scope.wantVcard = true;
+        };
+
         // hide the success mensage
         $scope.hideSuccess = function () {
             $scope.success = false;
             $scope.successMsg = "";
         };
 
+        // hide the generated Qr
+        $scope.hideImage = function () {
+            $scope.avaiableQR = false;
+            $scope.qr = "";
+        };
+
+        // hide the Vcard panel
+        $scope.hideVcard = function () {
+            $scope.wantVcard = false;
+        };
+
         $scope.shortURL = function () {
             var url = {
                 url: $scope.url
             };
-            urlShortener.shortURL(url,showSuccess,showError);
+            urlShortener.shortURL(url, showSuccess, showError);
         };
 
+        // read values from the textFields and generate Qr
         $scope.getQR = function () {
-            qrGenerator.generateQR($scope.successMsg, function (urlQR) {
+            $scope.qrFName = document.getElementById('firstName').value;
+            $scope.qrLName = document.getElementById('lastName').value;
+            $scope.qrEmail = document.getElementById('email').value;
+            $scope.qrPhone = document.getElementById('phone').value;
+            $scope.qrCompany = document.getElementById('company').value;
+            $scope.qrStreet = document.getElementById('street').value;
+            $scope.qrZip = document.getElementById('zipCode').value;
+            $scope.qrCity = document.getElementById('city').value;
+            $scope.qrCountry = document.getElementById('country').value;
+
+            qrGenerator.generateQR($scope.successMsg,
+                $scope.qrFName,
+                $scope.qrLName,
+                $scope.qrEmail,
+                $scope.qrPhone,
+                $scope.qrCompany,
+                $scope.qrStreet,
+                $scope.qrZip,
+                $scope.qrCity,
+                $scope.qrCountry, function (urlQR) {
+
                 $scope.qr = urlQR;
                 $scope.avaiableQR = true;
             });
-        }
+        };
+
+        $scope.download = function () {
+            if (avaiableQR == true) {
+                var link = document.createElement('a');
+                link.href = $scope.qr;
+                link.download = 'qrCode.jpg';
+                document.body.appendChild(link);
+                link.click();
+            }
+        };
 
     }]);

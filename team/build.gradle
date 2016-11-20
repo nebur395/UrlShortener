@@ -31,11 +31,13 @@ dependencies {
     compile 'org.webjars:jquery:2.1.4'
     compile 'org.glassfish.jersey.core:jersey-server:2.24'
 
-    compile 'org.glassfish.jersey.core:jersey-server:2.24'
+    // Provides methods to generate VCards
+    //compile 'com.googlecode.ez-vcard:ez-vcard:0.10.0'
 
     // Testing framework
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.apache.httpcomponents:httpclient:4.5.2'
     testCompile 'com.jayway.jsonpath:json-path:2.2.0'
+
 
 }
