@@ -101,7 +101,7 @@ angular.module('urlShortener')
         };
 
         $scope.download = function () {
-            if (avaiableQR = true) {
+            if (avaiableQR == true) {
                 var link = document.createElement('a');
                 link.href = $scope.qr;
                 link.download = 'qrCode.jpg';
