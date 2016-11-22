@@ -84,17 +84,25 @@ angular.module('urlShortener')
 
     // 'qrGenerator' service manage the QR generator
     .factory('qrGenerator', function ($state, $http) {
-
         return {
 
             //send the register info to the server
-            generateQR: function (url, callbackSuccess) {
+            generateQR: function (qrUrl, qrFname, qrLname, qrEmail, qrPhone, qrCompany, qrStreet, qrZip, qrCity, qrCountry, callbackSuccess) {
                 $http({
                     method: 'GET',
                     url: '/qr',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
-                        'url': url
+                        'qrUrl': qrUrl,
+                        'qrFname': qrFname,
+                        'qrLname': qrLname,
+                        'qrEmail': qrEmail,
+                        'qrPhone': qrPhone,
+                        'qrCompany': qrCompany,
+                        'qrStreet': qrStreet,
+                        'qrZip': qrZip,
+                        'qrCity': qrCity,
+                        'qrCountry': qrCountry
                     }
                 }).success(function (data) {
                     callbackSuccess(data);
@@ -103,7 +111,6 @@ angular.module('urlShortener')
             }
         };
     })
-
 
     // 'viewStatistics' service manage the view statistics functionallity
     .factory('viewStatistics', function ($state, $http, $httpParamSerializer) {
