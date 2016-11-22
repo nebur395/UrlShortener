@@ -21,10 +21,6 @@ public class ScheduledTask {
     SafeBrowsing sb;
     List<String> allUrls;
 
-    /*public ScheduledTask(SafeBrowsing sb) {
-        this.sb = sb;
-    }*/
-
     public ScheduledTask() {
     }
 
@@ -56,19 +52,15 @@ public class ScheduledTask {
         //Manera de quitar este sb de aqui? Poniendolo como atributo de la clase lo reconoce como null
         SafeBrowsing sb = new SafeBrowsing();
         //Poder pasarle este parametro sin que sea null todo el rato?
-        //allUrls = shortURLRepository.listAllUrls();
+        allUrls = shortURLRepository.listAllUrls();
         System.out.println("allurls: " + this.allUrls);
         if(allUrls != null && !allUrls.isEmpty()) {
-            //System.out.println("Tamaño lista = "+ allUrls.size());
-            //System.out.println(allUrls);
             for (int i = 0; i <= allUrls.size()-1; i++) {
-                //System.out.println("Compruebo url " + allUrls.get(i));
                 sb.safe(allUrls.get(i));
             }
         }
         else {
             System.out.println("Lista vacia de urls");
-
         }
     }
 
