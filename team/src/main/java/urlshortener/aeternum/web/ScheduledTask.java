@@ -53,14 +53,10 @@ public class ScheduledTask {
         SafeBrowsing sb = new SafeBrowsing();
         //Poder pasarle este parametro sin que sea null todo el rato?
         allUrls = shortURLRepository.listAllUrls();
-        System.out.println("allurls: " + this.allUrls);
         if(allUrls != null && !allUrls.isEmpty()) {
             for (int i = 0; i <= allUrls.size()-1; i++) {
                 sb.safe(allUrls.get(i));
             }
-        }
-        else {
-            System.out.println("Lista vacia de urls");
         }
     }
 
