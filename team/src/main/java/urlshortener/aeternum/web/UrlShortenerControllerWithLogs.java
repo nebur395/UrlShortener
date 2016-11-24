@@ -10,12 +10,19 @@ import urlshortener.common.domain.ShortURL;
 import urlshortener.common.domain.*;
 import urlshortener.common.web.UrlShortenerController;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
 
 @RestController
 public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UrlShortenerControllerWithLogs.class);
     private boolean isSafe;
+    List<String> allUrls;
+    //Timer time = new Timer(); // Instantiate Timer Object
+    ScheduledTask st = new ScheduledTask();
+
 
     @Override
 	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn).*}",
@@ -42,16 +49,13 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 		logger.info("Requested new short for uri " + url);
         ResponseEntity<ShortURL> r = super.shortener(url, sponsor, request);
 
-        Union u = new Union(new ClientInfo("id","version blabla"), new ThreatInfo(new ThreatEntries(url)));
         SafeBrowsing sb = new SafeBrowsing();
-        try {
-            isSafe = sb.safe(url);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        isSafe = sb.safe(url);
+        //st = new ScheduledTask(sb);
+        //st.setSb(sb);
+        //allUrls = shortURLRepository.listAllUrls();
+        //st.setAllUrls(allUrls);
 
-        if(isSafe) logger.info("The URL " + url + " is safe");
-        else logger.info("The URL " + url + "is unsafe");
         ShortURL miShort = r.getBody();
         shortURLRepository.mark(miShort, isSafe);
         return r;

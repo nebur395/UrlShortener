@@ -132,7 +132,8 @@ public class ShortURLRepositoryImpl implements ShortURLRepository {
 		}
 	}
 
-	@Override
+
+    @Override
 	public List<ShortURL> findByTarget(String target) {
 		try {
 			return jdbc.query("SELECT * FROM shorturl WHERE target = ?",
@@ -142,4 +143,15 @@ public class ShortURLRepositoryImpl implements ShortURLRepository {
 			return Collections.emptyList();
 		}
 	}
+
+	public List<String> listAllUrls() {
+        try {
+            return jdbc.queryForList("SELECT TARGET FROM shorturl", String.class);
+        }
+        catch (Exception e) {
+            log.debug("When select targets from shortul");
+            return Collections.emptyList();
+        }
+    }
+
 }

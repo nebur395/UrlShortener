@@ -1,5 +1,6 @@
 package urlshortener.common.repository;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -14,11 +15,14 @@ import org.springframework.stereotype.Repository;
 
 import urlshortener.common.domain.User;
 
+import javax.annotation.PostConstruct;
+
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
     private static final Logger log = LoggerFactory
         .getLogger(UserRepositoryImpl.class);
+
 
     private static final RowMapper<User> rowMapper = new RowMapper<User>() {
         @Override
@@ -96,6 +100,13 @@ public class UserRepositoryImpl implements UserRepository {
             log.debug("When counting", e);
         }
         return -1L;
+    }
+
+    @PostConstruct
+    public void meterUsuario() {
+        User u = new User("admin", "admin", "gmail", true, new Date(2000,12,12));
+        save(u);
+        log.info("Metido usuario admin");
     }
 
     @Override
