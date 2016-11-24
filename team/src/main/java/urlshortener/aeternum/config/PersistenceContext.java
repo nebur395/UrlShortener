@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import urlshortener.aeternum.web.SignIn;
 import urlshortener.common.repository.ClickRepository;
 import urlshortener.common.repository.ClickRepositoryImpl;
 import urlshortener.common.repository.ShortURLRepository;
@@ -31,4 +32,7 @@ public class PersistenceContext {
     UserRepository userRepository() {
         return new UserRepositoryImpl(jdbc);
     }
+
+    @Bean
+    SignIn signIn() { return new SignIn();}
 }
