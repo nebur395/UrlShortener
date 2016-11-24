@@ -23,6 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
     private static final Logger log = LoggerFactory
         .getLogger(UserRepositoryImpl.class);
 
+
     private static final RowMapper<User> rowMapper = new RowMapper<User>() {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -105,7 +106,7 @@ public class UserRepositoryImpl implements UserRepository {
     public void meterUsuario() {
         User u = new User("admin", "admin", "gmail", true, new Date(2000,12,12));
         save(u);
-        System.out.println("Metido usuario admin");
+        log.info("Metido usuario admin");
     }
 
     @Override
