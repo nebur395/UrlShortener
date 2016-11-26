@@ -2,9 +2,17 @@ package urlshortener.common.repository;
 
 import urlshortener.common.domain.CountryRestriction;
 
+import java.util.List;
+
 public interface CountryResRepository {
 
-    void save(CountryRestriction c);
+    CountryRestriction save(CountryRestriction c);
 
-    void restrictCountry(String country);
+    boolean restrictCountry(String country);
+
+    boolean unblockCountry(String country);
+
+    List<String> listCountries(boolean access);
+
+    CountryRestriction findCountry(String country);
 }

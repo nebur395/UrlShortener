@@ -30,6 +30,13 @@ angular.module('urlShortener', ['ui.router', 'base64'])
                 url: "/viewStatistics",
                 templateUrl: "templates/viewStatistics.html",
                 controller: "viewStatisticsCtrl"
+            })
+
+            //restrict access
+            .state('restrictAccess', {
+                url: "/restrictAccess",
+                templateUrl: "templates/restrictAccess.html",
+                controller: "restrictAccessCtrl"
             });
 
         $urlRouterProvider.otherwise('starter');

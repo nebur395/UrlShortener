@@ -43,6 +43,7 @@ public class QrGenerator {
                     "VERSION:3.0\r\n";
 
         // Additions to Vcard
+
         if (!request.getHeader("qrUrl").equals("")){
             infoUrl = "URL:" + request.getHeader("qrUrl");
             vCardText += infoUrl;

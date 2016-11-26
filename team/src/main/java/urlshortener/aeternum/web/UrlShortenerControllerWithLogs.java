@@ -25,7 +25,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 
 
     @Override
-	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn).*}",
+	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn|restrictAccess).*}",
         method = RequestMethod.GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id, HttpServletRequest request) {
 		logger.info("Requested redirection with hash " + id);
@@ -55,6 +55,11 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         //st.setSb(sb);
         //allUrls = shortURLRepository.listAllUrls();
         //st.setAllUrls(allUrls);
+     /*   RestrictCountry p = new RestrictCountry();
+        List<String> l = p.getUnblockedCountries();
+        for (int i=0;i<l.size();i++){
+            System.out.println(l.get(i));
+        }*/
 
         ShortURL miShort = r.getBody();
         shortURLRepository.mark(miShort, isSafe);

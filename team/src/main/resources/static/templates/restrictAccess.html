@@ -1,0 +1,41 @@
+<div id="viewStatisticsStyle">
+  <div class="container">
+
+    <h1 id="firstContent">Restrict access depending on location</h1>
+
+    <!-- this div will show only when an error occurs -->
+    <div ng-if="error" class="alert alert-danger feedbackMessages">
+      <strong>&#10008</strong> {{errorMsg}}
+    </div>
+    <!-- this div will show only when the operation has been a success -->
+    <div ng-if="success" class="alert alert-success feedbackMessages">
+      <strong>&#10004</strong> {{successMsg}}
+    </div>
+
+    <!-- show the list of unblocked countries for choosing one to block  -->
+    <strong>Select country for blocking the access to URLShortener service: </strong>
+    <div ng-controller="restrictAccessCtrl">
+      <form name="unblock">
+        <select name="unblockCountry" id="blocking" class="form-control"
+                ng-options="option for option in countryList.unblockList" ng-model="myCountry" required>
+          <option value="">Select country</option>
+        </select>
+        <input type="submit" value="Add" class="btn btn-default theme-accent" ng-click="blockCountry()">
+      </form>
+      <br>
+
+      <!-- show the list of blocked countries for choosing one to unblock  -->
+      <strong>Countries with restricted access: </strong>
+      <form name="block">
+        <select name="blockCountry" id="unblocking2" multiple class="form-control" ng-if="countryList.blockList.length == 0">
+          <option value="">There aren't countries blocked</option>
+        </select>
+        <select name="blockCountry" id="unblocking" multiple class="form-control"
+                ng-options="option for option in countryList.blockList" ng-model="myCountry"
+                ng-if="countryList.blockList.length != 0" required>
+        </select>
+        <input type="submit" value="Remove" class="btn btn-default theme-accent" ng-click="unblockCountry()">
+      </form>
+    </div>
+    </div>
+  </div>

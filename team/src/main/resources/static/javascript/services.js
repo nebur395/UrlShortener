@@ -163,4 +163,59 @@ angular.module('urlShortener')
                 });
             }
         };
+    })
+
+
+    // 'restrictAccess' service manage blocking access depending on location functionallity
+    .factory('restrictAccess', function ($state, $http) {
+
+        return {
+
+            //get countries
+            getListOfCountries: function (callbackSuccess,callbackError) {
+                $http({
+                    method: 'GET',
+                    url: '/restrictAccess',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Error to administrate restrictions about location');
+                });
+            },
+
+            //block access from a country
+           blockCountry: function (unblockCountry,callbackSuccess,callbackError) {
+                $http({
+                    method: 'GET',
+                    url: '/restrictAccess/blockCountry',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'unblockCountry': unblockCountry
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Error to administrate restrictions about location');
+                });
+            },
+
+            //unblock access from a country
+            unblockCountry: function (blockCountry,callbackSuccess,callbackError) {
+                $http({
+                    method: 'GET',
+                    url: '/restrictAccess/unblockCountry',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'blockCountry': blockCountry
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Error to administrate restrictions about location');
+                });
+            }
+        };
     });
