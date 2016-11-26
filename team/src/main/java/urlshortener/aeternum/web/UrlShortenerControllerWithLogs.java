@@ -3,14 +3,15 @@ package urlshortener.aeternum.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import urlshortener.common.domain.CountryRestriction;
 import urlshortener.common.domain.Location;
 import urlshortener.common.domain.ShortURL;
-import urlshortener.common.domain.*;
+import urlshortener.common.repository.CountryResRepository;
 import urlshortener.common.web.UrlShortenerController;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
@@ -22,6 +23,9 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
     List<String> allUrls;
     //Timer time = new Timer(); // Instantiate Timer Object
     ScheduledTask st = new ScheduledTask();
+
+    @Autowired
+    protected CountryResRepository countryResRepository;
 
 
     @Override
@@ -35,8 +39,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         //Read ip client from shortURL and obtain its location info if there is a click with this hash
         if (s != null) {
             String ip = s.getIP();
-            ReadLocation l = new ReadLocation(ip);
-            Location loc = l.location();
+            Location loc = ReadLocation.location(ip);
             updateLocation(s, loc);
         }
         return r;
@@ -55,14 +58,21 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         //st.setSb(sb);
         //allUrls = shortURLRepository.listAllUrls();
         //st.setAllUrls(allUrls);
-     /*   RestrictCountry p = new RestrictCountry();
-        List<String> l = p.getUnblockedCountries();
-        for (int i=0;i<l.size();i++){
-            System.out.println(l.get(i));
-        }*/
 
         ShortURL miShort = r.getBody();
         shortURLRepository.mark(miShort, isSafe);
+
+        //Read ip client from shortURL and obtain its location info if there is a click with this hash
+        if (miShort != null) {
+            String ip = miShort.getIP();
+            String country = ReadLocation.location(ip).getCountryName();
+            System.out.println("pais: "+country);
+            CountryRestriction rs = countryResRepository.findCountry(country);
+            System.out.println("resticcion: "+rs);
+            if(rs != null){
+                System.out.println("No se puede acceder");
+            }
+        }
         return r;
 	}
 
