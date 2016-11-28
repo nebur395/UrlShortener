@@ -21,8 +21,8 @@ public class SafeBrowsing {
 
         String peticionSafe = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyDG39Zc-4BtPjLR_6gVj7LUJjbGEdV-oqI";
         ObjectMapper mapper = new ObjectMapper();
-        ThreatEntries entries = new ThreatEntries(url);
-        ThreatInfo info = new ThreatInfo(entries);
+        ThreatEntry entries = new ThreatEntry(url);
+        ThreatInfo info = new ThreatInfo(new ThreatEntry[]{entries});
         ClientInfo client = new ClientInfo("1","1.5.2");
 
         RestTemplate restTemplate = new RestTemplate();
@@ -39,10 +39,11 @@ public class SafeBrowsing {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity request= new HttpEntity(jsonUnion, headers );
-
+        //System.out.println(jsonUnion);
         ResponseEntity<Matches> tm = restTemplate.exchange(peticionSafe, HttpMethod.POST, request, Matches.class);
 
         if(tm.getStatusCodeValue() == 200) {
+            System.out.println(tm.getBody());
             if(tm.getBody().getMatches() == null) {
                 LOG.info("La URL " + url + " es segura");
                 isSafe = true;
