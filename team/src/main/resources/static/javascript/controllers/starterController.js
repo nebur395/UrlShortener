@@ -69,18 +69,20 @@ angular.module('urlShortener')
         // REVISAR VARIABLE REGIONAVAIABLE, TRATAMIENTO DEL IF Y CONDICIONES DE MUESTRA EN EL STARTER.HTML
         $scope.shortURL = function () {
             urlShortener.checkRegion(function (resultRegion){
-                window.alert("ResultRegion:" + resultRegion);
                 $scope.regionAvaiable = resultRegion;
                 window.alert("Result:" + $scope.regionAvaiable);
+                window.alert("Avaiable:" + $scope.regionAvaiable);
+                if ($scope.regionAvaiable == 'true'){
+                    var url = {
+                        url: $scope.url
+                    };
+                    window.alert("AvaiableDentro:" + $scope.regionAvaiable);
+                    urlShortener.shortURL(url, showSuccess, showError);
+                }
+                else{
+                    window.alert("No hacer short");
+                }
             });
-
-            window.alert("Avaiable:" + $scope.regionAvaiable);
-            if ($scope.regionAvaiable){
-                var url = {
-                    url: $scope.url
-                };
-                urlShortener.shortURL(url, showSuccess, showError);
-            }
         };
 
         // read values from the textFields and generate Qr
@@ -112,7 +114,7 @@ angular.module('urlShortener')
         };
 
         $scope.download = function () {
-            if (avaiableQR == true) {
+            if ($scope.avaiableQR == true) {
                 var link = document.createElement('a');
                 link.href = $scope.qr;
                 link.download = 'qrCode.jpg';
