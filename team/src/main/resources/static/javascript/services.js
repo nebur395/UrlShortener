@@ -77,10 +77,24 @@ angular.module('urlShortener')
                 }).error(function (data) {
                     callbackError('ERROR');
                 });
+            },
+
+            // 'checkRegion' service checks if the user can use this service
+            checkRegion: function (callbackSuccess) {
+                $http({
+                    method: 'GET',
+                    url: '/checkRegion',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data.toString());
+                    window.alert("Services:" + data);
+                }).error(function (data) {
+                });
             }
         };
     })
-
 
     // 'qrGenerator' service manage the QR generator
     .factory('qrGenerator', function ($state, $http) {

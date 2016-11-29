@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import urlshortener.common.domain.CountryRestriction;
@@ -45,6 +46,30 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         return r;
 	}
 
+    @RequestMapping(value = "/checkRegion",
+        method = RequestMethod.GET)
+	public ResponseEntity<Boolean> checkRegion (HttpServletRequest request){
+        String ip = request.getRemoteAddr();
+        Boolean regionAvaiable = new Boolean(false);
+
+        ip = "62.101.181.50";
+        //Read ip client from shortURL and obtain its location info if there is a click with this hash
+        if (ip != null) {
+            String country = ReadLocation.location(ip).getCountryName();
+            System.out.println("pais: "+country);
+            CountryRestriction rs = countryResRepository.findCountry(country);
+            System.out.println("resticcion: "+rs);
+            if(rs != null){
+                System.out.println("No se puede acceder");
+            }else regionAvaiable = true;
+        }
+
+        System.out.println(regionAvaiable.toString());
+
+        return new ResponseEntity<Boolean>(regionAvaiable, HttpStatus.OK);
+    }
+
+
 	@Override
 	public ResponseEntity<ShortURL> shortener(@RequestParam("url") String url,
 											  @RequestParam(value = "sponsor", required = false) String sponsor,
@@ -62,17 +87,6 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         ShortURL miShort = r.getBody();
         shortURLRepository.mark(miShort, isSafe);
 
-        //Read ip client from shortURL and obtain its location info if there is a click with this hash
-        if (miShort != null) {
-            String ip = miShort.getIP();
-            String country = ReadLocation.location(ip).getCountryName();
-            System.out.println("pais: "+country);
-            CountryRestriction rs = countryResRepository.findCountry(country);
-            System.out.println("resticcion: "+rs);
-            if(rs != null){
-                System.out.println("No se puede acceder");
-            }
-        }
         return r;
 	}
 

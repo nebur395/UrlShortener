@@ -1,11 +1,12 @@
 angular.module('urlShortener')
 
-    .controller('starterCtrl', ['$scope', '$state', 'urlShortener', 'qrGenerator', function ($scope, $state, urlShortener, qrGenerator) {
+    .controller('starterCtrl', ['$scope', '$state', 'urlShortener', 'qrGenerator', function ($scope, $state, urlShortener, qrGenerator, checkRegion) {
 
         $scope.url = "";
         $scope.qr = "";
         $scope.avaiableQR = false;
         $scope.wantVcard = false;
+        $scope.regionAvaiable = true;
 
         // variables for vcard/qr generator
         $scope.qrFName = "";
@@ -65,11 +66,21 @@ angular.module('urlShortener')
             $scope.wantVcard = false;
         };
 
+        // REVISAR VARIABLE REGIONAVAIABLE, TRATAMIENTO DEL IF Y CONDICIONES DE MUESTRA EN EL STARTER.HTML
         $scope.shortURL = function () {
-            var url = {
-                url: $scope.url
-            };
-            urlShortener.shortURL(url, showSuccess, showError);
+            urlShortener.checkRegion(function (resultRegion){
+                window.alert("ResultRegion:" + resultRegion);
+                $scope.regionAvaiable = resultRegion;
+                window.alert("Result:" + $scope.regionAvaiable);
+            });
+
+            window.alert("Avaiable:" + $scope.regionAvaiable);
+            if ($scope.regionAvaiable){
+                var url = {
+                    url: $scope.url
+                };
+                urlShortener.shortURL(url, showSuccess, showError);
+            }
         };
 
         // read values from the textFields and generate Qr
