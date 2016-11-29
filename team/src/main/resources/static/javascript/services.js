@@ -89,7 +89,6 @@ angular.module('urlShortener')
                     }
                 }).success(function (data) {
                     callbackSuccess(data.toString());
-                    window.alert("Services:" + data);
                 }).error(function (data) {
                 });
             }

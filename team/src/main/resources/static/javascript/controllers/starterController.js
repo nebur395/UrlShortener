@@ -66,21 +66,14 @@ angular.module('urlShortener')
             $scope.wantVcard = false;
         };
 
-        // REVISAR VARIABLE REGIONAVAIABLE, TRATAMIENTO DEL IF Y CONDICIONES DE MUESTRA EN EL STARTER.HTML
         $scope.shortURL = function () {
             urlShortener.checkRegion(function (resultRegion){
                 $scope.regionAvaiable = resultRegion;
-                window.alert("Result:" + $scope.regionAvaiable);
-                window.alert("Avaiable:" + $scope.regionAvaiable);
                 if ($scope.regionAvaiable == 'true'){
                     var url = {
                         url: $scope.url
                     };
-                    window.alert("AvaiableDentro:" + $scope.regionAvaiable);
                     urlShortener.shortURL(url, showSuccess, showError);
-                }
-                else{
-                    window.alert("No hacer short");
                 }
             });
         };
