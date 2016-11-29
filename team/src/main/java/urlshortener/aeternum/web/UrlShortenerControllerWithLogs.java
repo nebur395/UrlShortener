@@ -59,9 +59,10 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
             System.out.println("pais: "+country);
             CountryRestriction rs = countryResRepository.findCountry(country);
             System.out.println("resticcion: "+rs);
-            if(rs != null){
-                System.out.println("No se puede acceder");
-            }else regionAvaiable = true;
+            if(rs.isaccessAllowed()){
+                regionAvaiable = true;
+                System.out.println("Acceso permitido a la region");
+            }else System.out.println("Acceso restringido a la region");
         }
 
         System.out.println(regionAvaiable.toString());
