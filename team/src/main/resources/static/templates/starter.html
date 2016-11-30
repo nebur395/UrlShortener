@@ -75,21 +75,37 @@
                 </div>
               </div>
               <div class="col-sm-4">
-                <img class="img-responsive" ng-src="{{qr}}" ng-if="avaiableQR"  width="500" height="500"/>
+                  <div class="form-group">
+                    <label for="correctionLevel">Correction level:</label>
+                    <select class="form-control" id="correctionLevel">
+                      <option>L</option>
+                      <option>M</option>
+                      <option>Q</option>
+                      <option>H</option>
+                    </select>
+                    <div class="container-fluid">
+                      <h2></h2>
+                      <div class="panel panel-default">
+                        <div class="panel-body">
+                          <img class="img-responsive" ng-src="{{qr}}"  width="500" height="500"/>
+                        </div>
+                      </div>
+                    </div>
               </div>
             </div>
           </div>
           <div class="container-fluid">
             <div class="row">
+              </div>
               <div class="col-sm-8">
                 <div class="text-center">
                   <button type="submit" class="btn btn-default theme-accent" ng-click="getQR()">Generate!</button>
                 </div>
               </div>
               <div class="col-sm-4">
-                <div class="text-center">
+                <div class="text-center" ng-if="avaiableQR">
                   <button class="btn btn-default theme-accent" ng-click="download()">Download!</button>
-                  <a href="{{qr}}" onclick="prepHref(this)" download></a>
+                  <a href="{{qr}}"  onclick="prepHref(this)" download></a>
                 </div>
               </div>
             </div>
