@@ -87,7 +87,7 @@ angular.module('urlShortener')
         return {
 
             //send the register info to the server
-            generateQR: function (qrUrl, qrFname, qrLname, qrEmail, qrPhone, qrCompany, qrStreet, qrZip, qrCity, qrCountry, callbackSuccess) {
+            generateQR: function (qrUrl, qrFname, qrLname, qrEmail, qrPhone, qrCompany, qrStreet, qrZip, qrCity, qrCountry, qrLevel, callbackSuccess) {
                 $http({
                     method: 'GET',
                     url: '/qr',
@@ -102,7 +102,8 @@ angular.module('urlShortener')
                         'qrStreet': qrStreet,
                         'qrZip': qrZip,
                         'qrCity': qrCity,
-                        'qrCountry': qrCountry
+                        'qrCountry': qrCountry,
+                        'qrLevel': qrLevel
                     }
                 }).success(function (data) {
                     callbackSuccess(data);

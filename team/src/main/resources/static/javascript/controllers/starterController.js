@@ -17,6 +17,7 @@ angular.module('urlShortener')
         $scope.qrZip = "";
         $scope.qrCity = "";
         $scope.qrCountry = "";
+        $scope.qrLevel = "";
 
         // FEEDBACK MESSAGES
 
@@ -45,6 +46,7 @@ angular.module('urlShortener')
 
         // show the vcard panel
         $scope.showVcard = function () {
+            $scope.qr = "https://66.media.tumblr.com/44e89309ea155b3be1213e64cc872f2a/tumblr_n0wqfhEW9K1sghdp8o1_400.gif";
             $scope.wantVcard = true;
         };
 
@@ -83,6 +85,7 @@ angular.module('urlShortener')
             $scope.qrZip = document.getElementById('zipCode').value;
             $scope.qrCity = document.getElementById('city').value;
             $scope.qrCountry = document.getElementById('country').value;
+            $scope.qrLevel = document.getElementById('correctionLevel').value;
 
             qrGenerator.generateQR($scope.successMsg,
                 $scope.qrFName,
@@ -93,15 +96,15 @@ angular.module('urlShortener')
                 $scope.qrStreet,
                 $scope.qrZip,
                 $scope.qrCity,
-                $scope.qrCountry, function (urlQR) {
-
-                $scope.qr = urlQR;
-                $scope.avaiableQR = true;
+                $scope.qrCountry,
+                $scope.qrLevel, function (urlQR) {
+                    $scope.qr = urlQR;
+                    $scope.avaiableQR = true;
             });
         };
 
         $scope.download = function () {
-            if (avaiableQR == true) {
+            if ($scope.avaiableQR == true) {
                 var link = document.createElement('a');
                 link.href = $scope.qr;
                 link.download = 'qrCode.jpg';

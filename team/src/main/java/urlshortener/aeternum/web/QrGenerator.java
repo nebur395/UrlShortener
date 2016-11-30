@@ -21,7 +21,7 @@ import java.util.Date;
 
 @RestController
 public class QrGenerator {
-    private String infoUrl, infoName, infoEmail, infoPhone,infoCompany,infoAdress;
+    private String infoUrl, infoName, infoEmail, infoPhone,infoCompany,infoAdress, infoLevel;
     private String vCardText, urlVcard;
 
     private static final Logger LOG = LoggerFactory
@@ -71,6 +71,9 @@ public class QrGenerator {
         // Final text for Vcard
         vCardText += "REV:" + getCurrentTimeStamp() + "\r\n" + "END:VCARD";
 
+        // Taking the correction level selected by the user
+        infoLevel = request.getHeader("qrLevel");
+
         // Enconding of Vcard as an URL object
         try {
             urlVcard = URLEncoder.encode(vCardText, "UTF-8");
@@ -79,11 +82,11 @@ public class QrGenerator {
 
         }
 
-        Response response = client.target("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl="
+        Response response = client.target("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chld=" + infoLevel +"&chl="
             + urlVcard).request().get();
 
         if(response.getStatus() == 200){
-            String qrCode = "\"https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=" + urlVcard + "\"";
+            String qrCode = "\"https://chart.googleapis.com/chart?chs=500x500&cht=qr&chld=" + infoLevel +"&chl=" + urlVcard + "\"";
             LOG.info("QR code generated");
             return new ResponseEntity<String>(qrCode, HttpStatus.CREATED);
         }else{
