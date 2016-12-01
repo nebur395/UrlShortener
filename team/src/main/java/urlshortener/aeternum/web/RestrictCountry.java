@@ -1,8 +1,6 @@
 package urlshortener.aeternum.web;
 
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +34,9 @@ public class RestrictCountry {
 
         //Create JSON object and add both lists
         JSONObject obj = new JSONObject();
-        try {
-            obj.put("unblockList", unblockedCountries);
-            obj.put("blockList", blockedCountries);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        obj.put("unblockList", unblockedCountries);
+        obj.put("blockList", blockedCountries);
+
 
         return new ResponseEntity<>(obj, HttpStatus.CREATED);
     }
