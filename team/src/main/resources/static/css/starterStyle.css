@@ -7,3 +7,38 @@
   text-align: center;
   margin: 1%;
 }
+
+#starterStyle #vCardForm{
+  margin-top: 3%;
+  background-color: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0 0 10px 10px rgba(77, 77, 77, 0.30);
+  padding: 15px 40px;
+}
+
+#starterStyle h2 {
+  font-size: 110%;
+  font-weight: 600;
+}
+
+#starterStyle #generateVCardButton {
+  margin-top: 4%;
+}
+
+#starterStyle #qrCodeImg {
+  margin-top: 4%;
+  box-shadow: 0 0 10px 10px rgba(123, 31, 162, 0.30);
+  padding: 0;
+}
+
+#starterStyle #downloadButton {
+  text-align: center;
+  margin-top: 5%;
+}
+
+@media only screen and (max-width: 767px) {
+  #starterStyle #generateVCardButton {
+    margin-top:0;
+    text-align: center;
+  }
+}

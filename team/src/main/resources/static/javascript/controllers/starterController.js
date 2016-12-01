@@ -2,7 +2,7 @@ angular.module('urlShortener')
 
     .controller('starterCtrl', ['$scope', '$state', 'urlShortener', 'qrGenerator', function ($scope, $state, urlShortener, qrGenerator) {
 
-        $scope.url = "";
+        $scope.url = "";    // initial url input form
         $scope.qr = "";
         $scope.avaiableQR = false;
         $scope.wantVcard = false;
@@ -17,7 +17,7 @@ angular.module('urlShortener')
         $scope.qrZip = "";
         $scope.qrCity = "";
         $scope.qrCountry = "";
-        $scope.qrLevel = "";
+        $scope.qrLevel = "L";
 
         // FEEDBACK MESSAGES
 
@@ -74,19 +74,16 @@ angular.module('urlShortener')
             urlShortener.shortURL(url, showSuccess, showError);
         };
 
+        $scope.vCardForm = function ()  {
+            if ($scope.generateQRandVcard) {
+                $scope.getQR();
+            } else {
+                $scope.download();
+            }
+        };
+
         // read values from the textFields and generate Qr
         $scope.getQR = function () {
-            $scope.qrFName = document.getElementById('firstName').value;
-            $scope.qrLName = document.getElementById('lastName').value;
-            $scope.qrEmail = document.getElementById('email').value;
-            $scope.qrPhone = document.getElementById('phone').value;
-            $scope.qrCompany = document.getElementById('company').value;
-            $scope.qrStreet = document.getElementById('street').value;
-            $scope.qrZip = document.getElementById('zipCode').value;
-            $scope.qrCity = document.getElementById('city').value;
-            $scope.qrCountry = document.getElementById('country').value;
-            $scope.qrLevel = document.getElementById('correctionLevel').value;
-
             qrGenerator.generateQR($scope.successMsg,
                 $scope.qrFName,
                 $scope.qrLName,
