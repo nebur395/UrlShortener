@@ -9,7 +9,7 @@
 }
 
 #starterStyle #vCardForm{
-  margin-top: 3%;
+  margin: 3% 0;
   background-color: #ffffff;
   border-radius: 25px;
   box-shadow: 0 0 10px 10px rgba(77, 77, 77, 0.30);
