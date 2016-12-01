@@ -32,6 +32,7 @@ dependencies {
     compile 'org.webjars:bootstrap:3.3.5'
     compile 'org.webjars:jquery:2.1.4'
     compile 'org.glassfish.jersey.core:jersey-server:2.24'
+    compile 'org.json:json:20090211'
 
     // Provides methods to generate VCards
     //compile 'com.googlecode.ez-vcard:ez-vcard:0.10.0'
