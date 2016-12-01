@@ -44,27 +44,27 @@ public class QrGenerator {
 
         // Additions to Vcard
         if (!request.getHeader("qrUrl").equals("")){
-            infoUrl = "URL:" + request.getHeader("qrUrl");
+            infoUrl = "URL:" + request.getHeader("qrUrl")+"\n";
             vCardText += infoUrl;
         }
         if ((!request.getHeader("qrFname").equals("")) || (!request.getHeader("qrLname").equals(""))){
-            infoName = "FN:" + request.getHeader("qrFname") + " " + request.getHeader("qrLname");
+            infoName = "FN:" + request.getHeader("qrFname") + " " + request.getHeader("qrLname")+"\n";
             vCardText += infoName;
         }
         if (!request.getHeader("qrEmail").equals("")){
-            infoEmail = "EMAIL:" + request.getHeader("qrEmail");
+            infoEmail = "EMAIL:" + request.getHeader("qrEmail")+"\n";
             vCardText += infoEmail;
         }
         if (!request.getHeader("qrPhone").equals("")){
-            infoPhone = "TEL:" + request.getHeader("qrPhone");
+            infoPhone = "TEL;TYPE=PREF:" + request.getHeader("qrPhone")+"\n";
             vCardText += infoPhone;
         }
         if (!request.getHeader("qrCompany").equals("")){
-            infoCompany =  "ORG:" + request.getHeader("qrCompany");
+            infoCompany =  "ORG:" + request.getHeader("qrCompany")+"\n";
             vCardText += infoCompany;
         }
         if ((!request.getHeader("qrStreet").equals("")) || (!request.getHeader("qrZip").equals("")) || (!request.getHeader("qrCity").equals("")) || (!request.getHeader("qrCountry").equals(""))) {
-            infoAdress = "ADR:" + request.getHeader("qrStreet") + ";" + request.getHeader("qrZip") + ";" + request.getHeader("qrCity") + ";" + request.getHeader("qrCountry");
+            infoAdress = "ADR:" + request.getHeader("qrStreet") + ";" + request.getHeader("qrCity") + ";" + request.getHeader("qrZip") + ";" + request.getHeader("qrCountry") +"\n";
             vCardText += infoAdress;
         }
 
