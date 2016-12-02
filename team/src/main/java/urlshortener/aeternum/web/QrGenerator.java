@@ -21,7 +21,7 @@ import java.util.Date;
 
 @RestController
 public class QrGenerator {
-    private String infoUrl, infoName, infoEmail, infoPhone,infoCompany,infoAdress;
+    private String infoUrl, infoName, infoEmail, infoPhone,infoCompany,infoAdress, infoLevel;
     private String vCardText, urlVcard;
 
     private static final Logger LOG = LoggerFactory
@@ -45,32 +45,35 @@ public class QrGenerator {
         // Additions to Vcard
 
         if (!request.getHeader("qrUrl").equals("")){
-            infoUrl = "URL:" + request.getHeader("qrUrl");
+            infoUrl = "URL:" + request.getHeader("qrUrl")+"\n";
             vCardText += infoUrl;
         }
         if ((!request.getHeader("qrFname").equals("")) || (!request.getHeader("qrLname").equals(""))){
-            infoName = "FN:" + request.getHeader("qrFname") + " " + request.getHeader("qrLname");
+            infoName = "FN:" + request.getHeader("qrFname") + " " + request.getHeader("qrLname")+"\n";
             vCardText += infoName;
         }
         if (!request.getHeader("qrEmail").equals("")){
-            infoEmail = "EMAIL:" + request.getHeader("qrEmail");
+            infoEmail = "EMAIL:" + request.getHeader("qrEmail")+"\n";
             vCardText += infoEmail;
         }
         if (!request.getHeader("qrPhone").equals("")){
-            infoPhone = "TEL:" + request.getHeader("qrPhone");
+            infoPhone = "TEL;TYPE=PREF:" + request.getHeader("qrPhone")+"\n";
             vCardText += infoPhone;
         }
         if (!request.getHeader("qrCompany").equals("")){
-            infoCompany =  "ORG:" + request.getHeader("qrCompany");
+            infoCompany =  "ORG:" + request.getHeader("qrCompany")+"\n";
             vCardText += infoCompany;
         }
         if ((!request.getHeader("qrStreet").equals("")) || (!request.getHeader("qrZip").equals("")) || (!request.getHeader("qrCity").equals("")) || (!request.getHeader("qrCountry").equals(""))) {
-            infoAdress = "ADR:" + request.getHeader("qrStreet") + ";" + request.getHeader("qrZip") + ";" + request.getHeader("qrCity") + ";" + request.getHeader("qrCountry");
+            infoAdress = "ADR:" + request.getHeader("qrStreet") + ";" + request.getHeader("qrCity") + ";" + request.getHeader("qrZip") + ";" + request.getHeader("qrCountry") +"\n";
             vCardText += infoAdress;
         }
 
         // Final text for Vcard
         vCardText += "REV:" + getCurrentTimeStamp() + "\r\n" + "END:VCARD";
+
+        // Taking the correction level selected by the user
+        infoLevel = request.getHeader("qrLevel");
 
         // Enconding of Vcard as an URL object
         try {
@@ -80,11 +83,11 @@ public class QrGenerator {
 
         }
 
-        Response response = client.target("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl="
+        Response response = client.target("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chld=" + infoLevel +"&chl="
             + urlVcard).request().get();
 
         if(response.getStatus() == 200){
-            String qrCode = "\"https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=" + urlVcard + "\"";
+            String qrCode = "\"https://chart.googleapis.com/chart?chs=500x500&cht=qr&chld=" + infoLevel +"&chl=" + urlVcard + "\"";
             LOG.info("QR code generated");
             return new ResponseEntity<String>(qrCode, HttpStatus.CREATED);
         }else{

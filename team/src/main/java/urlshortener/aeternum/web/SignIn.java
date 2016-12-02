@@ -33,7 +33,7 @@ public class SignIn {
     @Autowired
     protected UserRepository userRepository;
 
-    private String key;
+    private static String key;
 
     /**
      * Creates the key once, it will be used for all the users. DESDE DONDE SE LLAMA?
@@ -79,7 +79,7 @@ public class SignIn {
 
                     HttpHeaders headers = new HttpHeaders();
                     headers.add("Authorization", builder.compact());
-                    return new ResponseEntity<String>("Exito en login",headers, HttpStatus.CREATED);
+                    return new ResponseEntity<String>("\"Exito en login\"",headers, HttpStatus.CREATED);
                 }
                 else {
                     LOG.info("Contraseña incorrecta");
@@ -92,7 +92,7 @@ public class SignIn {
     /**
      * Returns true if the token is valid
      */
-    public boolean verify(String jwt) {
+    public static boolean verify(String jwt) {
         try {
             Claims claims = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(key)).parseClaimsJws(jwt).getBody();

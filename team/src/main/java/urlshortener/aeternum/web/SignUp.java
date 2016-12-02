@@ -7,9 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import urlshortener.common.domain.User;
 import urlshortener.common.repository.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 
 @RestController
 public class SignUp {
@@ -25,14 +27,30 @@ public class SignUp {
                                            @RequestParam("pass") String pass,
                                            @RequestParam("repass") String repass,
                                            HttpServletRequest request) {
-        // TODO
-        if (true) {
-            LOG.info("System statistics");
-            return new ResponseEntity<String>("\"Usuario creado correctamente\"", HttpStatus
-                .CREATED);
+
+        if ((username == null) || (username.trim().equals(""))) {
+            LOG.info("Invalid username.");
+            return new ResponseEntity<String>("\"Invalid username.\"",HttpStatus.BAD_REQUEST);
+        } else if((pass == null) || (pass.trim().equals(""))) {
+            LOG.info("Invalid password.");
+            return new ResponseEntity<String>("\"Invalid password.\"",HttpStatus.BAD_REQUEST);
+        } else if((repass == null) || !repass.equals(pass)) {
+            LOG.info("Passwords doesn't match.");
+            return new ResponseEntity<String>("\"Passwords doesn't match.\"",HttpStatus.BAD_REQUEST);
+        } else if((email == null) || (email.trim().equals(""))) {
+            LOG.info("Invalid email.");
+            return new ResponseEntity<String>("\"Invalid email.\"",HttpStatus.BAD_REQUEST);
         } else {
-            LOG.info("Error to get the system statistics");
-            return new ResponseEntity<String>("\"Usuario no creado\"",HttpStatus.BAD_REQUEST);
+            // check if user exists
+            if (userRepository.findByName(username) != null) {
+                LOG.info("User already exists.");
+                return new ResponseEntity<String>("\"User already exists.\"",HttpStatus.BAD_REQUEST);
+            } else {
+                User user = new User(username, pass, email, true, new Date(System.currentTimeMillis()));
+                user = userRepository.save(user);
+                LOG.info(user!=null?"["+user.getName()+"] saved":"["+user.getName()+"] was not saved");
+                return new ResponseEntity<String>("\"User successfully created.\"",HttpStatus.CREATED);
+            }
         }
     }
 }
