@@ -104,7 +104,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @PostConstruct
     public void meterUsuario() {
-        User u = new User("admin", "admin", "gmail", true, new Date(2000,12,12));
+        User u = new User("admin", "admin", "gmail", true, new Date(System.currentTimeMillis()));
         save(u);
         log.info("Metido usuario admin");
     }

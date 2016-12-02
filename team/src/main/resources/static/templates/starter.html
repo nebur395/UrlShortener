@@ -18,93 +18,87 @@
       <!--{{safe}}-->
       <strong>&#10004</strong> <a target='_blank' ng-href="localhost:8080/unsafePage">Pagina</a>
     </div>
-
-    <div ng-if="success" class="text-center">
-      <button type="submit" class="btn btn-default theme-accent" ng-click="showVcard()">Get QR!</button>
-    </div>
-
-    <form role="form">
-    <div class="container-fluid" ng-if="wantVcard">
-      <h1>Create your Qr or Vcard!</h1>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <p>Here you can fill all the information about yourself that you want to be included in the generated QR code. Note that no one of the extra fields is mandatory.</p>
-
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-4">
-                  <div class="form-group">
-                    <label for="url">URL:</label>
-                    <input type="uri" class="form-control" id="url" value="{{successMsg}}" disabled>
-                  </div>
-                  <div class="form-group">
-                    <label for="firstName">First name:</label>
-                    <input type="text" class="form-control"  id="firstName">
-                  </div>
-                  <div class="form-group">
-                    <label for="lastName">Last name:</label>
-                    <input type="text" class="form-control"  id="lastName">
-                  </div>
-                  <div class="form-group">
-                    <label for="email">E-mail:</label>
-                    <input type="email" class="form-control" id="email">
-                  </div>
-                  <div class="form-group">
-                    <label for="phone">Phone:</label>
-                    <input type="phone" class="form-control"  id="phone">
-                  </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="company">Company/Organisation:</label>
-                  <input type="text" class="form-control"  id="company">
-                </div>
-                <div class="form-group">
-                  <label for="street">Street:</label>
-                  <input type="text" class="form-control"  id="street">
-                </div>
-                <div class="form-group">
-                  <label for="zipCode">Zip code:</label>
-                  <input type="number" min="0" class="form-control"  id="zipCode">
-                </div>
-                <div class="form-group">
-                  <label for="city">City:</label>
-                  <input type="text" class="form-control"  id="city">
-                </div>
-                <div class="form-group">
-                  <label for="country">Country:</label>
-                  <input type="text" class="form-control"  id="country">
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <img class="img-responsive" ng-src="{{qr}}" ng-if="avaiableQR"  width="500" height="500"/>
-              </div>
-            </div>
-          </div>
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-8">
-                <div class="text-center">
-                  <button type="submit" class="btn btn-default theme-accent" ng-click="getQR()">Generate!</button>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="text-center">
-                  <button class="btn btn-default theme-accent" ng-click="download()">Download!</button>
-                  <a href="{{qr}}" onclick="prepHref(this)" download></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-    </form>
     <!-- this div will show only when an error occurs -->
     <div ng-if="error" class="alert alert-danger feedbackMessages">
       <strong>&#10008</strong> {{errorMsg}}
     </div>
+
+    <div ng-if="success" class="text-center">
+      <button class="btn btn-default theme-accent" ng-click="showVcard()">Create your QR code or Vcard</button>
+    </div>
+
+    <form role="form" ng-if="wantVcard" id="vCardForm" ng-submit="vCardForm()">
+      <h2 class="text-center">Here you can fill all the information about yourself that you want to be included in
+        the generated QR code. Note that no one of the extra fields is mandatory.</h2>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group col-sm-6">
+            <label for="firstName">First name:</label>
+            <input type="text" class="form-control" id="firstName" ng-model="$parent.qrFName">
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="lastName">Last name:</label>
+            <input type="text" class="form-control" id="lastName" ng-model="$parent.qrLName">
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="email">E-mail:</label>
+            <input type="email" class="form-control" id="email" ng-model="$parent.qrEmail">
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="phone">Phone:</label>
+            <input type="tel" class="form-control" id="phone" ng-model="$parent.qrPhone">
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="company">Company/Organisation:</label>
+            <input type="text" class="form-control" id="company" ng-model="$parent.qrCompany">
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="street">Street:</label>
+            <input type="text" class="form-control" id="street" ng-model="$parent.qrStreet">
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="zipCode">Zip code:</label>
+            <input type="number" min="0" class="form-control" id="zipCode" ng-model="$parent.qrZip">
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="city">City:</label>
+            <input type="text" class="form-control" id="city" ng-model="$parent.qrCity">
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="country">Country:</label>
+            <input type="text" class="form-control" id="country" ng-model="$parent.qrCountry">
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="correctionLevel">Correction level:</label>
+            <select class="form-control" id="correctionLevel" ng-model="$parent.qrLevel">
+              <option>L</option>
+              <option>M</option>
+              <option>Q</option>
+              <option>H</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group col-sm-8">
+            <label for="url">URL:</label>
+            <input type="url" class="form-control" id="url" value="{{successMsg}}" disabled>
+          </div>
+          <div id="generateVCardButton" class="col-sm-4">
+            <button type="submit" class="btn btn-default theme-accent" ng-click="$parent.generateQRandVcard=true">
+              Generate!</button>
+          </div>
+          <img class="img-responsive col-xs-offset-3 col-xs-6" ng-src="{{$parent.qr}}" id="qrCodeImg"/>
+        </div>
+      </div>
+
+      <div id="downloadButton" ng-if="avaiableQR">
+        <button type="submit" class="btn btn-default theme-accent"
+                ng-click="$parent.$parent.generateQRandVcard=false">Download</button>
+        <a href="{{qr}}" onclick="prepHref(this)" download></a>
+      </div>
+    </form>
 
   </div>
 </div>

@@ -2,7 +2,7 @@ angular.module('urlShortener')
 
     .controller('starterCtrl', ['$scope', '$state', 'urlShortener', 'qrGenerator', function ($scope, $state, urlShortener, qrGenerator) {
 
-        $scope.url = "";
+        $scope.url = "";    // initial url input form
         $scope.qr = "";
         $scope.avaiableQR = false;
         $scope.wantVcard = false;
@@ -17,6 +17,7 @@ angular.module('urlShortener')
         $scope.qrZip = "";
         $scope.qrCity = "";
         $scope.qrCountry = "";
+        $scope.qrLevel = "L";
 
         // FEEDBACK MESSAGES
 
@@ -47,6 +48,7 @@ angular.module('urlShortener')
 
         // show the vcard panel
         $scope.showVcard = function () {
+            $scope.qr = "https://66.media.tumblr.com/44e89309ea155b3be1213e64cc872f2a/tumblr_n0wqfhEW9K1sghdp8o1_400.gif";
             $scope.wantVcard = true;
         };
 
@@ -75,20 +77,20 @@ angular.module('urlShortener')
             urlShortener.shortURL(url, showSuccess, showError);
         };
 
+<<<<<<< HEAD
 
+=======
+        $scope.vCardForm = function ()  {
+            if ($scope.generateQRandVcard) {
+                $scope.getQR();
+            } else {
+                $scope.download();
+            }
+        };
+>>>>>>> 4543fed73a9cdbb213ec69b8cb3db3875d0ab6e6
 
         // read values from the textFields and generate Qr
         $scope.getQR = function () {
-            $scope.qrFName = document.getElementById('firstName').value;
-            $scope.qrLName = document.getElementById('lastName').value;
-            $scope.qrEmail = document.getElementById('email').value;
-            $scope.qrPhone = document.getElementById('phone').value;
-            $scope.qrCompany = document.getElementById('company').value;
-            $scope.qrStreet = document.getElementById('street').value;
-            $scope.qrZip = document.getElementById('zipCode').value;
-            $scope.qrCity = document.getElementById('city').value;
-            $scope.qrCountry = document.getElementById('country').value;
-
             qrGenerator.generateQR($scope.successMsg,
                 $scope.qrFName,
                 $scope.qrLName,
@@ -98,15 +100,15 @@ angular.module('urlShortener')
                 $scope.qrStreet,
                 $scope.qrZip,
                 $scope.qrCity,
-                $scope.qrCountry, function (urlQR) {
-
-                $scope.qr = urlQR;
-                $scope.avaiableQR = true;
+                $scope.qrCountry,
+                $scope.qrLevel, function (urlQR) {
+                    $scope.qr = urlQR;
+                    $scope.avaiableQR = true;
             });
         };
 
         $scope.download = function () {
-            if (avaiableQR == true) {
+            if ($scope.avaiableQR == true) {
                 var link = document.createElement('a');
                 link.href = $scope.qr;
                 link.download = 'qrCode.jpg';
