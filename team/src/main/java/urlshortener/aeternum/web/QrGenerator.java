@@ -55,7 +55,7 @@ public class QrGenerator {
             infoEmail = "EMAIL:" + request.getHeader("qrEmail")+"\n";
             vCardText += infoEmail;
         }
-        if (!request.getHeader("qrPhone").equals("")){
+        if (!request.getHeader("qrPhone").equals("") && !request.getHeader("qrPhone").toString().equals("null")){
             infoPhone = "TEL;TYPE=PREF:" + request.getHeader("qrPhone")+"\n";
             vCardText += infoPhone;
         }
@@ -63,11 +63,15 @@ public class QrGenerator {
             infoCompany =  "ORG:" + request.getHeader("qrCompany")+"\n";
             vCardText += infoCompany;
         }
-        if ((!request.getHeader("qrStreet").equals("")) || (!request.getHeader("qrZip").equals("")) || (!request.getHeader("qrCity").equals("")) || (!request.getHeader("qrCountry").equals(""))) {
+        if ((!request.getHeader("qrStreet").equals("")) || (!request.getHeader("qrZip").equals("") && !request.getHeader("qrZip").toString().equals("null")) || (!request.getHeader("qrCity").equals("")) || (!request.getHeader("qrCountry").equals(""))) {
             infoAdress = "ADR:" + request.getHeader("qrStreet") + ";" + request.getHeader("qrCity") + ";" + request.getHeader("qrZip") + ";" + request.getHeader("qrCountry") +"\n";
             vCardText += infoAdress;
         }
 
+        LOG.info(request.getHeader("qrStreet"));
+        LOG.info(request.getHeader("qrZip"));
+        LOG.info(request.getHeader("qrCity"));
+        LOG.info(request.getHeader("qrCountry"));
         // Final text for Vcard
         vCardText += "REV:" + getCurrentTimeStamp() + "\r\n" + "END:VCARD";
 

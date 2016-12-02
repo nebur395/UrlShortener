@@ -74,14 +74,6 @@ angular.module('urlShortener')
             urlShortener.shortURL(url, showSuccess, showError);
         };
 
-        $scope.vCardForm = function ()  {
-            if ($scope.generateQRandVcard) {
-                $scope.getQR();
-            } else {
-                $scope.download();
-            }
-        };
-
         // read values from the textFields and generate Qr
         $scope.getQR = function () {
             qrGenerator.generateQR($scope.successMsg,
