@@ -3,14 +3,41 @@ angular.module('urlShortener')
     // 'auth' service manage the authentication function of the page with the server
     .factory('auth', function ($state, $http, $httpParamSerializer, $base64) {
 
+        var session = undefined;
+        var _identity = undefined,
+            _authenticated = false;
+
         return {
             //return true if the user is authenticated
             isAuthenticated: function () {
-                return false;
+                if (_authenticated) {
+                    return _authenticated;
+                } else {
+                    var tmp = angular.fromJson(localStorage.sessionJWT);
+                    if (tmp !== undefined) {
+                        this.authenticate(tmp);
+                        return _authenticated;
+                    } else {
+                        return false;
+                    }
+                }
+            },
+            //authenticate the [identity] user
+            authenticate: function (jwt) {
+                session = jwt;
+                _authenticated = jwt !== undefined;
+                localStorage.sessionJWT = angular.toJson(session);
+            },
+            //logout function
+            logout: function () {
+                session = undefined;
+                _authenticated = false;
+                localStorage.removeItem("sessionJWT");
+                $state.go('starter');
             },
 
             //logout function
-            logout: function () {
+            logout2: function () {
                 $http({
                     method: 'POST',
                     url: '/logout',
@@ -32,7 +59,8 @@ angular.module('urlShortener')
                         'user': user,
                         'pass': password
                     }
-                }).success(function (data) {
+                }).success(function (data, status, headers) {
+                    that.authenticate(headers().authorization);
                     $state.go('starter');
 
                 }).error(function (data) {
@@ -80,7 +108,6 @@ angular.module('urlShortener')
             }
         };
     })
-
 
     // 'qrGenerator' service manage the QR generator
     .factory('qrGenerator', function ($state, $http) {
@@ -133,7 +160,7 @@ angular.module('urlShortener')
                 });
             },
 
-            //get the statistics of the system
+            //get the ADMIN statistics of the system
             getAdminStats: function (callbackSuccess,callbackError) {
                 $http({
                     method: 'GET',

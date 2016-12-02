@@ -79,7 +79,7 @@ public class SignIn {
 
                     HttpHeaders headers = new HttpHeaders();
                     headers.add("Authorization", builder.compact());
-                    return new ResponseEntity<String>("Exito en login",headers, HttpStatus.CREATED);
+                    return new ResponseEntity<String>("\"Exito en login\"",headers, HttpStatus.CREATED);
                 }
                 else {
                     LOG.info("Contraseña incorrecta");
