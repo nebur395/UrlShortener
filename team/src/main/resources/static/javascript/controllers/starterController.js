@@ -25,6 +25,7 @@ angular.module('urlShortener')
         $scope.success = false;
         $scope.successMsg = "";
         $scope.errorMsg = "";
+        $scope.safe = true;
 
         // hide the error mensage
         $scope.hideError = function () {
@@ -38,9 +39,10 @@ angular.module('urlShortener')
         };
 
         // show the success mensage
-        var showSuccess = function (message) {
+        var showSuccess = function (message, safe) {
             $scope.successMsg = message;
             $scope.success = true;
+            $scope.safe = safe;
         };
 
         // show the vcard panel
@@ -67,10 +69,13 @@ angular.module('urlShortener')
 
         $scope.shortURL = function () {
             var url = {
-                url: $scope.url
+                url: $scope.url,
+                safe: $scope.safe
             };
             urlShortener.shortURL(url, showSuccess, showError);
         };
+
+
 
         // read values from the textFields and generate Qr
         $scope.getQR = function () {

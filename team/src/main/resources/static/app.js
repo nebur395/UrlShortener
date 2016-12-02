@@ -30,6 +30,13 @@ angular.module('urlShortener', ['ui.router', 'base64'])
                 url: "/viewStatistics",
                 templateUrl: "templates/viewStatistics.html",
                 controller: "viewStatisticsCtrl"
+            })
+
+            //unsafe information
+            .state('unsafePage', {
+                url: "/unsafePage",
+                templateUrl: "templates/unsafePage.html",
+                controller: "unsafePageCtrl"
             });
 
         $urlRouterProvider.otherwise('starter');

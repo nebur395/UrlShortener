@@ -14,8 +14,13 @@ public class SafeBrowsing {
     private static final Logger LOG = LoggerFactory.getLogger(SafeBrowsing.class);
 
     private boolean isSafe;
+    private static Matches m;
 
     public SafeBrowsing() {}
+
+    public static Matches getM() {
+        return m;
+    }
 
     public boolean safe(String url)  {
 
@@ -41,9 +46,10 @@ public class SafeBrowsing {
         HttpEntity request= new HttpEntity(jsonUnion, headers );
         //System.out.println(jsonUnion);
         ResponseEntity<Matches> tm = restTemplate.exchange(peticionSafe, HttpMethod.POST, request, Matches.class);
+        //Guardarlo asi?
+        m = new Matches(tm.getBody().getMatches());
 
         if(tm.getStatusCodeValue() == 200) {
-            System.out.println(tm.getBody());
             if(tm.getBody().getMatches() == null) {
                 LOG.info("La URL " + url + " es segura");
                 isSafe = true;

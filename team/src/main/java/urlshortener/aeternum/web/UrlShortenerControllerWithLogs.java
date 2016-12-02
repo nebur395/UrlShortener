@@ -57,6 +57,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         //st.setAllUrls(allUrls);
 
         ShortURL miShort = r.getBody();
+        miShort.setSafe(isSafe);
         shortURLRepository.mark(miShort, isSafe);
         return r;
 	}

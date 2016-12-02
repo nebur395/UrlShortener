@@ -73,7 +73,28 @@ angular.module('urlShortener')
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 }).success(function (data) {
-                    callbackSuccess(data.uri);
+                    callbackSuccess(data.uri, data.safe);
+                }).error(function (data) {
+                    callbackError('ERROR');
+                });
+            }
+        };
+    })
+
+    //Indicar que vaya a unsafeController?
+    .factory('getInformationPage', function ($state, $http, $httpParamSerializer) {
+        return {
+
+            //send the register info to the server
+            getInformationPage: function (url, callbackSuccess,callbackError) {
+                $http({
+                    method: 'GET',
+                    url: '/unsafePage',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) { //Objeto Matches en data
+                    callbackSuccess(data);
                 }).error(function (data) {
                     callbackError('ERROR');
                 });
