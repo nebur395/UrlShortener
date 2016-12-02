@@ -1,10 +1,9 @@
 angular.module('urlShortener')
 
     // 'auth' service manage the authentication function of the page with the server
-    .factory('auth', function ($state, $http, $httpParamSerializer, $base64) {
+    .factory('auth', function ($state, $http, $httpParamSerializer) {
 
-        var session = undefined;
-        var _identity = undefined,
+        var session = undefined,
             _authenticated = false;
 
         return {
@@ -22,12 +21,18 @@ angular.module('urlShortener')
                     }
                 }
             },
+
             //authenticate the [identity] user
             authenticate: function (jwt) {
                 session = jwt;
                 _authenticated = jwt !== undefined;
                 localStorage.sessionJWT = angular.toJson(session);
             },
+
+            getSession: function () {
+                return session;
+            },
+
             //logout function
             logout: function () {
                 session = undefined;
@@ -141,7 +146,7 @@ angular.module('urlShortener')
     })
 
     // 'viewStatistics' service manage the view statistics functionallity
-    .factory('viewStatistics', function ($state, $http, $httpParamSerializer) {
+    .factory('viewStatistics', function ($state, $http, $httpParamSerializer, auth) {
 
         return {
 
@@ -166,7 +171,8 @@ angular.module('urlShortener')
                     method: 'GET',
                     url: '/viewStatistics/admin',
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': auth.getSession()
                     }
                 }).success(function (data) {
                     callbackSuccess(data, data.statsVisibility);
@@ -182,7 +188,8 @@ angular.module('urlShortener')
                     url: '/viewStatistics',
                     data: $httpParamSerializer(statsVisibility),
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': auth.getSession()
                     }
                 }).success(function (data) {
                     callbackSuccess(data);

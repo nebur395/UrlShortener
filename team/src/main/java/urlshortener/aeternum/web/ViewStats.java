@@ -67,8 +67,11 @@ public class ViewStats {
     }
 
     @RequestMapping(value = "/viewStatistics/admin", method = RequestMethod.GET)
-    public ResponseEntity<Stats> getStatsAdmin() {
-        if (true) { // TODO comprobar en el header si es un admin
+    public ResponseEntity<Stats> getStatsAdmin(HttpServletRequest request) {
+
+        String sessionJWT = request.getHeader("Authorization");
+
+        if (SignIn.verify(sessionJWT)) {
             Long upTime = getUpTime();
             Long totalURL = shortURLRepository.count();
             Long totalUser = userRepository.count();
@@ -108,7 +111,10 @@ public class ViewStats {
                                                      @RequestParam("memoryUsed") boolean memoryUsed,
                                                      @RequestParam("memoryAvailable") boolean memoryAvailable,
                                                      HttpServletRequest request) {
-        if (true) { // TODO comprobar en el request si es un admin
+
+        String sessionJWT = request.getHeader("Authorization");
+
+        if (SignIn.verify(sessionJWT)) {
             upTimeVisibility = upTime;
             totalURLVisibility = totalURL;
             totalUserVisibility = totalUser;
