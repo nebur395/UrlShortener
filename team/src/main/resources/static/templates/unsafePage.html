@@ -1,14 +1,22 @@
 <div id="unsafePageStyle">
   <div class="container">
-    <h1 id="firstContent">Information of the page</h1>
+    <h1 id="firstContent">Information of the unsafe page</h1>
 
-    <p>Probando, probando</p>
+    <!-- this div will show only when the save operation has been a success -->
+    <div ng-if="success" class="alert alert-success feedbackMessages">
+      <strong>&#10004</strong> <a target='_blank' ng-href="{{successMsg}}">{{successMsg}}</a>
+    </div>
+
+    <hr>
+
+    <!-- this div will show only when an error occurs -->
+    <div ng-if="error" class="alert alert-danger feedbackMessages">
+      <strong>&#10008</strong> {{errorMsg}}
+    </div>
+
+    <div ng-controller="unsafePageCtrl">
+    <strong>Information of the malicious software: </strong> {{information.listThreatTypes}}
+    <br></br>
+    <strong>Information of the affected platforms: </strong> {{information.listPlatforms}}
   </div>
-
-  <p>
-  <div> "La informacion es tal"
-
-    {{object.}}
-  </div>
-  </p>
 </div>

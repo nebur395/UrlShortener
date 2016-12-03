@@ -109,7 +109,6 @@ angular.module('urlShortener')
         };
     })
 
-    //Indicar que vaya a unsafeController?
     .factory('getInformationPage', function ($state, $http, $httpParamSerializer) {
         return {
 
@@ -121,10 +120,10 @@ angular.module('urlShortener')
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
-                }).success(function (data) { //Objeto Matches en data
+                }).success(function (data) { //Object Matches in data
                     callbackSuccess(data);
                 }).error(function (data) {
-                    callbackError('ERROR');
+                    callbackError('error getting information of unsafe page');
                 });
             }
         };
