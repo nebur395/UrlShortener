@@ -52,7 +52,6 @@ public class CountryResRepositoryImpl implements CountryResRepository {
 
     @Override
     public CountryRestriction save(CountryRestriction c) {
-        log.info("add country: "+c.getCountry());
         try {
             jdbc.update("INSERT INTO countryrestriction VALUES (?,?)",
                 c.getCountry(), c.isaccessAllowed());

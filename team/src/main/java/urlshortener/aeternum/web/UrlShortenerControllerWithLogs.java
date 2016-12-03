@@ -1,6 +1,5 @@
 package urlshortener.aeternum.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +45,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         return r;
 	}
 
-    @RequestMapping(value = "/checkRegion",
-        method = RequestMethod.GET)
+    @RequestMapping(value = "/checkRegion", method = RequestMethod.GET)
 	public ResponseEntity<Boolean> checkRegion (HttpServletRequest request){
         String ip = request.getRemoteAddr();
         Boolean regionAvaiable = new Boolean(false);
@@ -56,18 +54,15 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         //Read ip client from shortURL and obtain its location info if there is a click with this hash
         if (ip != null) {
             String country = ReadLocation.location(ip).getCountryName();
-            System.out.println("pais: "+country);
             CountryRestriction rs = countryResRepository.findCountry(country);
-            System.out.println("resticcion: "+rs);
             if(rs.isaccessAllowed()){
                 regionAvaiable = true;
-                System.out.println("Acceso permitido a la region");
-            }else System.out.println("Acceso restringido a la region");
+                logger.info("Access allowed");
+            }else{
+                logger.info("Access denied");
+            }
         }
-
-        System.out.println(regionAvaiable.toString());
-
-        return new ResponseEntity<Boolean>(regionAvaiable, HttpStatus.OK);
+        return new ResponseEntity<>(regionAvaiable, HttpStatus.OK);
     }
 
 

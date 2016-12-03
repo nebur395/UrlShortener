@@ -7,12 +7,9 @@ angular.module('urlShortener')
         $scope.unblocked = "";
         $scope.blocked = "";
         $scope.myCountry = "";
-        //    $scope.visibility = {};
         $scope.logged = function () {
             return auth.isAuthenticated();
         };
-
-        // FEEDBACK MESSAGES
 
         // feedback handling variables
         $scope.error = false;
@@ -32,24 +29,7 @@ angular.module('urlShortener')
             $scope.error = true;
         };
 
-        // show the success mensage
-        var showSuccess = function (message) {
-            $scope.successMsg = message;
-            $scope.success = true;
-        };
-
-        // hide the success mensage
-        $scope.hideSuccess = function () {
-            $scope.success = false;
-            $scope.successMsg = "";
-        };
-
         $scope.getListOfCountries = function () {
-            /*if ($scope.logged()) {
-                $scope.blockCountryF = document.getElementById('blockCountry').value;
-            } else {
-                showError('not logged');
-            }*/
             restrictAccess.getListOfCountries(function (countriesLists) {
                 $scope.countryList = countriesLists;
             },showError);
@@ -78,8 +58,4 @@ angular.module('urlShortener')
         };
 
         $scope.getListOfCountries();
-
-        /*$scope.sendVisibility = function () {
-            viewStatistics.sendVisibility($scope.visibility, showSuccess, showError);
-        }*/
     }]);

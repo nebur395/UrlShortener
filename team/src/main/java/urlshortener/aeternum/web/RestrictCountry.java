@@ -29,7 +29,6 @@ public class RestrictCountry {
      */
     @RequestMapping(value = "/restrictAccess", method = RequestMethod.GET)
     public ResponseEntity<JSONObject> getListOfCountries(HttpServletRequest request) {
-        LOG.info("Reading unblocked countries");
         List<String> unblockedCountries = countryResRepository.listCountries(true);
         List<String> blockedCountries = countryResRepository.listCountries(false);
 
@@ -37,7 +36,6 @@ public class RestrictCountry {
         JSONObject obj = new JSONObject();
         obj.put("unblockList", unblockedCountries);
         obj.put("blockList", blockedCountries);
-
 
         return new ResponseEntity<>(obj, HttpStatus.CREATED);
     }
