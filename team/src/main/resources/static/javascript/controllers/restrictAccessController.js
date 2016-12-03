@@ -57,7 +57,10 @@ angular.module('urlShortener')
 
         $scope.blockCountry = function () {
             $scope.unblocked = document.getElementById('blocking').value;
-            restrictAccess.blockCountry($scope.unblocked, function (blocked) {
+            var unblocked = {
+                unblocked: $scope.unblocked
+            };
+            restrictAccess.blockCountry(unblocked, function (blocked) {
                 $scope.result = blocked;
             },showError);
             $scope.getListOfCountries();
@@ -65,7 +68,10 @@ angular.module('urlShortener')
 
         $scope.unblockCountry = function () {
             $scope.blocked = document.getElementById('unblocking').value;
-            restrictAccess.unblockCountry($scope.blocked, function (unblocked) {
+            var blocked = {
+                blocked: $scope.blocked
+            };
+            restrictAccess.unblockCountry(blocked, function (unblocked) {
                 $scope.result = unblocked;
             },showError);
             $scope.getListOfCountries();

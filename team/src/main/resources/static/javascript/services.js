@@ -216,7 +216,7 @@ angular.module('urlShortener')
 
 
     // 'restrictAccess' service manage blocking access depending on location functionallity
-    .factory('restrictAccess', function ($state, $http) {
+    .factory('restrictAccess', function ($state, $http, $httpParamSerializer) {
 
         return {
 
@@ -238,11 +238,11 @@ angular.module('urlShortener')
             //block access from a country
            blockCountry: function (unblockCountry,callbackSuccess,callbackError) {
                 $http({
-                    method: 'GET',
+                    method: 'POST',
                     url: '/restrictAccess/blockCountry',
+                    data: $httpParamSerializer(unblockCountry),
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'unblockCountry': unblockCountry
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 }).success(function (data) {
                     callbackSuccess(data);
@@ -254,11 +254,11 @@ angular.module('urlShortener')
             //unblock access from a country
             unblockCountry: function (blockCountry,callbackSuccess,callbackError) {
                 $http({
-                    method: 'GET',
+                    method: 'POST',
                     url: '/restrictAccess/unblockCountry',
+                    data: $httpParamSerializer(blockCountry),
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'blockCountry': blockCountry
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 }).success(function (data) {
                     callbackSuccess(data);
