@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import urlshortener.common.domain.ShortURL;
 import urlshortener.common.repository.ClickRepository;
+import urlshortener.common.repository.CountryResRepository;
 import urlshortener.common.repository.ShortURLRepository;
 import urlshortener.common.domain.Click;
 
@@ -37,6 +38,9 @@ public class UrlShortenerController {
 
 	@Autowired
 	protected ClickRepository clickRepository;
+
+    @Autowired
+    protected CountryResRepository countryResRepository;
 
 	@RequestMapping(value = "/{id:(?!link).*}", method = RequestMethod.GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id,

@@ -110,6 +110,20 @@ angular.module('urlShortener')
                 }).error(function (data) {
                     callbackError('ERROR');
                 });
+            },
+
+            // 'checkRegion' service checks if the user can use this service
+            checkRegion: function (callbackSuccess) {
+                $http({
+                    method: 'GET',
+                    url: '/checkRegion',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data.toString());
+                }).error(function (data) {
+                });
             }
         };
     })
@@ -195,6 +209,61 @@ angular.module('urlShortener')
                     callbackSuccess(data);
                 }).error(function (data) {
                     callbackError(data);
+                });
+            }
+        };
+    })
+
+
+    // 'restrictAccess' service manage blocking access depending on location functionallity
+    .factory('restrictAccess', function ($state, $http, $httpParamSerializer) {
+
+        return {
+
+            //get countries
+            getListOfCountries: function (callbackSuccess,callbackError) {
+                $http({
+                    method: 'GET',
+                    url: '/restrictAccess',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Error to administrate restrictions about location');
+                });
+            },
+
+            //block access from a country
+           blockCountry: function (unblockCountry,callbackSuccess,callbackError) {
+                $http({
+                    method: 'POST',
+                    url: '/restrictAccess/blockCountry',
+                    data: $httpParamSerializer(unblockCountry),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Error to administrate restrictions about location');
+                });
+            },
+
+            //unblock access from a country
+            unblockCountry: function (blockCountry,callbackSuccess,callbackError) {
+                $http({
+                    method: 'POST',
+                    url: '/restrictAccess/unblockCountry',
+                    data: $httpParamSerializer(blockCountry),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Error to administrate restrictions about location');
                 });
             }
         };
