@@ -45,7 +45,6 @@ public class RestrictCountry {
      */
     @RequestMapping(value = "/restrictAccess/blockCountry", method = RequestMethod.POST)
     public ResponseEntity<Boolean> blockCountry(@RequestParam("unblocked") String country, HttpServletRequest request) {
-        country = country.split(":")[1];
         Boolean blocked = countryResRepository.restrictCountry(country);
         LOG.info("Access from "+country+" blocked");
         return new ResponseEntity<>(blocked, HttpStatus.CREATED);
@@ -56,7 +55,6 @@ public class RestrictCountry {
      */
     @RequestMapping(value = "/restrictAccess/unblockCountry", method = RequestMethod.POST)
     public ResponseEntity<Boolean> unblockCountry(@RequestParam("blocked") String country, HttpServletRequest request) {
-        country = country.split(":")[1];
         Boolean unblocked = countryResRepository.unblockCountry(country);
         LOG.info("Access from "+country+" unblocked");
         return new ResponseEntity<>(unblocked, HttpStatus.CREATED);

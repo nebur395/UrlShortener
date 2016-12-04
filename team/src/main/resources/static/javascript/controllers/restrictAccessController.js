@@ -7,6 +7,7 @@ angular.module('urlShortener')
         $scope.unblocked = "";
         $scope.blocked = "";
         $scope.myCountry = "";
+        $scope.myCountryU = "";
         $scope.logged = function () {
             return auth.isAuthenticated();
         };
@@ -36,25 +37,25 @@ angular.module('urlShortener')
         };
 
         $scope.blockCountry = function () {
-            $scope.unblocked = document.getElementById('blocking').value;
             var unblocked = {
-                unblocked: $scope.unblocked
+                unblocked: $scope.myCountry
             };
             restrictAccess.blockCountry(unblocked, function (blocked) {
-                $scope.result = blocked;
+                var countryIndex = $scope.countryList.unblockList.indexOf($scope.myCountry);
+                $scope.countryList.unblockList.splice(countryIndex,1);
+                $scope.countryList.blockList.push($scope.myCountry);
             },showError);
-            $scope.getListOfCountries();
         };
 
         $scope.unblockCountry = function () {
-            $scope.blocked = document.getElementById('unblocking').value;
             var blocked = {
-                blocked: $scope.blocked
+                blocked: $scope.myCountryU
             };
             restrictAccess.unblockCountry(blocked, function (unblocked) {
-                $scope.result = unblocked;
+                var countryIndex = $scope.countryList.blockList.indexOf($scope.myCountryU);
+                $scope.countryList.blockList.splice(countryIndex,1);
+                $scope.countryList.unblockList.push($scope.myCountryU);
             },showError);
-            $scope.getListOfCountries();
         };
 
         $scope.getListOfCountries();
