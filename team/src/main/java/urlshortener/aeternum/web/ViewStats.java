@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.management.ManagementFactory;
@@ -20,6 +22,7 @@ import urlshortener.common.web.UrlShortenerController;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Component
 @RestController
 public class ViewStats {
     private static final Logger LOG = LoggerFactory
@@ -130,6 +133,11 @@ public class ViewStats {
             return new ResponseEntity<>("\"Error to set stats visibility. You are not an " +
                 "administrator.\"",HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @Scheduled(fixedRate = 1000)
+    private void backgroundGetTimeProcess () {
+        LOG.info("upTime system: " + getUpTime());
     }
 
     private List<String> getTopUrl (Long limit) {
