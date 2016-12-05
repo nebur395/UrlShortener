@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +47,10 @@ public class ViewStats {
     @Autowired
     protected UserRepository userRepository;
 
-    @RequestMapping(value = "/viewStatistics", method = RequestMethod.GET)
-    public ResponseEntity<Stats> getStats() {
+    @Autowired
+    private SimpMessagingTemplate template;
+
+    public void getStats() {
         Long upTime = upTimeVisibility?getUpTime() :null;
         Long totalURL = totalURLVisibility?shortURLRepository.count() :null;
         Long totalUser = totalUserVisibility?userRepository.count() :null;
@@ -61,20 +64,18 @@ public class ViewStats {
         Stats statisticsSystem = new Stats(upTime, totalURL, totalUser, averageAccessURL,
             responseTime, memoryUsed, memoryAvailable, topUrl, null);
         if (statisticsSystem != null) {
-            LOG.info("SUCCESS: System statistics delivered");
-            return new ResponseEntity<>(statisticsSystem, HttpStatus.OK);
+            LOG.debug("SUCCESS: System statistics delivered");
+            template.convertAndSend("/topic/greetings", statisticsSystem);
         } else {
-            LOG.info("ERROR: Error to get the system statistics");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            LOG.debug("ERROR: Error to get the system statistics");
         }
     }
 
-    @RequestMapping(value = "/viewStatistics/admin", method = RequestMethod.GET)
-    public ResponseEntity<Stats> getStatsAdmin(HttpServletRequest request) {
+    public void getStatsAdmin() {
 
-        String sessionJWT = request.getHeader("Authorization");
+        //String sessionJWT = request.getHeader("Authorization");
 
-        if (SignIn.verify(sessionJWT)) {
+        //if (SignIn.verify(sessionJWT)) {
             Long upTime = getUpTime();
             Long totalURL = shortURLRepository.count();
             Long totalUser = userRepository.count();
@@ -92,16 +93,15 @@ public class ViewStats {
             Stats statisticsSystem = new Stats(upTime, totalURL, totalUser, averageAccessURL,
                 responseTime, memoryUsed, memoryAvailable, topUrl, statsVisibility);
             if (statisticsSystem != null) {
-                LOG.info("SUCCESS: System admin statistics delivered");
-                return new ResponseEntity<>(statisticsSystem, HttpStatus.OK);
+                LOG.debug("SUCCESS: System admin statistics delivered");
+                template.convertAndSend("/topic/admin", statisticsSystem);
             } else {
-                LOG.info("ERROR: Error to get the system admin statistics");
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                LOG.debug("ERROR: Error to get the system admin statistics");
             }
-        } else {
+        /*} else {
             LOG.info("ERROR: Error to get the system admin statistics. You are not an administrator.");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        }*/
     }
 
     @RequestMapping(value = "/viewStatistics", method = RequestMethod.POST)
@@ -135,9 +135,10 @@ public class ViewStats {
         }
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 5000)
     private void backgroundGetTimeProcess () {
-        LOG.info("upTime system: " + getUpTime());
+        getStats();
+        getStatsAdmin();
     }
 
     private List<String> getTopUrl (Long limit) {
