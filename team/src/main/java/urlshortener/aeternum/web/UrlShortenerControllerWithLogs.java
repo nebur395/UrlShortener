@@ -20,7 +20,6 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UrlShortenerControllerWithLogs.class);
     private boolean isSafe;
-    List<String> allUrls;
     //Timer time = new Timer(); // Instantiate Timer Object
     ScheduledTask st = new ScheduledTask();
 
@@ -29,7 +28,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 
 
     @Override
-	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn|restrictAccess).*}",
+	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn|unsafePage|restrictAccess).*}",
         method = RequestMethod.GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id, HttpServletRequest request) {
 		logger.info("Requested redirection with hash " + id);
@@ -75,12 +74,9 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 
         SafeBrowsing sb = new SafeBrowsing();
         isSafe = sb.safe(url);
-        //st = new ScheduledTask(sb);
-        //st.setSb(sb);
-        //allUrls = shortURLRepository.listAllUrls();
-        //st.setAllUrls(allUrls);
 
         ShortURL miShort = r.getBody();
+        miShort.setSafe(isSafe);
         shortURLRepository.mark(miShort, isSafe);
 
         return r;

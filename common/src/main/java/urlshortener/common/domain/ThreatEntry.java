@@ -1,15 +1,15 @@
 package urlshortener.common.domain;
 
-public class ThreatEntries {
+public class ThreatEntry {
 
-    //private String hash;
+    private String hash;
     private String url;
-    //private String digest;
+    private String digest;
 
-    public ThreatEntries() {
+    public ThreatEntry() {
     }
 
-    public ThreatEntries(String url) {
+    public ThreatEntry(String url) {
         this.url = url;
     }
 
@@ -33,7 +33,7 @@ public class ThreatEntries {
 
     @Override
     public String toString() {
-        return "ThreatEntries{" +
+        return "ThreatEntry{" +
             "url='" + url + '\'' +
             '}';
     }

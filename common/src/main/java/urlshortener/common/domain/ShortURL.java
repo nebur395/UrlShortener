@@ -74,6 +74,10 @@ public class ShortURL {
 		return country;
 	}
 
+    public void setSafe(Boolean safe) {
+        this.safe = safe;
+    }
+
     @Override
     public String toString() {
         return "ShortURL{" +

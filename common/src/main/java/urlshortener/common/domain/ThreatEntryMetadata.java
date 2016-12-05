@@ -10,6 +10,10 @@ public class ThreatEntryMetadata {
     public ThreatEntryMetadata() {
     }
 
+    public ThreatEntryMetadata(MetadataEntry[] entries) {
+        this.entries = entries;
+    }
+
     public MetadataEntry[] getEntries() {
         return entries;
     }

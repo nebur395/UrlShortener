@@ -32,6 +32,13 @@ angular.module('urlShortener', ['ui.router', 'base64'])
                 controller: "viewStatisticsCtrl"
             })
 
+            //unsafe information
+            .state('unsafePage', {
+                url: "/unsafePage",
+                templateUrl: "templates/unsafePage.html",
+                controller: "unsafePageCtrl"
+            })
+
             //restrict access
             .state('restrictAccess', {
                 url: "/restrictAccess",

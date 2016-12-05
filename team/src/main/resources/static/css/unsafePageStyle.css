@@ -1,0 +1,15 @@
+#unsafePageStyle h1 {
+  font-size: 200%;
+  text-align: center;
+}
+
+#unsafePageStyle .feedbackMessages {
+  text-align: center;
+  margin: 1%;
+}
+
+#unsafePageStyle .information{
+  margin-top: 0.3%;
+  margin-right: 3.5%;
+  float: right;
+}
