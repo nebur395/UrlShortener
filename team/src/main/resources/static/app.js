@@ -1,4 +1,4 @@
-angular.module('urlShortener', ['ui.router', 'base64'])
+angular.module('urlShortener', ['ui.router', 'base64', 'ngStomp'])
 
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider

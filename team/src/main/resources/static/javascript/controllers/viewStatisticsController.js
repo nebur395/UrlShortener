@@ -42,14 +42,18 @@ angular.module('urlShortener')
 
         $scope.getStats = function () {
             if ($scope.logged()) {
-                viewStatistics.getAdminStats(function (stats, visibilityStats) {
+                var endPoint = '/topic/admin';
+                viewStatistics.connectEliza(endPoint, function (stats) {
                     $scope.statistics = stats;
-                    $scope.visibility = visibilityStats;
-                },showError);
+                    $scope.visibility = stats.statsVisibility;
+                    $scope.$apply();
+                });
             } else {
-                viewStatistics.getStats(function (stats) {
+                var endPoint = '/topic/greetings';
+                viewStatistics.connectEliza(endPoint, function (stats) {
                     $scope.statistics = stats;
-                },showError);
+                    $scope.$apply();
+                });
             }
         };
         $scope.getStats();

@@ -160,9 +160,32 @@ angular.module('urlShortener')
     })
 
     // 'viewStatistics' service manage the view statistics functionallity
-    .factory('viewStatistics', function ($state, $http, $httpParamSerializer, auth) {
+    .factory('viewStatistics', function ($state, $http, $httpParamSerializer, auth, $stomp) {
+
+        $stomp.setDebug(function (args) {
+            console.log(args);
+        });
 
         return {
+
+            connectEliza: function (topic, addResponse) {
+                $stomp.connect('/websocketEliza', {}).then(
+                    function (frame) {
+                        console.log('Connected: ' + frame);
+                        $stomp.subscribe(topic, function (payload, headers, res) {
+                            console.log(payload);
+                            addResponse(payload);
+                        }, {})
+                    }, function(error) {
+                        console.error(error);
+                    }
+                );
+            },
+
+            disconnectEliza: function (setConnnected) {
+                $stomp.disconnect();
+                console.log("Disconnected");
+            },
 
             //get the statistics of the system
             getStats: function (callbackSuccess,callbackError) {
