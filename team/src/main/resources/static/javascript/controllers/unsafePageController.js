@@ -2,7 +2,7 @@ angular.module('urlShortener')
 
     .controller('unsafePageCtrl', ['$scope', '$state', 'auth', 'unsafePage', function ($scope, $state, auth, unsafePage) {
 
-        $scope.information; //Objeto Matches con toda informacion en JSON
+        $scope.information;
         $scope.safe;
 
         // feedback handling variables
@@ -37,12 +37,9 @@ angular.module('urlShortener')
 
 
         $scope.getInformationPage = function () {
-            unsafePage.getInformationPage(function (informationLists) {
-                $scope.information = informationLists;
-            },showError);
-            // var information = {
-            //     information : $scope.information
-            // };
-            // urlShortener.getInformationPage(url, showSuccess, showError);
+                unsafePage.getInformationPage(function (informationLists) {
+                    $scope.information = informationLists;
+                });
         };
+        $scope.getInformationPage();
     }]);

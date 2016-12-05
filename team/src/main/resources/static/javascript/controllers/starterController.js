@@ -39,6 +39,10 @@ angular.module('urlShortener')
             $scope.error = true;
         };
 
+        $scope.hideSafe = function () {
+            $scope.safe = true;
+        };
+
         // show the success mensage
         var showSuccess = function (message, safe) {
             $scope.successMsg = message;

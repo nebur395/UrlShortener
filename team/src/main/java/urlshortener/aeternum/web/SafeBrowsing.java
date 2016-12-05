@@ -44,11 +44,8 @@ public class SafeBrowsing {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity request= new HttpEntity(jsonUnion, headers );
-        //System.out.println(jsonUnion);
         ResponseEntity<Matches> tm = restTemplate.exchange(peticionSafe, HttpMethod.POST, request, Matches.class);
-        //Guardarlo asi?
         m = new Matches(tm.getBody().getMatches());
-
         if(tm.getStatusCodeValue() == 200) {
             if(tm.getBody().getMatches() == null) {
                 LOG.info("La URL " + url + " es segura");

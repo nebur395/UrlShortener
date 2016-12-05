@@ -109,11 +109,11 @@ angular.module('urlShortener')
         };
     })
 
-    .factory('getInformationPage', function ($state, $http, $httpParamSerializer) {
+    .factory('unsafePage', function ($state, $http) {
         return {
 
             //send the register info to the server
-            getInformationPage: function (url, callbackSuccess,callbackError) {
+            getInformationPage: function (callbackSuccess,callbackError) {
                 $http({
                     method: 'GET',
                     url: '/unsafePage',
