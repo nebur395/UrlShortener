@@ -29,7 +29,10 @@ angular.module('urlShortener', ['ui.router', 'base64', 'ngStomp'])
             .state('viewStatistics', {
                 url: "/viewStatistics",
                 templateUrl: "templates/viewStatistics.html",
-                controller: "viewStatisticsCtrl"
+                controller: "viewStatisticsCtrl",
+                onExit: function($state, viewStatistics){
+                    viewStatistics.disconnectEliza();
+                }
             })
 
             //restrict access
