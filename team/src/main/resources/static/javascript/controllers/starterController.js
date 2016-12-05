@@ -1,11 +1,12 @@
 angular.module('urlShortener')
 
-    .controller('starterCtrl', ['$scope', '$state', 'urlShortener', 'qrGenerator', function ($scope, $state, urlShortener, qrGenerator) {
+    .controller('starterCtrl', ['$scope', '$state', 'urlShortener', 'qrGenerator', function ($scope, $state, urlShortener, qrGenerator, checkRegion) {
 
         $scope.url = "";    // initial url input form
         $scope.qr = "";
         $scope.avaiableQR = false;
         $scope.wantVcard = false;
+        $scope.regionAvaiable = true;
 
         // variables for vcard/qr generator
         $scope.qrFName = "";
@@ -74,13 +75,17 @@ angular.module('urlShortener')
         };
 
         $scope.shortURL = function () {
-            var url = {
-                url: $scope.url,
-                safe: $scope.safe
-            };
-            urlShortener.shortURL(url, showSuccess, showError);
+            urlShortener.checkRegion(function (resultRegion){
+                $scope.regionAvaiable = resultRegion;
+                if ($scope.regionAvaiable == 'true'){
+                    var url = {
+                        url: $scope.url,
+                        safe: $scope.safe
+                    };
+                    urlShortener.shortURL(url, showSuccess, showError);
+                }
+            });
         };
-
 
         $scope.vCardForm = function ()  {
             if ($scope.generateQRandVcard) {

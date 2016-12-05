@@ -1,16 +1,17 @@
 package urlshortener.aeternum.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import urlshortener.common.domain.CountryRestriction;
 import urlshortener.common.domain.Location;
 import urlshortener.common.domain.ShortURL;
-import urlshortener.common.domain.*;
+import urlshortener.common.repository.CountryResRepository;
 import urlshortener.common.web.UrlShortenerController;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
@@ -22,9 +23,12 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
     //Timer time = new Timer(); // Instantiate Timer Object
     ScheduledTask st = new ScheduledTask();
 
+    @Autowired
+    protected CountryResRepository countryResRepository;
+
 
     @Override
-	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn|unsafePage).*}",
+	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn|unsafePage|restrictAccess).*}",
         method = RequestMethod.GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id, HttpServletRequest request) {
 		logger.info("Requested redirection with hash " + id);
@@ -34,12 +38,32 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         //Read ip client from shortURL and obtain its location info if there is a click with this hash
         if (s != null) {
             String ip = s.getIP();
-            ReadLocation l = new ReadLocation(ip);
-            Location loc = l.location();
+            Location loc = ReadLocation.location(ip);
             updateLocation(s, loc);
         }
         return r;
 	}
+
+    @RequestMapping(value = "/checkRegion", method = RequestMethod.GET)
+	public ResponseEntity<Boolean> checkRegion (HttpServletRequest request){
+        String ip = request.getRemoteAddr();
+        Boolean regionAvaiable = new Boolean(false);
+
+        ip = "62.101.181.50";
+        //Read ip client from shortURL and obtain its location info if there is a click with this hash
+        if (ip != null) {
+            String country = ReadLocation.location(ip).getCountryName();
+            CountryRestriction rs = countryResRepository.findCountry(country);
+            if(rs.isaccessAllowed()){
+                regionAvaiable = true;
+                logger.info("Access allowed");
+            }else{
+                logger.info("Access denied");
+            }
+        }
+        return new ResponseEntity<>(regionAvaiable, HttpStatus.OK);
+    }
+
 
 	@Override
 	public ResponseEntity<ShortURL> shortener(@RequestParam("url") String url,
@@ -54,6 +78,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         ShortURL miShort = r.getBody();
         miShort.setSafe(isSafe);
         shortURLRepository.mark(miShort, isSafe);
+
         return r;
 	}
 

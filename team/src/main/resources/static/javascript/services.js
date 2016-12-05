@@ -1,10 +1,9 @@
 angular.module('urlShortener')
 
     // 'auth' service manage the authentication function of the page with the server
-    .factory('auth', function ($state, $http, $httpParamSerializer, $base64) {
+    .factory('auth', function ($state, $http, $httpParamSerializer) {
 
-        var session = undefined;
-        var _identity = undefined,
+        var session = undefined,
             _authenticated = false;
 
         return {
@@ -22,12 +21,18 @@ angular.module('urlShortener')
                     }
                 }
             },
+
             //authenticate the [identity] user
             authenticate: function (jwt) {
                 session = jwt;
                 _authenticated = jwt !== undefined;
                 localStorage.sessionJWT = angular.toJson(session);
             },
+
+            getSession: function () {
+                return session;
+            },
+
             //logout function
             logout: function () {
                 session = undefined;
@@ -105,6 +110,20 @@ angular.module('urlShortener')
                 }).error(function (data) {
                     callbackError('ERROR');
                 });
+            },
+
+            // 'checkRegion' service checks if the user can use this service
+            checkRegion: function (callbackSuccess) {
+                $http({
+                    method: 'GET',
+                    url: '/checkRegion',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data.toString());
+                }).error(function (data) {
+                });
             }
         };
     })
@@ -161,7 +180,7 @@ angular.module('urlShortener')
     })
 
     // 'viewStatistics' service manage the view statistics functionallity
-    .factory('viewStatistics', function ($state, $http, $httpParamSerializer) {
+    .factory('viewStatistics', function ($state, $http, $httpParamSerializer, auth) {
 
         return {
 
@@ -186,7 +205,8 @@ angular.module('urlShortener')
                     method: 'GET',
                     url: '/viewStatistics/admin',
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': auth.getSession()
                     }
                 }).success(function (data) {
                     callbackSuccess(data, data.statsVisibility);
@@ -202,12 +222,68 @@ angular.module('urlShortener')
                     url: '/viewStatistics',
                     data: $httpParamSerializer(statsVisibility),
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': auth.getSession()
                     }
                 }).success(function (data) {
                     callbackSuccess(data);
                 }).error(function (data) {
                     callbackError(data);
+                });
+            }
+        };
+    })
+
+
+    // 'restrictAccess' service manage blocking access depending on location functionallity
+    .factory('restrictAccess', function ($state, $http, $httpParamSerializer) {
+
+        return {
+
+            //get countries
+            getListOfCountries: function (callbackSuccess,callbackError) {
+                $http({
+                    method: 'GET',
+                    url: '/restrictAccess',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Error to administrate restrictions about location');
+                });
+            },
+
+            //block access from a country
+           blockCountry: function (unblockCountry,callbackSuccess,callbackError) {
+                $http({
+                    method: 'POST',
+                    url: '/restrictAccess/blockCountry',
+                    data: $httpParamSerializer(unblockCountry),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Error to administrate restrictions about location');
+                });
+            },
+
+            //unblock access from a country
+            unblockCountry: function (blockCountry,callbackSuccess,callbackError) {
+                $http({
+                    method: 'POST',
+                    url: '/restrictAccess/unblockCountry',
+                    data: $httpParamSerializer(blockCountry),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Error to administrate restrictions about location');
                 });
             }
         };

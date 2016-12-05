@@ -20,6 +20,7 @@
     <div  class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#/viewStatistics">View Statistics</a></li>
+        <li ng-if="logged()"><a href="#/restrictAccess">Restrict Access</a></li>
         <!-- sign in/up button -->
         <li ng-if="!logged()"><a href="#/signIn">Sign In</a></li>
         <li ng-if="!logged()"><a href="#/signUp">Sign Up</a></li>

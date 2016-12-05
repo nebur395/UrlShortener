@@ -37,6 +37,18 @@ angular.module('urlShortener', ['ui.router', 'base64'])
                 url: "/unsafePage",
                 templateUrl: "templates/unsafePage.html",
                 controller: "unsafePageCtrl"
+            })
+
+            //restrict access
+            .state('restrictAccess', {
+                url: "/restrictAccess",
+                templateUrl: "templates/restrictAccess.html",
+                controller: "restrictAccessCtrl",
+                onEnter: function($state, auth){
+                    if(!auth.isAuthenticated()){
+                        $state.go('starter');
+                    }
+                }
             });
 
         $urlRouterProvider.otherwise('starter');
