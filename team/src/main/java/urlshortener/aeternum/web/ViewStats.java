@@ -3,12 +3,11 @@ package urlshortener.aeternum.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
@@ -21,10 +20,8 @@ import urlshortener.common.repository.ShortURLRepository;
 import urlshortener.common.repository.UserRepository;
 import urlshortener.common.web.UrlShortenerController;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Component
-@RestController
+@Controller
 public class ViewStats {
     private static final Logger LOG = LoggerFactory
         .getLogger(ViewStats.class);
@@ -51,21 +48,21 @@ public class ViewStats {
     private SimpMessagingTemplate template;
 
     public void getStats() {
-        Long upTime = upTimeVisibility?getUpTime() :null;
-        Long totalURL = totalURLVisibility?shortURLRepository.count() :null;
-        Long totalUser = totalUserVisibility?userRepository.count() :null;
-        Long averageAccessURL = averageAccessURLVisibility?getAverageAccessURL(shortURLRepository.count()) :null;
-        Long responseTime = responseTimeVisibility?UrlShortenerController.getLastResponseTime() :null;
+        Long upTime = upTimeVisibility ? getUpTime() : null;
+        Long totalURL = totalURLVisibility ? shortURLRepository.count() : null;
+        Long totalUser = totalUserVisibility ? userRepository.count() : null;
+        Long averageAccessURL = averageAccessURLVisibility ? getAverageAccessURL(shortURLRepository.count()) : null;
+        Long responseTime = responseTimeVisibility ? UrlShortenerController.getLastResponseTime() : null;
         Runtime runtime = Runtime.getRuntime();
-        Long memoryUsed = memoryUsedVisibility?getUsedMemory(runtime) :null;
-        Long memoryAvailable = memoryAvailableVisibility?getAvailableMemory(runtime) :null;
-        List<String> topUrl = topUrlVisibility?getTopUrl(new Long(11)) :null;
+        Long memoryUsed = memoryUsedVisibility ? getUsedMemory(runtime) : null;
+        Long memoryAvailable = memoryAvailableVisibility ? getAvailableMemory(runtime) : null;
+        List<String> topUrl = topUrlVisibility ? getTopUrl(new Long(11)) : null;
 
         Stats statisticsSystem = new Stats(upTime, totalURL, totalUser, averageAccessURL,
-            responseTime, memoryUsed, memoryAvailable, topUrl, null);
+            responseTime, memoryUsed, memoryAvailable, topUrl);
         if (statisticsSystem != null) {
             LOG.debug("SUCCESS: System statistics delivered");
-            template.convertAndSend("/topic/greetings", statisticsSystem);
+            template.convertAndSend("/viewStats/standardStats", statisticsSystem);
         } else {
             LOG.debug("ERROR: Error to get the system statistics");
         }
@@ -73,93 +70,73 @@ public class ViewStats {
 
     public void getStatsAdmin() {
 
-        //String sessionJWT = request.getHeader("Authorization");
+        Long upTime = getUpTime();
+        Long totalURL = shortURLRepository.count();
+        Long totalUser = userRepository.count();
+        Long averageAccessURL = getAverageAccessURL(totalURL);
+        Long responseTime = UrlShortenerController.getLastResponseTime();
+        Runtime runtime = Runtime.getRuntime();
+        Long memoryUsed = getUsedMemory(runtime);
+        Long memoryAvailable = getAvailableMemory(runtime);
+        List<String> topUrl = getTopUrl(new Long(11));
 
-        //if (SignIn.verify(sessionJWT)) {
-            Long upTime = getUpTime();
-            Long totalURL = shortURLRepository.count();
-            Long totalUser = userRepository.count();
-            Long averageAccessURL = getAverageAccessURL(totalURL);
-            Long responseTime = UrlShortenerController.getLastResponseTime();
-            Runtime runtime = Runtime.getRuntime();
-            Long memoryUsed = getUsedMemory(runtime);
-            Long memoryAvailable = getAvailableMemory(runtime);
-            List<String> topUrl = getTopUrl(new Long(11));
-
-            StatsVisibility statsVisibility = new StatsVisibility(upTimeVisibility,
-                totalURLVisibility, totalUserVisibility, averageAccessURLVisibility,
-                responseTimeVisibility, memoryUsedVisibility, memoryAvailableVisibility,
-                topUrlVisibility);
-            Stats statisticsSystem = new Stats(upTime, totalURL, totalUser, averageAccessURL,
-                responseTime, memoryUsed, memoryAvailable, topUrl, statsVisibility);
-            if (statisticsSystem != null) {
-                LOG.debug("SUCCESS: System admin statistics delivered");
-                template.convertAndSend("/topic/admin", statisticsSystem);
-            } else {
-                LOG.debug("ERROR: Error to get the system admin statistics");
-            }
-        /*} else {
-            LOG.info("ERROR: Error to get the system admin statistics. You are not an administrator.");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }*/
-    }
-
-    @RequestMapping(value = "/viewStatistics", method = RequestMethod.POST)
-    public ResponseEntity<String> setStatsVisibility(@RequestParam("upTime") boolean upTime,
-                                                     @RequestParam("totalURL") boolean totalURL,
-                                                     @RequestParam("topUrl") boolean topURL,
-                                                     @RequestParam("totalUser") boolean totalUser,
-                                                     @RequestParam("averageAccessURL") boolean averageAccessURL,
-                                                     @RequestParam("responseTime") boolean responseTime,
-                                                     @RequestParam("memoryUsed") boolean memoryUsed,
-                                                     @RequestParam("memoryAvailable") boolean memoryAvailable,
-                                                     HttpServletRequest request) {
-
-        String sessionJWT = request.getHeader("Authorization");
-
-        if (SignIn.verify(sessionJWT)) {
-            upTimeVisibility = upTime;
-            totalURLVisibility = totalURL;
-            totalUserVisibility = totalUser;
-            averageAccessURLVisibility = averageAccessURL;
-            responseTimeVisibility = responseTime;
-            memoryUsedVisibility = memoryUsed;
-            memoryAvailableVisibility = memoryAvailable;
-            topUrlVisibility = topURL;
-            LOG.info("SUCCESS: Stats visibility succesfully changed");
-            return new ResponseEntity<>("\"Stats visibility succesfully changed\"", HttpStatus.OK);
+        Stats statisticsSystem = new Stats(upTime, totalURL, totalUser, averageAccessURL,
+            responseTime, memoryUsed, memoryAvailable, topUrl);
+        if (statisticsSystem != null) {
+            LOG.debug("SUCCESS: System admin statistics delivered");
+            template.convertAndSend("/viewStats/adminStats", statisticsSystem);
         } else {
-            LOG.info("ERROR: Error to set stats visibility. You are not an administrator.");
-            return new ResponseEntity<>("\"Error to set stats visibility. You are not an " +
-                "administrator.\"",HttpStatus.BAD_REQUEST);
+            LOG.debug("ERROR: Error to get the system admin statistics");
         }
     }
 
-    @Scheduled(fixedRate = 5000)
-    private void backgroundGetTimeProcess () {
+    @MessageMapping("/changeVisibility")
+    public void setStatsVisibility(StatsVisibility statsVisibility) {
+        if (!statsVisibility.getFirstStats()) {
+            upTimeVisibility = statsVisibility.getUpTime();
+            totalURLVisibility = statsVisibility.getTotalURL();
+            totalUserVisibility = statsVisibility.getTotalUser();
+            averageAccessURLVisibility = statsVisibility.getAverageAccessURL();
+            responseTimeVisibility = statsVisibility.getResponseTime();
+            memoryUsedVisibility = statsVisibility.getMemoryUsed();
+            memoryAvailableVisibility = statsVisibility.getMemoryAvailable();
+            topUrlVisibility = statsVisibility.getTopUrl();
+            LOG.debug("SUCCESS: Stats visibility succesfully changed");
+        }
+
+        StatsVisibility statsVisibilityTemp = new StatsVisibility(upTimeVisibility,
+            totalURLVisibility, totalUserVisibility, averageAccessURLVisibility,
+            responseTimeVisibility, memoryUsedVisibility, memoryAvailableVisibility,
+            topUrlVisibility, false);
+
+        template.convertAndSend("/viewStats/visibilityStats", statsVisibilityTemp);
+    }
+
+    @Scheduled(fixedRate = 1000)
+    private void backgroundGetTimeProcess() {
         getStats();
         getStatsAdmin();
     }
 
-    private List<String> getTopUrl (Long limit) {
+    private List<String> getTopUrl(Long limit) {
         List<ClickTop> clicksTop = clickRepository.topURL(limit);
         List<ShortURL> topUrl = new ArrayList<ShortURL>();
         for (ClickTop click : clicksTop) {
             topUrl.add(shortURLRepository.findByKey(click.getHash()));
         }
-        List <String> hashUrl = new ArrayList<String>();
+        List<String> hashUrl = new ArrayList<String>();
         for (ShortURL url : topUrl) {
             hashUrl.add(url.getTarget());
         }
         return hashUrl;
     }
 
-    private Long getUpTime () {
+    private Long getUpTime() {
         RuntimeMXBean rb = ManagementFactory.getRuntimeMXBean();
-        return (rb.getUptime()/1000);   // milliseconds to seconds
+        return (rb.getUptime() / 1000);   // milliseconds to seconds
     }
 
-    private Long getAverageAccessURL (Long totalURL) {
+    private Long getAverageAccessURL(Long totalURL) {
         if (totalURL.equals(new Long(0))) {
             return new Long(0);
         } else {
@@ -167,12 +144,12 @@ public class ViewStats {
         }
     }
 
-    private Long getUsedMemory (Runtime runTime) {
+    private Long getUsedMemory(Runtime runTime) {
         int kb = 1024;
         return ((runTime.totalMemory() - runTime.freeMemory()) / kb);
     }
 
-    private Long getAvailableMemory (Runtime runTime) {
+    private Long getAvailableMemory(Runtime runTime) {
         int kb = 1024; // 1024 *1024 = MB; 1024 = KB
         return (runTime.freeMemory() / kb);
     }

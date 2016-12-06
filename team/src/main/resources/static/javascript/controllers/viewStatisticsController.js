@@ -42,15 +42,15 @@ angular.module('urlShortener')
 
         $scope.getStats = function () {
             if ($scope.logged()) {
-                var endPoint = '/topic/admin';
-                viewStatistics.connectEliza(endPoint, function (stats) {
+                viewStatistics.getAdminStats(function (stats) {
                     $scope.statistics = stats;
-                    $scope.visibility = stats.statsVisibility;
+                    $scope.$apply();
+                }, function (statsVisibility) {
+                    $scope.visibility = statsVisibility;
                     $scope.$apply();
                 });
             } else {
-                var endPoint = '/topic/greetings';
-                viewStatistics.connectEliza(endPoint, function (stats) {
+                viewStatistics.getStats(function (stats) {
                     $scope.statistics = stats;
                     $scope.$apply();
                 });
@@ -59,6 +59,6 @@ angular.module('urlShortener')
         $scope.getStats();
 
         $scope.sendVisibility = function () {
-            viewStatistics.sendVisibility($scope.visibility, showSuccess, showError);
-        }
+            viewStatistics.sendVisibility($scope.visibility);
+        };
     }]);

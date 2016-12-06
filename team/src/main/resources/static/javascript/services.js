@@ -41,19 +41,6 @@ angular.module('urlShortener')
                 $state.go('starter');
             },
 
-            //logout function
-            logout2: function () {
-                $http({
-                    method: 'POST',
-                    url: '/logout',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                }).success(function (data) {
-                }).error(function (data) {
-                });
-            },
-
             //send the login info to the server
             signIn: function (user, password, callback) {
                 var that = this;
@@ -160,7 +147,7 @@ angular.module('urlShortener')
     })
 
     // 'viewStatistics' service manage the view statistics functionallity
-    .factory('viewStatistics', function ($state, $http, $httpParamSerializer, auth, $stomp) {
+    .factory('viewStatistics', function ($state, auth, $stomp) {
 
         $stomp.setDebug(function (args) {
             console.log(args);
@@ -168,11 +155,12 @@ angular.module('urlShortener')
 
         return {
 
-            connectEliza: function (topic, addResponse) {
-                $stomp.connect('/websocketEliza', {}).then(
+            //get the statistics of the system
+            getStats: function (addResponse) {
+                $stomp.connect('/urlShortener', {}).then(
                     function (frame) {
                         console.log('Connected: ' + frame);
-                        $stomp.subscribe(topic, function (payload, headers, res) {
+                        $stomp.subscribe('/viewStats/standardStats', function (payload, headers, res) {
                             console.log(payload);
                             addResponse(payload);
                         }, {})
@@ -182,57 +170,37 @@ angular.module('urlShortener')
                 );
             },
 
-            disconnectEliza: function (setConnnected) {
+            //get the ADMIN statistics of the system
+            getAdminStats: function (updateStats, updateVisibility) {
+                $stomp.connect('/urlShortener', {}).then(
+                    function (frame) {
+                        console.log('Connected: ' + frame);
+                        $stomp.subscribe('/viewStats/adminStats', function (payload, headers, res) {
+                            console.log(payload);
+                            updateStats(payload);
+                        }, {});
+                        $stomp.subscribe('/viewStats/visibilityStats', function (payload, headers, res) {
+                            console.log(payload);
+                            updateVisibility(payload);
+                        }, {});
+                        var visibility = {
+                            firstStats: true
+                        };
+                        $stomp.send('/app/changeVisibility',visibility, {});
+                    }, function(error) {
+                        console.error(error);
+                    }
+                );
+            },
+
+            disconnectWebsockets: function () {
                 $stomp.disconnect();
                 console.log("Disconnected");
             },
 
-            //get the statistics of the system
-            getStats: function (callbackSuccess,callbackError) {
-                $http({
-                    method: 'GET',
-                    url: '/viewStatistics',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                }).success(function (data) {
-                    callbackSuccess(data);
-                }).error(function (data) {
-                    callbackError('Error to get the system statistics');
-                });
-            },
-
-            //get the ADMIN statistics of the system
-            getAdminStats: function (callbackSuccess,callbackError) {
-                $http({
-                    method: 'GET',
-                    url: '/viewStatistics/admin',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'Authorization': auth.getSession()
-                    }
-                }).success(function (data) {
-                    callbackSuccess(data, data.statsVisibility);
-                }).error(function (data) {
-                    callbackError('Error to get the system admin statistics. You are not an administrator.');
-                });
-            },
-
             // send the stats visibility of the system
-            sendVisibility: function (statsVisibility, callbackSuccess,callbackError) {
-                $http({
-                    method: 'POST',
-                    url: '/viewStatistics',
-                    data: $httpParamSerializer(statsVisibility),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'Authorization': auth.getSession()
-                    }
-                }).success(function (data) {
-                    callbackSuccess(data);
-                }).error(function (data) {
-                    callbackError(data);
-                });
+            sendVisibility: function (request) {
+                $stomp.send('/app/changeVisibility',request, {});
             }
         };
     })

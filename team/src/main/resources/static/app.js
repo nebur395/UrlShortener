@@ -30,8 +30,8 @@ angular.module('urlShortener', ['ui.router', 'base64', 'ngStomp'])
                 url: "/viewStatistics",
                 templateUrl: "templates/viewStatistics.html",
                 controller: "viewStatisticsCtrl",
-                onExit: function($state, viewStatistics){
-                    viewStatistics.disconnectEliza();
+                onExit: function(viewStatistics){
+                    viewStatistics.disconnectWebsockets();
                 }
             })
 

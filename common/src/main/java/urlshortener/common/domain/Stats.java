@@ -12,10 +12,9 @@ public class Stats {
     private Long memoryUsed;
     private Long memoryAvailable;
     private List<String> topURL;
-    private StatsVisibility statsVisibility;
 
     public Stats(Long upTime, Long totalURL, Long totalUser, Long averageAccessURL, Long responseTime,
-                 Long memoryUsed, Long memoryAvailable, List<String> topURL, StatsVisibility statsVisibility) {
+                 Long memoryUsed, Long memoryAvailable, List<String> topURL) {
         this.upTime = upTime;
         this.totalURL = totalURL;
         this.totalUser = totalUser;
@@ -24,7 +23,6 @@ public class Stats {
         this.memoryUsed = memoryUsed;
         this.memoryAvailable = memoryAvailable;
         this.topURL = topURL;
-        this.statsVisibility = statsVisibility;
     }
 
     public Stats() {
@@ -61,9 +59,4 @@ public class Stats {
     public List<String> getTopURL() {
         return topURL;
     }
-
-    public StatsVisibility getStatsVisibility() {
-        return statsVisibility;
-    }
-
 }
