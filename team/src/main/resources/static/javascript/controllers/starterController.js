@@ -27,6 +27,7 @@ angular.module('urlShortener')
         $scope.success = false;
         $scope.successMsg = "";
         $scope.errorMsg = "";
+        $scope.safe = true;
 
         // hide the error mensage
         $scope.hideError = function () {
@@ -39,10 +40,15 @@ angular.module('urlShortener')
             $scope.error = true;
         };
 
+        $scope.hideSafe = function () {
+            $scope.safe = true;
+        };
+
         // show the success mensage
-        var showSuccess = function (message) {
+        var showSuccess = function (message, safe) {
             $scope.successMsg = message;
             $scope.success = true;
+            $scope.safe = safe;
         };
 
         // show the vcard panel
@@ -73,7 +79,8 @@ angular.module('urlShortener')
                 $scope.regionAvaiable = resultRegion;
                 if ($scope.regionAvaiable == 'true'){
                     var url = {
-                        url: $scope.url
+                        url: $scope.url,
+                        safe: $scope.safe
                     };
                     urlShortener.shortURL(url, showSuccess, showError);
                 }

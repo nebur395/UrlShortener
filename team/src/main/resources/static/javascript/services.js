@@ -93,7 +93,7 @@ angular.module('urlShortener')
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 }).success(function (data) {
-                    callbackSuccess(data.uri);
+                    callbackSuccess(data.uri, data.safe);
                 }).error(function (data) {
                     callbackError('ERROR');
                 });
@@ -110,6 +110,26 @@ angular.module('urlShortener')
                 }).success(function (data) {
                     callbackSuccess(data.toString());
                 }).error(function (data) {
+                });
+            }
+        };
+    })
+
+    .factory('unsafePage', function ($state, $http) {
+        return {
+
+            //send the register info to the server
+            getInformationPage: function (callbackSuccess,callbackError) {
+                $http({
+                    method: 'GET',
+                    url: '/unsafePage',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) { //Object Matches in data
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('error getting information of unsafe page');
                 });
             }
         };
