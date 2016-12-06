@@ -219,8 +219,14 @@ angular.module('urlShortener')
             },
 
             // send the stats visibility of the system
-            sendVisibility: function (request) {
-                $stomp.send('/app/changeVisibility',request, {});
+            sendVisibility: function (request, callbackSuccess) {
+                $stomp.send('/app/changeVisibility',request, {}).then(
+                    function (frame) {
+                        callbackSuccess('Stats visibility succesfully changed');
+                    }, function(error) {
+                        console.error(error);
+                    }
+                );
             }
         };
     })

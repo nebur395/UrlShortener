@@ -59,6 +59,6 @@ angular.module('urlShortener')
         $scope.getStats();
 
         $scope.sendVisibility = function () {
-            viewStatistics.sendVisibility($scope.visibility);
+            viewStatistics.sendVisibility($scope.visibility, showSuccess);
         };
     }]);
