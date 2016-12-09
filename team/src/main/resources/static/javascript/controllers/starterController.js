@@ -87,6 +87,14 @@ angular.module('urlShortener')
             });
         };
 
+        $scope.vCardForm = function ()  {
+            if ($scope.generateQRandVcard) {
+                $scope.getQR();
+            } else {
+                $scope.download();
+            }
+        };
+
         // read values from the textFields and generate Qr
         $scope.getQR = function () {
             qrGenerator.generateQR($scope.successMsg,
@@ -102,7 +110,7 @@ angular.module('urlShortener')
                 $scope.qrLevel, function (urlQR) {
                     $scope.qr = urlQR;
                     $scope.avaiableQR = true;
-            });
+                });
         };
 
         $scope.download = function () {
