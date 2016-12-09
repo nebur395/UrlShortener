@@ -30,7 +30,7 @@ public class ShortURLRepositoryImpl implements ShortURLRepository {
 					null, rs.getString("sponsor"), rs.getDate("created"),
 					rs.getString("owner"), rs.getInt("mode"),
 					rs.getBoolean("safe"), rs.getString("ip"),
-					rs.getString("country"));
+					rs.getString("country"), rs.getString("qrCode"));
 		}
 	};
 

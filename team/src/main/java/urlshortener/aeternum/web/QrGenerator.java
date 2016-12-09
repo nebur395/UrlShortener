@@ -15,14 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.*;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @RestController
 public class QrGenerator {
-    private String infoUrl, infoName, infoEmail, infoPhone,infoCompany,infoAdress, infoLevel;
-    private String vCardText, urlVcard;
+    private static String infoUrl, infoName, infoEmail, infoPhone,infoCompany,infoAdress, infoLevel;
+    private static String vCardText, urlVcard;
 
     private static final Logger LOG = LoggerFactory
         .getLogger(QrGenerator.class);
@@ -33,10 +34,9 @@ public class QrGenerator {
     @Autowired
     protected ClickRepository clickRepository;
 
-    @RequestMapping(value = "/qr", method = RequestMethod.GET)
-    public ResponseEntity<String> generateQR(HttpServletRequest request) {
+    public static String generateQR(URI shortedURL, HttpServletRequest request) {
         Client client = ClientBuilder.newClient();
-        String shortURL = request.getHeader("qrUrl");
+        String shortURL = shortedURL.toString();
 
         // VCard Starting Text
         vCardText = "BEGIN:VCARD\r\n" +
@@ -44,40 +44,40 @@ public class QrGenerator {
 
         // Additions to Vcard
 
-        if (!request.getHeader("qrUrl").equals("")){
-            infoUrl = "URL:" + request.getHeader("qrUrl")+"\n";
-            vCardText += infoUrl;
-        }
-        if ((!request.getHeader("qrFname").equals("")) || (!request.getHeader("qrLname").equals(""))){
-            infoName = "FN:" + request.getHeader("qrFname") + " " + request.getHeader("qrLname")+"\n";
+
+        infoUrl = "URL:" + shortURL +"\n";
+        vCardText += infoUrl;
+
+        if ((!request.getParameter("fName").equals("")) || (!request.getParameter("lName").equals(""))){
+            infoName = "FN:" + request.getParameter("fName") + " " + request.getParameter("lName")+"\n";
             vCardText += infoName;
         }
-        if (!request.getHeader("qrEmail").equals("")){
-            infoEmail = "EMAIL:" + request.getHeader("qrEmail")+"\n";
+        if (!request.getParameter("Email").equals("")){
+            infoEmail = "EMAIL:" + request.getParameter("Email")+"\n";
             vCardText += infoEmail;
         }
-        if (!request.getHeader("qrPhone").equals("") && !request.getHeader("qrPhone").equals("null")){
-            infoPhone = "TEL;TYPE=PREF:" + request.getHeader("qrPhone")+"\n";
+        if (!request.getParameter("Phone").equals("") && !request.getParameter("Phone").equals("null")){
+            infoPhone = "TEL;TYPE=PREF:" + request.getParameter("Phone")+"\n";
             vCardText += infoPhone;
         }
-        if (!request.getHeader("qrCompany").equals("")){
-            infoCompany =  "ORG:" + request.getHeader("qrCompany")+"\n";
+        if (!request.getParameter("Company").equals("")){
+            infoCompany =  "ORG:" + request.getParameter("Company")+"\n";
             vCardText += infoCompany;
         }
-        if ((!request.getHeader("qrStreet").equals("")) || (!request.getHeader("qrZip").equals("") && !request.getHeader("qrZip").equals("null")) || (!request.getHeader("qrCity").equals("")) || (!request.getHeader("qrCountry").equals(""))) {
-            infoAdress = "ADR:" + request.getHeader("qrStreet") + ";" + request.getHeader("qrCity") + ";" + request.getHeader("qrZip") + ";" + request.getHeader("qrCountry") +"\n";
+        if ((!request.getParameter("Street").equals("")) || (!request.getParameter("Zip").equals("") && !request.getParameter("Zip").equals("null")) || (!request.getParameter("City").equals("")) || (!request.getParameter("Country").equals(""))) {
+            infoAdress = "ADR:" + request.getParameter("Street") + ";" + request.getParameter("City") + ";" + request.getParameter("Zip") + ";" + request.getParameter("Country") +"\n";
             vCardText += infoAdress;
         }
-
-        LOG.info(request.getHeader("qrStreet"));
-        LOG.info(request.getHeader("qrZip"));
-        LOG.info(request.getHeader("qrCity"));
-        LOG.info(request.getHeader("qrCountry"));
+        LOG.info("Nombre: " + request.getParameter("fName"));
+        LOG.info(request.getParameter("Street"));
+        LOG.info(request.getParameter("Zip"));
+        LOG.info(request.getParameter("City"));
+        LOG.info(request.getParameter("Country"));
         // Final text for Vcard
         vCardText += "REV:" + getCurrentTimeStamp() + "\r\n" + "END:VCARD";
 
         // Taking the correction level selected by the user
-        infoLevel = request.getHeader("qrLevel");
+        infoLevel = request.getParameter("Level");
 
         // Enconding of Vcard as an URL object
         try {
@@ -93,10 +93,10 @@ public class QrGenerator {
         if(response.getStatus() == 200){
             String qrCode = "\"https://chart.googleapis.com/chart?chs=500x500&cht=qr&chld=" + infoLevel +"&chl=" + urlVcard + "\"";
             LOG.info("QR code generated");
-            return new ResponseEntity<String>(qrCode, HttpStatus.CREATED);
+            return qrCode;
         }else{
             LOG.info("Error to get the qr code");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return "ERROR EN LA PETICION";
         }
     }
 
