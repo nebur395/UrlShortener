@@ -10,11 +10,13 @@ public class StatsVisibility {
     private boolean memoryUsed;
     private boolean memoryAvailable;
     private boolean topUrl;
+    private boolean firstStats;
 
     public StatsVisibility(boolean upTimeVisibility, boolean totalURLVisibility,
                            boolean totalUserVisibility, boolean averageAccessURLVisibility,
                            boolean responseTimeVisibility, boolean memoryUsedVisibility,
-                           boolean memoryAvailableVisibility, boolean topUrlVisibility) {
+                           boolean memoryAvailableVisibility, boolean topUrlVisibility,
+                           boolean firstStats) {
         this.upTime = upTimeVisibility;
         this.totalURL = totalURLVisibility;
         this.totalUser = totalUserVisibility;
@@ -23,6 +25,7 @@ public class StatsVisibility {
         this.memoryUsed = memoryUsedVisibility;
         this.memoryAvailable = memoryAvailableVisibility;
         this.topUrl = topUrlVisibility;
+        this.firstStats = firstStats;
     }
 
     public StatsVisibility() {
@@ -60,4 +63,7 @@ public class StatsVisibility {
         return topUrl;
     }
 
+    public boolean getFirstStats() {
+        return firstStats;
+    }
 }

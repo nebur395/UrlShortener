@@ -11,6 +11,11 @@ public class MetadataEntry {
     public MetadataEntry() {
     }
 
+    public MetadataEntry(String key, String value) {
+        this.key = key;
+        this.value = value;
+    }
+
     public String getKey() {
         return key;
     }

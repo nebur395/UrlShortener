@@ -32,6 +32,9 @@ dependencies {
     compile 'org.webjars:bootstrap:3.3.5'
     compile 'org.webjars:jquery:2.1.4'
     compile 'org.glassfish.jersey.core:jersey-server:2.24'
+    compile 'net.minidev:json-smart:2.2.1'
+    // Provides websocket library
+    compile 'org.springframework.boot:spring-boot-starter-websocket'
 
     // Provides methods to generate VCards
     //compile 'com.googlecode.ez-vcard:ez-vcard:0.10.0'

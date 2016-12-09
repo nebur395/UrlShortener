@@ -41,4 +41,12 @@ CREATE TABLE USERS(
 	EMAIL		VARCHAR(20),				-- User email
 	ADMIN   	BOOLEAN,				    -- Admin
 	CREATED 	TIMESTAMP					-- Creation date
-)
+);
+
+-- Country restrictions
+
+CREATE TABLE COUNTRYRESTRICTION(
+    COUNTRY         VARCHAR(50) PRIMARY KEY,		-- Country
+    ACCESSALLOWED   BOOLEAN                         -- True if access is allowed
+);
+

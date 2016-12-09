@@ -2,20 +2,28 @@ package urlshortener.common.domain;
 
 public class ThreatInfo {
 
-    private enum threatTypes {MALWARE, SOCIAL_ENGINEERING, UNWANTED_SOFTWARE, POTENTIALLY_HARMFUL_APPLICATION}
-    private enum platformTypes {WINDOWS, LINUX, ANDROID, OSX, IOS, ANY_PLATFORM, ALL_PLATFORMS, CHROME}
-    private enum threatEntryTypes {URL, EXECUTABLE, IP_RANGE}
+    public ThreatInfo(ThreatEntry entries) {
+    }
+
+//    private enum threatTypes {MALWARE, SOCIAL_ENGINEERING, UNWANTED_SOFTWARE, POTENTIALLY_HARMFUL_APPLICATION}
+//    private enum platformTypes {WINDOWS, LINUX, ANDROID, OSX, IOS, ANY_PLATFORM, ALL_PLATFORMS, CHROME}
+//    private enum threatEntryTypes {URL, EXECUTABLE, IP_RANGE}
 
     private String[] threatTypes= new String []{"MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "POTENTIALLY_HARMFUL_APPLICATION"};
     private String[] platformTypes = new String [] {"WINDOWS", "LINUX", "ANDROID", "OSX", "IOS", "ANY_PLATFORM", "ALL_PLATFORMS", "CHROME"};
     private String[] threatEntryTypes = new String [] {"URL"};
 
     //No ponemos lista porque solo se va a comprobar una url
-    private ThreatEntries threatEntries;
+    private ThreatEntry[] threatEntries;
 
     public ThreatInfo() {}
 
-    public ThreatInfo(ThreatEntries threatEntries) {
+//    public ThreatInfo(ThreatEntry threatEntry) {
+//        this.threatEntries = threatEntry;
+//    }
+
+
+    public ThreatInfo(ThreatEntry[] threatEntries) {
         this.threatEntries = threatEntries;
     }
 
@@ -43,11 +51,19 @@ public class ThreatInfo {
         this.threatEntryTypes = threatEntryTypes;
     }
 
-    public ThreatEntries getThreatEntries() {
+//    public ThreatEntry getThreatEntry() {
+//        return threatEntries;
+//    }
+//
+//    public void setThreatEntry(ThreatEntry threatEntry) {
+//        this.threatEntries = threatEntry;
+//    }
+
+    public ThreatEntry[] getThreatEntries() {
         return threatEntries;
     }
 
-    public void setThreatEntries(ThreatEntries threatEntries) {
+    public void setThreatEntries(ThreatEntry[] threatEntries) {
         this.threatEntries = threatEntries;
     }
 }

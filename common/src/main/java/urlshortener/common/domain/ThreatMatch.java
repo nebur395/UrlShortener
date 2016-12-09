@@ -4,13 +4,24 @@ public class ThreatMatch {
     private String threatType;
     private String platformType;
     private String threatEntryType;
+//    public enum threatType{MALWARE, SOCIAL_ENGINEERING, UNWANTED_SOFTWARE, POTENTIALLY_HARMFUL_APPLICATION, THREAT_TYPE_UNSPECIFIED}
+//    public enum platformType{WINDOWS,LINUX, ANDROID, OSX, IOS, ANY_PLATFORM, ALL_PLATFORMS, CHROME, PLATFORM_TYPE_UNSPECIFIED}
+//    public enum threatEntryType {URL, EXECUTABLE, IP_RANGE, THREAT_ENTRY_TYPE_UNSPECIFIED}
 
-    private Threat threat;
+    private ThreatEntry threat;
     private ThreatEntryMetadata threatEntryMetadata;
     private String cacheDuration;
 
-    public ThreatMatch(String threatType, String platformType, String threatEntryType, Threat threat,
-                       ThreatEntryMetadata threatEntryMetadata, String cacheDuration) {
+    public ThreatMatch(ThreatEntry threat, ThreatEntryMetadata threatEntryMetadata, String cacheDuration) {
+        this.threat = threat;
+        this.threatEntryMetadata = threatEntryMetadata;
+        this.cacheDuration = cacheDuration;
+    }
+
+    public ThreatMatch() {
+    }
+
+    public ThreatMatch(String threatType, String platformType, String threatEntryType, ThreatEntry threat, ThreatEntryMetadata threatEntryMetadata, String cacheDuration) {
         this.threatType = threatType;
         this.platformType = platformType;
         this.threatEntryType = threatEntryType;
@@ -18,7 +29,18 @@ public class ThreatMatch {
         this.threatEntryMetadata = threatEntryMetadata;
         this.cacheDuration = cacheDuration;
     }
-    public ThreatMatch() {}
+
+    @Override
+    public String toString() {
+        return "ThreatMatch{" +
+            "threatType='" + threatType + '\'' +
+            ", platformType='" + platformType + '\'' +
+            ", threatEntryType='" + threatEntryType + '\'' +
+            ", threat=" + threat +
+            ", threatEntryMetadata=" + threatEntryMetadata +
+            ", cacheDuration='" + cacheDuration + '\'' +
+            '}';
+    }
 
     public String getThreatType() {
         return threatType;
@@ -44,11 +66,12 @@ public class ThreatMatch {
         this.threatEntryType = threatEntryType;
     }
 
-    public Threat getThreat() {
+
+    public ThreatEntry getThreat() {
         return threat;
     }
 
-    public void setThreat(Threat threat) {
+    public void setThreat(ThreatEntry threat) {
         this.threat = threat;
     }
 
@@ -68,15 +91,5 @@ public class ThreatMatch {
         this.cacheDuration = cacheDuration;
     }
 
-    @Override
-    public String toString() {
-        return "ThreatMatch{" +
-            "threatType='" + threatType + '\'' +
-            ", platformType='" + platformType + '\'' +
-            ", threatEntryType='" + threatEntryType + '\'' +
-            ", threat=" + threat +
-            ", threatEntryMetadata=" + threatEntryMetadata +
-            ", cacheDuration='" + cacheDuration + '\'' +
-            '}';
-    }
+
 }
