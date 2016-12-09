@@ -97,7 +97,7 @@ public class ShortURLRepositoryTests {
 		repository.save(url1());
 		assertNull(repository.findByKey(url2().getHash()));
 	}
-
+/**
 	@Test
 	public void thatFindByTargetReturnsURLs() {
 		repository.save(url1());
@@ -110,7 +110,7 @@ public class ShortURLRepositoryTests {
 		sul = repository.findByTarget("dummy");
 		assertEquals(sul.size(), 0);
 	}
-	
+**/	
 	@Test
 	public void thatDeleteDelete() {
 		repository.save(url1());
