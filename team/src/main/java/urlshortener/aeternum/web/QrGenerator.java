@@ -91,7 +91,7 @@ public class QrGenerator {
             + urlVcard).request().get();
 
         if(response.getStatus() == 200){
-            String qrCode = "\"https://chart.googleapis.com/chart?chs=500x500&cht=qr&chld=" + infoLevel +"&chl=" + urlVcard + "\"";
+            String qrCode = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chld=" + infoLevel +"&chl=" + urlVcard;
             LOG.info("QR code generated");
             return qrCode;
         }else{

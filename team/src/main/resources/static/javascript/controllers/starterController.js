@@ -49,7 +49,6 @@ angular.module('urlShortener')
             $scope.successMsg = message.uri;
             $scope.success = true;
             $scope.safe = message.safe;
-            window.alert(message.qrCode);
 
             if($scope.wantQr.toString() == 'true'){
                 $scope.qr = message.qrCode;
@@ -69,37 +68,35 @@ angular.module('urlShortener')
             $scope.qr = "";
         };
 
-
         $scope.shortURL = function () {
             urlShortener.checkRegion(function (resultRegion){
                 $scope.regionAvaiable = resultRegion;
                 if ($scope.regionAvaiable == 'true'){
-                    if($scope.wantQr.toString() == 'false'){
+                    if ($scope.wantQr.toString() == 'false') {
                         var url = {
                             url: $scope.url,
                             safe: $scope.safe,
                             wantQr: 'false'
                         };
-                        window.alert("No quiero qr");
+
                         urlShortener.shortURL(url, showSuccess, showError);
                     }else{
                         var url = {
                             url: $scope.url,
                             safe: $scope.safe,
                             wantQr: 'true',
-                            fName:  $scope.qrFName,
-                            lName: $scope.qrLName,
-                            Email: $scope.qrEmail,
-                            Phone: $scope.qrPhone,
-                            Company: $scope.qrCompany,
-                            Street: $scope.qrStreet,
-                            Zip: $scope.qrZip,
-                            City: $scope.qrCity,
-                            Country: $scope.qrCountry,
-                            Level: $scope.qrLevel
+                            fName:  "" + $scope.qrFName,
+                            lName: "" + $scope.qrLName,
+                            Email:  "" + $scope.qrEmail,
+                            Phone: "" + $scope.qrPhone,
+                            Company: "" + $scope.qrCompany,
+                            Street: "" + $scope.qrStreet,
+                            Zip: "" + $scope.qrZip,
+                            City: "" + $scope.qrCity,
+                            Country: "" + $scope.qrCountry,
+                            Level: "" + $scope.qrLevel
                         };
-                        window.alert("Quiero qr");
-                        window.alert("El nombre: " + $scope.qrFName);
+
                         urlShortener.shortURL(url, showSuccess, showError);
                     }
 

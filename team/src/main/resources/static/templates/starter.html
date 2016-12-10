@@ -12,7 +12,7 @@
       <div class="checkbox">
         <label><input type="checkbox" id="checkBox" ng-model="wantQr" value="">I want a Qr</label>
       </div>
-      <div ng-show="wantQr"  id="box">
+      <div ng-if="wantQr"  id="box">
         <h2 class="text-center">Here you can fill all the information about yourself that you want to be included in
           the generated QR code. Note that none of the fields is mandatory.</h2>
         <div class="row">
