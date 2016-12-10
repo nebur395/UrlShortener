@@ -110,7 +110,7 @@ public class ShortURLRepositoryTests {
 		sul = repository.findByTarget("dummy");
 		assertEquals(sul.size(), 0);
 	}
-	
+    
 	@Test
 	public void thatDeleteDelete() {
 		repository.save(url1());

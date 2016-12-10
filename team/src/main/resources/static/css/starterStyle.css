@@ -16,6 +16,22 @@
   padding: 15px 40px;
 }
 
+#starterStyle #urlForm{
+  margin: 3% 0;
+  background-color: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0 0 10px 10px rgba(77, 77, 77, 0.30);
+  padding: 15px 40px;
+}
+
+#starterStyle #box{
+  margin: 3% 0;
+  background-color: #ffffff;
+  border-radius: 25px;
+  box-shadow: 0 0 10px 10px rgba(77, 77, 77, 0.30);
+  padding: 15px 40px;
+}
+
 #starterStyle h2 {
   font-size: 110%;
   font-weight: 600;

@@ -1,12 +1,12 @@
 angular.module('urlShortener')
 
-    .controller('starterCtrl', ['$scope', '$state', 'urlShortener', 'qrGenerator', function ($scope, $state, urlShortener, qrGenerator, checkRegion) {
+    .controller('starterCtrl', ['$scope', '$state', 'urlShortener', function ($scope, $state, urlShortener, checkRegion) {
 
         $scope.url = "";    // initial url input form
-        $scope.qr = "";
+        $scope.qr = "https://66.media.tumblr.com/44e89309ea155b3be1213e64cc872f2a/tumblr_n0wqfhEW9K1sghdp8o1_400.gif";
         $scope.avaiableQR = false;
-        $scope.wantVcard = false;
         $scope.regionAvaiable = true;
+        $scope.wantQr = false;
 
         // variables for vcard/qr generator
         $scope.qrFName = "";
@@ -45,16 +45,15 @@ angular.module('urlShortener')
         };
 
         // show the success mensage
-        var showSuccess = function (message, safe) {
-            $scope.successMsg = message;
+        var showSuccess = function (message) {
+            $scope.successMsg = message.uri;
             $scope.success = true;
-            $scope.safe = safe;
-        };
+            $scope.safe = message.safe;
 
-        // show the vcard panel
-        $scope.showVcard = function () {
-            $scope.qr = "https://66.media.tumblr.com/44e89309ea155b3be1213e64cc872f2a/tumblr_n0wqfhEW9K1sghdp8o1_400.gif";
-            $scope.wantVcard = true;
+            if($scope.wantQr.toString() == 'true'){
+                $scope.qr = message.qrCode;
+            }
+            $scope.avaiableQR = true;
         };
 
         // hide the success mensage
@@ -69,58 +68,41 @@ angular.module('urlShortener')
             $scope.qr = "";
         };
 
-        // hide the Vcard panel
-        $scope.hideVcard = function () {
-            $scope.wantVcard = false;
-        };
-
         $scope.shortURL = function () {
             urlShortener.checkRegion(function (resultRegion){
                 $scope.regionAvaiable = resultRegion;
                 if ($scope.regionAvaiable == 'true'){
-                    var url = {
-                        url: $scope.url,
-                        safe: $scope.safe
-                    };
-                    urlShortener.shortURL(url, showSuccess, showError);
+                    if ($scope.wantQr.toString() == 'false') {
+                        var url = {
+                            url: $scope.url,
+                            safe: $scope.safe,
+                            wantQr: 'false'
+                        };
+
+                        urlShortener.shortURL(url, showSuccess, showError);
+                    }else{
+                        var url = {
+                            url: $scope.url,
+                            safe: $scope.safe,
+                            wantQr: 'true',
+                            fName:  "" + $scope.qrFName,
+                            lName: "" + $scope.qrLName,
+                            Email:  "" + $scope.qrEmail,
+                            Phone: "" + $scope.qrPhone,
+                            Company: "" + $scope.qrCompany,
+                            Street: "" + $scope.qrStreet,
+                            Zip: "" + $scope.qrZip,
+                            City: "" + $scope.qrCity,
+                            Country: "" + $scope.qrCountry,
+                            Level: "" + $scope.qrLevel
+                        };
+
+                        urlShortener.shortURL(url, showSuccess, showError);
+                    }
+
+
                 }
             });
-        };
-
-        $scope.vCardForm = function ()  {
-            if ($scope.generateQRandVcard) {
-                $scope.getQR();
-            } else {
-                $scope.download();
-            }
-        };
-
-        // read values from the textFields and generate Qr
-        $scope.getQR = function () {
-            qrGenerator.generateQR($scope.successMsg,
-                $scope.qrFName,
-                $scope.qrLName,
-                $scope.qrEmail,
-                $scope.qrPhone,
-                $scope.qrCompany,
-                $scope.qrStreet,
-                $scope.qrZip,
-                $scope.qrCity,
-                $scope.qrCountry,
-                $scope.qrLevel, function (urlQR) {
-                    $scope.qr = urlQR;
-                    $scope.avaiableQR = true;
-            });
-        };
-
-        $scope.download = function () {
-            if ($scope.avaiableQR == true) {
-                var link = document.createElement('a');
-                link.href = $scope.qr;
-                link.download = 'qrCode.jpg';
-                document.body.appendChild(link);
-                link.click();
-            }
         };
 
     }]);

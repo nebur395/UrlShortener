@@ -15,10 +15,11 @@ public class ShortURL {
 	private Boolean safe;
 	private String ip;
 	private String country;
+    private String qrCode;
 
 	public ShortURL(String hash, String target, URI uri, String sponsor,
 			Date created, String owner, Integer mode, Boolean safe, String ip,
-			String country) {
+			String country, String qrCode) {
 		this.hash = hash;
 		this.target = target;
 		this.uri = uri;
@@ -29,6 +30,7 @@ public class ShortURL {
 		this.safe = safe;
 		this.ip = ip;
 		this.country = country;
+        this.qrCode = qrCode;
 	}
 
 	public ShortURL() {
@@ -78,6 +80,10 @@ public class ShortURL {
         this.safe = safe;
     }
 
+    public String getQrCode() { return qrCode;}
+
+    public void setQrCode(String qrCode) { this.qrCode = qrCode;}
+
     @Override
     public String toString() {
         return "ShortURL{" +
@@ -91,6 +97,7 @@ public class ShortURL {
             ", safe=" + safe +
             ", ip='" + ip + '\'' +
             ", country='" + country + '\'' +
+            ", qrCode='" + qrCode + '\'' +
             '}';
     }
 }
