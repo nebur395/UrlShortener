@@ -69,13 +69,14 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 	@Override
 	public ResponseEntity<ShortURL> shortener(@RequestParam("url") String url,
 											  @RequestParam(value = "sponsor", required = false) String sponsor,
+                                              @RequestParam(value = "wantQr", required = false) boolean wantQr,
 											  HttpServletRequest request) {
 		logger.info("Requested new short for uri " + url);
-        ResponseEntity<ShortURL> r = super.shortener(url, sponsor, request);
+        ResponseEntity<ShortURL> r = super.shortener(url, sponsor, wantQr, request);
 
         ShortURL miShort = r.getBody();
 
-        if (request.getParameter("wantQr").equals("true")){
+        if (wantQr){
             logger.info("ESTOY  APUNTO DE PEDIR EL QR");
             String qrCode = QrGenerator.generateQR(miShort.getUri(),request);
             logger.info("EL QR OBTENIDO HA SIDO: " + qrCode);

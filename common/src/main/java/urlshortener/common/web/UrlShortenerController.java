@@ -76,6 +76,7 @@ public class UrlShortenerController {
 	@RequestMapping(value = "/link", method = RequestMethod.POST)
 	public ResponseEntity<ShortURL> shortener(@RequestParam("url") String url,
 											  @RequestParam(value = "sponsor", required = false) String sponsor,
+                                              @RequestParam(value = "wantQr", required = false) boolean wantQr,
 											  HttpServletRequest request) {
 		ShortURL su = createAndSaveIfValid(url, sponsor, UUID
 				.randomUUID().toString(), extractIP(request));
@@ -100,7 +101,7 @@ public class UrlShortenerController {
 							methodOn(UrlShortenerController.class).redirectTo(
 									id, null)).toUri(), sponsor, new Date(
 							System.currentTimeMillis()), owner,
-					HttpStatus.TEMPORARY_REDIRECT.value(), true, ip, null, "");
+					HttpStatus.TEMPORARY_REDIRECT.value(), true, ip, null, null);
 			return shortURLRepository.save(su);
 		} else {
 			return null;
