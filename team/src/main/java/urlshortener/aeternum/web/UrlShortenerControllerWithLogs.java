@@ -39,32 +39,23 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         //Read ip client from shortURL and obtain its location info if there is a click with this hash
         if (s != null) {
             String ip = s.getIP();
+            ip = "62.101.181.50";
             Location loc = ReadLocation.location(ip);
             updateLocation(s, loc);
-        }
-        return r;
-	}
 
-    @RequestMapping(value = "/checkRegion", method = RequestMethod.GET)
-	public ResponseEntity<Boolean> checkRegion (HttpServletRequest request){
-        String ip = request.getRemoteAddr();
-        Boolean regionAvaiable = new Boolean(false);
-
-        ip = "62.101.181.50";
-        //Read ip client from shortURL and obtain its location info if there is a click with this hash
-        if (ip != null) {
-            String country = ReadLocation.location(ip).getCountryName();
+            //Search if the country is restricted
+            String country = loc.getCountryName();
             CountryRestriction rs = countryResRepository.findCountry(country);
             if(rs.isaccessAllowed()){
-                regionAvaiable = true;
                 logger.info("Access allowed");
+                return r;
             }else{
                 logger.info("Access denied");
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         }
-        return new ResponseEntity<>(regionAvaiable, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-
 
 	@Override
 	public ResponseEntity<ShortURL> shortener(@RequestParam("url") String url,

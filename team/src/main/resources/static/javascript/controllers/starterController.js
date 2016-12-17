@@ -69,40 +69,32 @@ angular.module('urlShortener')
         };
 
         $scope.shortURL = function () {
-            urlShortener.checkRegion(function (resultRegion){
-                $scope.regionAvaiable = resultRegion;
-                if ($scope.regionAvaiable == 'true'){
-                    if ($scope.wantQr.toString() == 'false') {
-                        var url = {
-                            url: $scope.url,
-                            safe: $scope.safe,
-                            wantQr: 'false'
-                        };
+            if ($scope.wantQr.toString() == 'false') {
+                var url = {
+                    url: $scope.url,
+                    safe: $scope.safe,
+                    wantQr: 'false'
+                };
 
-                        urlShortener.shortURL(url, showSuccess, showError);
-                    }else{
-                        var url = {
-                            url: $scope.url,
-                            safe: $scope.safe,
-                            wantQr: 'true',
-                            fName:  "" + $scope.qrFName,
-                            lName: "" + $scope.qrLName,
-                            Email:  "" + $scope.qrEmail,
-                            Phone: "" + $scope.qrPhone,
-                            Company: "" + $scope.qrCompany,
-                            Street: "" + $scope.qrStreet,
-                            Zip: "" + $scope.qrZip,
-                            City: "" + $scope.qrCity,
-                            Country: "" + $scope.qrCountry,
-                            Level: "" + $scope.qrLevel
-                        };
-
-                        urlShortener.shortURL(url, showSuccess, showError);
-                    }
-
-
-                }
-            });
+                urlShortener.shortURL(url, showSuccess, showError);
+            }else{
+                var url = {
+                    url: $scope.url,
+                    safe: $scope.safe,
+                    wantQr: 'true',
+                    fName:  "" + $scope.qrFName,
+                    lName: "" + $scope.qrLName,
+                    Email:  "" + $scope.qrEmail,
+                    Phone: "" + $scope.qrPhone,
+                    Company: "" + $scope.qrCompany,
+                    Street: "" + $scope.qrStreet,
+                    Zip: "" + $scope.qrZip,
+                    City: "" + $scope.qrCity,
+                    Country: "" + $scope.qrCountry,
+                    Level: "" + $scope.qrLevel
+                };
+                urlShortener.shortURL(url, showSuccess, showError);
+            }
         };
 
     }]);
