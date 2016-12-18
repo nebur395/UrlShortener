@@ -1,5 +1,10 @@
 package urlshortener.aeternum.web;
 
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.google.zxing.qrcode.encoder.QRCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +19,19 @@ import urlshortener.common.web.UrlShortenerController;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.*;
+import java.awt.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+
+import com.google.zxing.*;
 
 @RestController
 public class QrGenerator {
-    private static String infoUrl, infoName, infoEmail, infoPhone,infoCompany,infoAdress, infoLevel;
+    private static String infoUrl, infoName, infoEmail, infoPhone,infoCompany,infoAdress, infoLevel, infoColour, infoLogo;
     private static String vCardText, urlVcard;
 
     private static final Logger LOG = LoggerFactory
@@ -86,6 +95,35 @@ public class QrGenerator {
         catch (UnsupportedEncodingException e){
 
         }
+/*
+        // BEGINING OF QR GENERATION
+        BitMatrix matrix = new BitMatrix();
+        QRCodeWriter qrWriter = new QRCodeWriter();
+        HashMap<EncodeHintType, ErrorCorrectionLevel> hints = new HashMap<EncodeHintType, ErrorCorrectionLevel>();
+
+        // Selection of correction level
+        switch (infoLevel) {
+            case "L": hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+                    break;
+            case "M": hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
+                    break;
+            case "Q": hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.Q);
+                    break;
+            case "H": hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+                    break;
+        }
+
+
+        try {
+            matrix = qrWriter.encode(urlVcard, BarcodeFormat.QR_CODE,500,500,hints);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+
+        Image image = MatrixToImageWriter.toBufferedImage(matrix);
+    */
+        // TODO Finish this URL ENCODER
+
 
         Response response = client.target("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chld=" + infoLevel +"&chl="
             + urlVcard).request().get();
@@ -98,6 +136,7 @@ public class QrGenerator {
             LOG.info("Error to get the qr code");
             return "ERROR EN LA PETICION";
         }
+
     }
 
     // Method that returns a time Stamp to generate the Vcard

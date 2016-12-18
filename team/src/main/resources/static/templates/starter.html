@@ -7,7 +7,7 @@
     <form class="text-center" role="form" ng-submit="shortURL()">
       <div class="form-group">
         <input type="text" class="form-control" ng-model="url" placeholder="Enter a URL"
-               ng-click="hideError();hideSuccess();hideImage();hideVcard();hideSafe()" required/>
+               ng-click="hideError();hideSuccess();hideSafe()" required/>
       </div>
       <div class="checkbox">
         <label><input type="checkbox" id="checkBox" ng-model="wantQr" value="">I want a Qr</label>
@@ -38,12 +38,12 @@
                 <label for="company">Company/Organisation:</label>
                 <input type="text" class="form-control" id="company" ng-model="$parent.qrCompany">
               </div>
-            </div>
-            <div class="col-sm-6">
               <div class="form-group">
                 <label for="street">Street:</label>
                 <input type="text" class="form-control" id="street" ng-model="$parent.qrStreet">
               </div>
+             </div>
+            <div class="col-sm-6">
               <div class="form-group">
                 <label for="zipCode">Zip code:</label>
                 <input type="number" min="0" class="form-control" id="zipCode" ng-model="$parent.qrZip">
@@ -55,6 +55,22 @@
               <div class="form-group">
                 <label for="country">Country:</label>
                 <input type="text" class="form-control" id="country" ng-model="$parent.qrCountry">
+              </div>
+              <div class="form-group">
+                <label for="colour">Color:</label>
+                <select class="form-control" id="colour" ng-model="$parent.qrLevel">
+                  <option>Black</option>
+                  <option>Red</option>
+                  <option>Blue</option>
+                  <option>Green</option>
+                  <option>Yellow</option>
+                  <option>Orange</option>
+                  <option>Purple</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="logo">Logo:</label>
+                <input type="text" class="form-control" id="logo" placeholder="Enter URL of the logo" ng.model="$parent.logo"/>
               </div>
               <div class="form-group">
                 <label for="correctionLevel">Correction level:</label>

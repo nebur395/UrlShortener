@@ -36,8 +36,10 @@ dependencies {
     // Provides websocket library
     compile 'org.springframework.boot:spring-boot-starter-websocket'
 
-    // Provides methods to generate VCards
-    //compile 'com.googlecode.ez-vcard:ez-vcard:0.10.0'
+    // API for Qr generator
+       compile group: 'com.google.zxing', name: 'javase', version: '3.3.0'
+
+    compile 'com.google.zxing:zxing-parent:3.3.0'
 
     // Testing framework
     testCompile 'org.springframework.boot:spring-boot-starter-test'

@@ -19,6 +19,8 @@ angular.module('urlShortener')
         $scope.qrCity = "";
         $scope.qrCountry = "";
         $scope.qrLevel = "L";
+        $scope.colour = "Black";
+        $scope.logo = "";
 
         // FEEDBACK MESSAGES
 
@@ -94,7 +96,9 @@ angular.module('urlShortener')
                             Zip: "" + $scope.qrZip,
                             City: "" + $scope.qrCity,
                             Country: "" + $scope.qrCountry,
-                            Level: "" + $scope.qrLevel
+                            Level: "" + $scope.qrLevel,
+                            Colour: "" + $scope.colour,
+                            Logo: "" + $scope.logo
                         };
 
                         urlShortener.shortURL(url, showSuccess, showError);
