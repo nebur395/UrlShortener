@@ -238,6 +238,22 @@ angular.module('urlShortener')
                 }).error(function (data) {
                     callbackError('Error to administrate restrictions about location');
                 });
+            },
+
+            //update frequency of restrictions
+            updateFrequency: function (info, callbackSuccess,callbackError) {
+                $http({
+                    method: 'POST',
+                    url: '/restrictAccess/updateFrequency',
+                    data: $httpParamSerializer(info),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Unable update frequency about country');
+                });
             }
         };
     });

@@ -15,4 +15,6 @@ public interface CountryResRepository {
     List<String> listCountries(boolean access);
 
     CountryRestriction findCountry(String country);
+
+    boolean updateFrequency(String country, Integer req, Integer time);
 }

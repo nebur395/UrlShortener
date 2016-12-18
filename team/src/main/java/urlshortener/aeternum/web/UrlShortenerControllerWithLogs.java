@@ -57,7 +57,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
                 return createForbiddenRedirectToResponse();
             }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return r;
     }
 
 	@Override
