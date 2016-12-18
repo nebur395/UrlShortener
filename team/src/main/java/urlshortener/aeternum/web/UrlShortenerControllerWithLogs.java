@@ -13,6 +13,7 @@ import urlshortener.common.domain.ShortURL;
 import urlshortener.common.repository.CountryResRepository;
 import urlshortener.common.web.UrlShortenerController;
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
 import java.util.List;
 import java.util.Timer;
 
@@ -29,7 +30,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 
 
     @Override
-	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn|unsafePage|restrictAccess).*}",
+	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn|unsafePage|restrictAccess|forbiddenAccess).*}",
         method = RequestMethod.GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id, HttpServletRequest request) {
 		logger.info("Requested redirection with hash " + id);
@@ -51,10 +52,10 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
                 return r;
             }else{
                 logger.info("Access denied");
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                return createForbiddenRedirectToResponse();
             }
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 	@Override
@@ -95,5 +96,15 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         long n = clickRepository.clicksByHash(hash);
         //Update shortURL coordinates and country
         clickRepository.addLocationInfo(hash, n-1, loc.getCountryName(), loc.getLatitude(), loc.getLongitude());
+    }
+
+    /**
+     * Redirects to forbiddenAccess html page when the access is restricted
+     */
+    private ResponseEntity<?> createForbiddenRedirectToResponse() {
+        HttpHeaders h = new HttpHeaders();
+        String url = "http://localhost:8080/#/forbiddenAccess";
+        h.setLocation(URI.create(url));
+        return new ResponseEntity<>(h, HttpStatus.OK);
     }
 }

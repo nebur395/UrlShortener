@@ -75,10 +75,6 @@
       <button type="submit" class="btn btn-default theme-accent">Generate!</button>
     </form>
 
-    <div ng-if="regionAvaiable == 'false'" class="alert alert-danger feedbackMessages">
-      <strong>X</strong> YOUR REGION IS FORBIDDEN FROM USING THIS SERVICE
-    </div>
-
     <!-- this div will show only when the save operation has been a success -->
     <div ng-if="success" class="alert alert-success feedbackMessages">
       <strong>&#10004</strong> <a target='_blank' ng-href="{{successMsg}}">{{successMsg}}</a>
