@@ -14,15 +14,14 @@ public class ReadLocation {
     /**
      * Returns info about location of client
      */
-    public Location location(String ip){
-        String request = "http://api.ipinfodb.com/v3/ip-city/?key=f1b4a91ee54084023046c04064c8c20ab563d30bff45f35de7abd127155acb4b&ip="
-            +ip+"&format=json";
+    public Location location(){
+        String request = "http://api.ipinfodb.com/v3/ip-city/?key=f1b4a91ee54084023046c04064c8c20ab563d30bff45f35de7abd127155acb4b&format=json";
 
         //HTTP GET request and extract response with JSON format
         RestTemplate restTemplate = new RestTemplate();
         Location l = restTemplate.getForObject(request, Location.class);
         if(l.getStatusCode().equals("OK")){
-            LOG.info("Reading location from "+ip);
+            LOG.info("Reading location");
             return l;
         }
         else{

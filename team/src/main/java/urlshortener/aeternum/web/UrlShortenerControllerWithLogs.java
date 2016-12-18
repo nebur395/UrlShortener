@@ -41,9 +41,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         ShortURL s = shortURLRepository.findByKey(id);
         //Read ip client from shortURL and obtain its location info if there is a click with this hash
         if (s != null) {
-            String ip = s.getIP();
-            ip = "62.101.181.50";
-            Location loc = readLocation.location(ip);
+            Location loc = readLocation.location();
             updateLocation(s, loc);
 
             //Search if the country is restricted
