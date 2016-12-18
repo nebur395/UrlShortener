@@ -28,6 +28,8 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
     @Autowired
     protected CountryResRepository countryResRepository;
 
+    @Autowired
+    protected ReadLocation readLocation;
 
     @Override
 	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn|unsafePage|restrictAccess|forbiddenAccess).*}",
@@ -41,7 +43,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         if (s != null) {
             String ip = s.getIP();
             ip = "62.101.181.50";
-            Location loc = ReadLocation.location(ip);
+            Location loc = readLocation.location(ip);
             updateLocation(s, loc);
 
             //Search if the country is restricted
