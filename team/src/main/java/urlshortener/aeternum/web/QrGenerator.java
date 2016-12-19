@@ -16,10 +16,14 @@ import urlshortener.common.repository.ClickRepository;
 import urlshortener.common.repository.ShortURLRepository;
 import urlshortener.common.web.UrlShortenerController;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -95,11 +99,12 @@ public class QrGenerator {
         catch (UnsupportedEncodingException e){
 
         }
-/*
+
         // BEGINING OF QR GENERATION
-        BitMatrix matrix = new BitMatrix();
         QRCodeWriter qrWriter = new QRCodeWriter();
-        HashMap<EncodeHintType, ErrorCorrectionLevel> hints = new HashMap<EncodeHintType, ErrorCorrectionLevel>();
+        BitMatrix matrix = null;
+        HashMap<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
+        hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 
         // Selection of correction level
         switch (infoLevel) {
@@ -115,14 +120,56 @@ public class QrGenerator {
 
 
         try {
-            matrix = qrWriter.encode(urlVcard, BarcodeFormat.QR_CODE,500,500,hints);
-        } catch (WriterException e) {
-            e.printStackTrace();
+             matrix = qrWriter.encode(urlVcard, BarcodeFormat.QR_CODE,500,500,hints);
+
+        int width = matrix.getWidth();
+
+        BufferedImage image = new BufferedImage(width,width,BufferedImage.TYPE_INT_RGB);
+        image.createGraphics();
+
+
+        Graphics2D graphics = (Graphics2D) image.getGraphics();
+
+        graphics.setColor(Color.WHITE);
+        graphics.fillRect(0,0,width,width);
+
+        infoColour = request.getParameter("Colour");
+
+            LOG.info("Color elegido: " + infoColour);
+
+            switch (infoColour) {
+            case "Black": graphics.setColor(Color.BLACK);
+            case "Red": graphics.setColor(Color.RED);
+            case "Blue": graphics.setColor(Color.BLUE);
+            case "Green": graphics.setColor(Color.GREEN);
+            case "Yellow": graphics.setColor(Color.YELLOW);
+            case "Orange": graphics.setColor(Color.ORANGE);
+            case "Purple": graphics.setColor(new Color (90,20,204));
+            case "Pink": graphics.setColor(Color.PINK);
+        }
+            LOG.info("Color puesto: " + graphics.getColor().toString());
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < width; j++) {
+                if (matrix.get(i, j)) {
+                    graphics.fillRect(i, j, 1, 1);
+                }
+            }
         }
 
-        Image image = MatrixToImageWriter.toBufferedImage(matrix);
-    */
+        File destino = new File("/home/belbus/GitHub/ingWeb/UrlShortener/team/src/main/resources/images/");
+        ImageIO.write(image, "png", destino );
+        } catch (WriterException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // If we want an image in the qr we read it
+        if (!request.getParameter("Logo").equals("")){
+            infoLogo = request.getParameter("Logo");
+        }
+
         // TODO Finish this URL ENCODER
+
 
 
         Response response = client.target("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chld=" + infoLevel +"&chl="
