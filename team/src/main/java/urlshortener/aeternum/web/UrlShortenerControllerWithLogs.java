@@ -13,6 +13,8 @@ import urlshortener.common.domain.ShortURL;
 import urlshortener.common.repository.CountryResRepository;
 import urlshortener.common.web.UrlShortenerController;
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Timer;
 
@@ -23,6 +25,8 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
     private boolean isSafe;
     //Timer time = new Timer(); // Instantiate Timer Object
     ScheduledTask st = new ScheduledTask();
+    private static final Logger LOG = LoggerFactory
+        .getLogger(QrGenerator.class);
 
     @Autowired
     protected CountryResRepository countryResRepository;
@@ -92,6 +96,8 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 
         miShort.setSafe(isSafe);
         shortURLRepository.mark(miShort, isSafe);
+
+        LOG.info("OBJETO JSON?:" + r.toString());
 
         return r;
 	}
