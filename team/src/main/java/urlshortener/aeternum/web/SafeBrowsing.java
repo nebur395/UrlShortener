@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpEntity;
 import urlshortener.common.domain.*;
 
-//@Component
+@Component
 public class SafeBrowsing {
     private static final Logger LOG = LoggerFactory.getLogger(SafeBrowsing.class);
 
@@ -21,24 +21,22 @@ public class SafeBrowsing {
     @Value("${googleAPI.apikey}")
     private String API_KEY;
 
-    //private Matches m;
-    private static Matches m;
+    private Matches m;
+    //private static Matches m;
 
     public SafeBrowsing() {}
 
-//    public Matches getM() {
+    public Matches getM() {return m;}
+//    public static Matches getM() {
 //        return m;
 //    }
-    public static Matches getM() {
-        return m;
-    }
 
 
 
     public boolean safe(String url)  {
 
-        //String peticionSafe = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyDG39Zc-4BtPjLR_6gVj7LUJjbGEdV-oqI";
-        String peticionSafe = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=" + API_KEY;
+        String peticionSafe = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyDG39Zc-4BtPjLR_6gVj7LUJjbGEdV-oqI";
+        //String peticionSafe = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=" + API_KEY;
 
         ObjectMapper mapper = new ObjectMapper();
         ThreatEntry entries = new ThreatEntry(url);
@@ -63,7 +61,6 @@ public class SafeBrowsing {
         m = new Matches(tm.getBody().getMatches());
         if(tm.getStatusCodeValue() == 200) {
             if(tm.getBody().getMatches() == null) {
-                System.out.println(tm.getBody().getMatches());
                 LOG.info("La URL " + url + " es segura");
                 isSafe = true;
             }
