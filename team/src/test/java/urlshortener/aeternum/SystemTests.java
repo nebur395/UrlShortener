@@ -63,16 +63,16 @@ public class SystemTests {
 		assertThat(rc.read("$.sponsor"), is(nullValue()));
 	}
 
-/*	@Test
+	@Test
 	public void testRedirection() throws Exception {
 		postLink("http://example.com/");
 		ResponseEntity<String> entity = new TestRestTemplate().getForEntity(
 				"http://localhost:" + this.port
 						+ "/f684a3c4", String.class);
-	//	assertThat(entity.getStatusCode(), is(HttpStatus.TEMPORARY_REDIRECT));
-	//	assertThat(entity.getHeaders().getLocation(), is(new URI("http://example.com/")));
+		assertThat(entity.getStatusCode(), is(HttpStatus.TEMPORARY_REDIRECT));
+		assertThat(entity.getHeaders().getLocation(), is(new URI("http://example.com/")));
 	}
-*/
+
 	private ResponseEntity<String> postLink(String url) {
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<>();
 		parts.add("url", url);

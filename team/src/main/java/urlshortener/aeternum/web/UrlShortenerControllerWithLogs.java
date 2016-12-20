@@ -105,6 +105,6 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         HttpHeaders h = new HttpHeaders();
         String url = "http://localhost:8080/#/forbiddenAccess";
         h.setLocation(URI.create(url));
-        return new ResponseEntity<>(h, HttpStatus.OK);
+        return new ResponseEntity<>(h, HttpStatus.FOUND);
     }
 }
