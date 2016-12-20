@@ -97,13 +97,6 @@ public class QrGenerator {
         // Taking the correction level selected by the user
         infoLevel = request.getParameter("Level");
 
-        // Enconding of Vcard as an URL object
-        try {
-            urlVcard = URLEncoder.encode(vCardText, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-
-        }
-
         // BEGINING OF QR GENERATION
         QRCodeWriter qrWriter = new QRCodeWriter();
         BitMatrix matrix = null;
@@ -128,7 +121,7 @@ public class QrGenerator {
 
 
         try {
-            matrix = qrWriter.encode(urlVcard, BarcodeFormat.QR_CODE, 500, 500, hints);
+            matrix = qrWriter.encode(vCardText, BarcodeFormat.QR_CODE, 500, 500, hints);
 
             int width = matrix.getWidth();
 
