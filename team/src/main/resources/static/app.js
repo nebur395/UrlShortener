@@ -15,7 +15,12 @@ angular.module('urlShortener', ['ui.router', 'base64', 'ngStomp'])
             .state('signUp', {
                 url: "/signUp",
                 templateUrl: "templates/signUp.html",
-                controller: "signUpCtrl"
+                controller: "signUpCtrl",
+                onEnter: function($state, auth){
+                    if(!auth.isAuthenticated()){
+                        $state.go('starter');
+                    }
+                }
             })
 
             //sign in screen
