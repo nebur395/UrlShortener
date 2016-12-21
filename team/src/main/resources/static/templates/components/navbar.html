@@ -23,7 +23,7 @@
         <li ng-if="logged()"><a href="#/restrictAccess">Restrict Access</a></li>
         <!-- sign in/up button -->
         <li ng-if="!logged()"><a href="#/signIn">Sign In</a></li>
-        <li ng-if="!logged()"><a href="#/signUp">Sign Up</a></li>
+        <li ng-if="logged()"><a href="#/signUp">Sign Up</a></li>
         <!-- log out button -->
         <li ng-if="logged()"><a ng-click="logout()">Logout</a></li>
       </ul>
