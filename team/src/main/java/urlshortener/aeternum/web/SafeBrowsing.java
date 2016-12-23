@@ -18,23 +18,20 @@ public class SafeBrowsing {
 
     private boolean isSafe;
 
-    @Value("${googleAPI.apikey}")
+    @Value("${googleAPI.key}")
     private String API_KEY;
 
-    private Matches m;
-    //private static Matches m;
+    private static Matches m;
 
     public SafeBrowsing() {}
 
-    public Matches getM() {return m;}
-//    public static Matches getM() {
-//        return m;
-//    }
+    public static Matches getM() {
+        return m;
+    }
 
 
 
     public boolean safe(String url)  {
-
         String peticionSafe = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyDG39Zc-4BtPjLR_6gVj7LUJjbGEdV-oqI";
         //String peticionSafe = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=" + API_KEY;
 

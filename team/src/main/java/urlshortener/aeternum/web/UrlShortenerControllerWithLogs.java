@@ -13,6 +13,7 @@ import urlshortener.common.domain.ShortURL;
 import urlshortener.common.repository.CountryResRepository;
 import urlshortener.common.web.UrlShortenerController;
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
 import java.util.List;
 import java.util.Timer;
 
@@ -21,7 +22,6 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UrlShortenerControllerWithLogs.class);
     private boolean isSafe;
-    //Timer time = new Timer(); // Instantiate Timer Object
     ScheduledTask st = new ScheduledTask();
 
     @Autowired
@@ -42,8 +42,22 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
             Location loc = ReadLocation.location(ip);
             updateLocation(s, loc);
         }
-        return r;
+
+        if (!isSafe) {
+            return sendUnsafePage();
+        }
+        else {
+            return r;
+        }
 	}
+
+	public ResponseEntity<?> sendUnsafePage() {
+        HttpHeaders headers = new HttpHeaders();
+        String url = "http://localhost:8080/#/unsafePage";
+
+        headers.setLocation(URI.create(url));
+        return new ResponseEntity(headers, HttpStatus.FOUND);
+    }
 
     @RequestMapping(value = "/checkRegion", method = RequestMethod.GET)
 	public ResponseEntity<Boolean> checkRegion (HttpServletRequest request){
