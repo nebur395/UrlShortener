@@ -18,7 +18,7 @@ public class SafeBrowsing {
 
     private boolean isSafe;
 
-    @Value("${googleAPI.key}")
+    @Value("${googleAPI.apikey}")
     private String API_KEY;
 
     private static Matches m;
