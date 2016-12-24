@@ -2,6 +2,7 @@ package urlshortener.aeternum;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.ReadContext;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,7 +64,8 @@ public class SystemTests {
 		assertThat(rc.read("$.sponsor"), is(nullValue()));
 	}
 
-/*	@Test
+	@Ignore
+	@Test
 	public void testRedirection() throws Exception {
 		postLink("http://example.com/");
 		ResponseEntity<String> entity = new TestRestTemplate().getForEntity(
@@ -71,7 +73,7 @@ public class SystemTests {
 						+ "/f684a3c4", String.class);
 		assertThat(entity.getStatusCode(), is(HttpStatus.TEMPORARY_REDIRECT));
 		assertThat(entity.getHeaders().getLocation(), is(new URI("http://example.com/")));
-	}*/
+	}
 
 	private ResponseEntity<String> postLink(String url) {
 		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<>();
