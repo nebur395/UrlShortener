@@ -106,7 +106,7 @@ public class UserRepositoryImpl implements UserRepository {
     public void meterUsuario() {
         User u = new User("admin", "admin", "gmail", true, new Date(System.currentTimeMillis()));
         save(u);
-        log.info("Metido usuario admin");
+        log.info("Add admin user");
     }
 
     @Override

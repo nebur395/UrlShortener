@@ -1,0 +1,9 @@
+#forbiddenAccess h1 {
+  font-size: 200%;
+  font-weight: bold;
+  color: #b71413;
+}
+
+#forbiddenAccess #text {
+  margin-top: 3%;
+}

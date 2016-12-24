@@ -21,7 +21,8 @@ public class CountryResRepositoryImpl implements CountryResRepository {
     private static final RowMapper<CountryRestriction> rowMapper = new RowMapper<CountryRestriction>() {
         @Override
         public CountryRestriction mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new CountryRestriction(rs.getString("country"), rs.getBoolean("accessAllowed"));
+            return new CountryRestriction(rs.getString("country"), rs.getBoolean("accessAllowed"),
+                rs.getInt("time"), rs.getInt("request"));
         }
     };
 
@@ -37,14 +38,14 @@ public class CountryResRepositoryImpl implements CountryResRepository {
 
     /**
      * Initialize COUNTRYRESTRICTION table with different countries
-     * allowing their requests
+     * allowing their requests and 100 req per second
      */
     @PostConstruct
     public void initializeCountryTable(){
         String[] countries = {"Spain", "Italy", "Ireland", "Japan"};
         CountryRestriction c;
         for(int i=0; i<countries.length; i++){
-            c = new CountryRestriction(countries[i], true);
+            c = new CountryRestriction(countries[i], true, 1,100);
             save(c);
         }
         log.info("Initialized countryrestriction table");
@@ -53,8 +54,8 @@ public class CountryResRepositoryImpl implements CountryResRepository {
     @Override
     public CountryRestriction save(CountryRestriction c) {
         try {
-            jdbc.update("INSERT INTO countryrestriction VALUES (?,?)",
-                c.getCountry(), c.isaccessAllowed());
+            jdbc.update("INSERT INTO countryrestriction VALUES (?,?,?,?)",
+                c.getCountry(), c.isaccessAllowed(), c.getTime(), c.getRequest());
         } catch (DuplicateKeyException e) {
             log.debug("When insert for key " + c.getCountry(), e);
             return null;
@@ -103,6 +104,16 @@ public class CountryResRepositoryImpl implements CountryResRepository {
         } catch (Exception e) {
             log.debug("When select for key " + country, e);
             return null;
+        }
+    }
+
+    public boolean updateFrequency(String country, Integer req, Integer time){
+        try {
+            jdbc.update("update countryrestriction set time=?, request=? where country=?", time, req, country);
+            return true;
+        } catch (Exception e) {
+            log.debug("When update frequency country " + country, e);
+            return false;
         }
     }
 

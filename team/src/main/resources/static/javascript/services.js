@@ -97,20 +97,6 @@ angular.module('urlShortener')
                 }).error(function (data) {
                     callbackError('ERROR');
                 });
-            },
-
-            // 'checkRegion' service checks if the user can use this service
-            checkRegion: function (callbackSuccess) {
-                $http({
-                    method: 'GET',
-                    url: '/checkRegion',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                }).success(function (data) {
-                    callbackSuccess(data.toString());
-                }).error(function (data) {
-                });
             }
         };
     })
@@ -251,6 +237,22 @@ angular.module('urlShortener')
                     callbackSuccess(data);
                 }).error(function (data) {
                     callbackError('Error to administrate restrictions about location');
+                });
+            },
+
+            //update frequency of restrictions
+            updateFrequency: function (info, callbackSuccess,callbackError) {
+                $http({
+                    method: 'POST',
+                    url: '/restrictAccess/updateFrequency',
+                    data: $httpParamSerializer(info),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Unable update frequency about country');
                 });
             }
         };

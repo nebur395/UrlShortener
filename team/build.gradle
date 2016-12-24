@@ -36,6 +36,7 @@ dependencies {
     // Provides websocket library
     compile 'org.springframework.boot:spring-boot-starter-websocket'
 
+
     // Provides methods to generate VCards
     //compile 'com.googlecode.ez-vcard:ez-vcard:0.10.0'
 
