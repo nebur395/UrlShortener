@@ -33,8 +33,8 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn|unsafePage|restrictAccess|forbiddenAccess).*}",
         method = RequestMethod.GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id, HttpServletRequest request) {
-		logger.info("Requested redirection with hash " + id);
-		ResponseEntity<?> r = super.redirectTo(id, request);
+        logger.info("Requested redirection with hash " + id);
+        ResponseEntity<?> r = super.redirectTo(id, request);
 
         ShortURL s = shortURLRepository.findByKey(id);
         //Read ip client from shortURL and obtain its location info if there is a click with this hash
@@ -44,22 +44,20 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
             //Search if the country is restricted
             String country = loc.getCountryName();
             CountryRestriction rs = countryResRepository.findCountry(country);
-            if(rs.isaccessAllowed()){
+            if (rs.isaccessAllowed()) {
                 logger.info("Access allowed");
-                return r;
-            }else{
+                if (!isSafe) {
+                    return sendUnsafePage();
+                } else {
+                    return r;
+                }
+            } else {
                 logger.info("Access denied");
                 return createForbiddenRedirectToResponse();
             }
         }
-
-        if (!isSafe) {
-            return sendUnsafePage();
-        }
-        else {
-            return r;
-        }
-	}
+        return r;
+    }
 
 	public ResponseEntity<?> sendUnsafePage() {
         HttpHeaders headers = new HttpHeaders();
@@ -67,20 +65,6 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 
         headers.setLocation(URI.create(url));
         return new ResponseEntity(headers, HttpStatus.FOUND);
-    }
-
-            //Search if the country is restricted
-            String country = loc.getCountryName();
-            CountryRestriction rs = countryResRepository.findCountry(country);
-            if(rs.isaccessAllowed()){
-                logger.info("Access allowed");
-                return r;
-            }else{
-                logger.info("Access denied");
-                return createForbiddenRedirectToResponse();
-            }
-        }
-        return r;
     }
 
 	@Override
