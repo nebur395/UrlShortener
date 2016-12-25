@@ -1,40 +1,65 @@
-<div id="viewStatisticsStyle">
+<div id="restrictAccess">
   <div class="container">
 
     <h1 id="firstContent">Restrict access depending on location</h1>
 
-    <!-- this div will show only when an error occurs -->
-    <div ng-if="error" class="alert alert-danger feedbackMessages">
-      <strong>&#10008</strong> {{errorMsg}}
-    </div>
-    <!-- this div will show only when the operation has been a success -->
-    <div ng-if="success" class="alert alert-success feedbackMessages">
-      <strong>&#10004</strong> {{successMsg}}
-    </div>
-
     <!-- show the list of unblocked countries for choosing one to block  -->
-    <strong>Select country for blocking the access to URLShortener service: </strong>
+    <h2>Select country for blocking the access to URLShortener service: </h2>
       <form name="unblock">
         <select name="unblockCountry" id="blocking" class="form-control"
-                ng-options="option for option in countryList.unblockList" ng-model="myCountry" required>
+                ng-options="option for option in countryList.unblockList" ng-model="myCountry" required
+                ng-click="hideError();hideSuccess()">
           <option value="">Select country</option>
         </select>
-        <input type="submit" value="Add" class="btn btn-default theme-accent" ng-click="blockCountry()">
+        <input type="submit" value="Add" class="btn btn-default theme-accent spaces" ng-click="blockCountry()">
       </form>
-      <br>
 
       <!-- show the list of blocked countries for choosing one to unblock  -->
-      <strong>Countries with restricted access: </strong>
+    <h2>Countries with restricted access: </h2>
       <form name="block">
-        <select name="blockCountry" id="unblocking2" class="form-control" ng-if="countryList.blockList.length == 0">
+        <select name="blockCountry" id="unblocking2" class="form-control" ng-if="countryList.blockList.length == 0"
+                ng-click="hideError();hideSuccess()">
           <option value="">There aren't countries blocked</option>
         </select>
         <select name="blockCountry" id="unblocking" class="form-control"
                 ng-options="option for option in countryList.blockList" ng-model="$parent.myCountryU"
-                ng-if="countryList.blockList.length != 0" required>
+                ng-if="countryList.blockList.length != 0" required
+                ng-click="hideError();hideSuccess()">
           <option value="">Select country</option>
         </select>
-        <input type="submit" value="Remove" class="btn btn-default theme-accent" ng-click="unblockCountry()">
+        <input type="submit" value="Remove" class="btn btn-default theme-accent spaces" ng-click="unblockCountry()">
       </form>
+
+    <!--Change the frequency of requests-->
+    <!--<h2>Select unblocked country for updating it request/time frequency allowed: </h2>-->
+    <!--<form name="update">-->
+      <!--<select name="updateCountry"class="form-control" ng-if="countryList.unblockList.length == 0"-->
+              <!--ng-click="hideError();hideSuccess()">-->
+        <!--<option value="">There aren't countries unblocked</option>-->
+      <!--</select>-->
+      <!--<select name="updateCountry" class="form-control"-->
+              <!--ng-options="option for option in countryList.unblockList" ng-model="updatedCountry" required-->
+              <!--ng-click="hideError();hideSuccess()">-->
+        <!--<option value="">Select country</option>-->
+      <!--</select>-->
+      <!--<label class="form">-->
+        <!--Request: <input type="number" ng-model="request" required ng-click="hideError();hideSuccess()">-->
+      <!--</label>-->
+      <!--<label class="form">-->
+        <!--Time (in seconds): <input type="number" ng-model="time" required ng-click="hideError();hideSuccess()">-->
+      <!--</label>-->
+      <!--</br>-->
+      <!--<input type="submit" value="Update" class="btn btn-default theme-accent spaces" ng-click="updateFrequency()">-->
+    <!--</form>-->
+
+    <!-- this div will show only when an error occurs -->
+    <div ng-if="error" class="alert alert-danger feedbackMessages spaces">
+      <strong>&#10008</strong> {{errorMsg}}
+    </div>
+    <!-- this div will show only when the operation has been a success -->
+    <div ng-if="success" class="alert alert-success feedbackMessages spaces">
+      <strong>&#10004</strong> {{successMsg}}
+    </div>
+
     </div>
   </div>

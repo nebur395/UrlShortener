@@ -22,14 +22,15 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UrlShortenerControllerWithLogs.class);
     private boolean isSafe;
-    ScheduledTask st = new ScheduledTask();
 
     @Autowired
     protected CountryResRepository countryResRepository;
 
+    @Autowired
+    protected ReadLocation readLocation;
 
     @Override
-	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn|unsafePage|restrictAccess).*}",
+	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn|unsafePage|restrictAccess|forbiddenAccess).*}",
         method = RequestMethod.GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id, HttpServletRequest request) {
 		logger.info("Requested redirection with hash " + id);
@@ -38,9 +39,18 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         ShortURL s = shortURLRepository.findByKey(id);
         //Read ip client from shortURL and obtain its location info if there is a click with this hash
         if (s != null) {
-            String ip = s.getIP();
-            Location loc = ReadLocation.location(ip);
+            Location loc = readLocation.location();
             updateLocation(s, loc);
+            //Search if the country is restricted
+            String country = loc.getCountryName();
+            CountryRestriction rs = countryResRepository.findCountry(country);
+            if(rs.isaccessAllowed()){
+                logger.info("Access allowed");
+                return r;
+            }else{
+                logger.info("Access denied");
+                return createForbiddenRedirectToResponse();
+            }
         }
 
         if (!isSafe) {
@@ -59,26 +69,19 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         return new ResponseEntity(headers, HttpStatus.FOUND);
     }
 
-    @RequestMapping(value = "/checkRegion", method = RequestMethod.GET)
-	public ResponseEntity<Boolean> checkRegion (HttpServletRequest request){
-        String ip = request.getRemoteAddr();
-        Boolean regionAvaiable = new Boolean(false);
-
-        ip = "62.101.181.50";
-        //Read ip client from shortURL and obtain its location info if there is a click with this hash
-        if (ip != null) {
-            String country = ReadLocation.location(ip).getCountryName();
+            //Search if the country is restricted
+            String country = loc.getCountryName();
             CountryRestriction rs = countryResRepository.findCountry(country);
             if(rs.isaccessAllowed()){
-                regionAvaiable = true;
                 logger.info("Access allowed");
+                return r;
             }else{
                 logger.info("Access denied");
+                return createForbiddenRedirectToResponse();
             }
         }
-        return new ResponseEntity<>(regionAvaiable, HttpStatus.OK);
+        return r;
     }
-
 
 	@Override
 	public ResponseEntity<ShortURL> shortener(@RequestParam("url") String url,
@@ -118,5 +121,15 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         long n = clickRepository.clicksByHash(hash);
         //Update shortURL coordinates and country
         clickRepository.addLocationInfo(hash, n-1, loc.getCountryName(), loc.getLatitude(), loc.getLongitude());
+    }
+
+    /**
+     * Redirects to forbiddenAccess html page when the access is restricted
+     */
+    private ResponseEntity<?> createForbiddenRedirectToResponse() {
+        HttpHeaders h = new HttpHeaders();
+        String url = "http://localhost:8080/#/forbiddenAccess";
+        h.setLocation(URI.create(url));
+        return new ResponseEntity<>(h, HttpStatus.FOUND);
     }
 }
