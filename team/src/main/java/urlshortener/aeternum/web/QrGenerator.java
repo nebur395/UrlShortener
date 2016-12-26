@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,7 +44,7 @@ import com.google.zxing.*;
 public class QrGenerator {
     private static String infoLevel, infoColour, infoLogo;
     private static String vCardText, urlVcard, qrEncoded;
-    private static BufferedImage image;
+    private static BufferedImage image, overlayImage, combinedImage;
 
     private static final Logger LOG = LoggerFactory
         .getLogger(QrGenerator.class);
@@ -176,27 +177,67 @@ public class QrGenerator {
          //If we want an image in the qr we read it
         if (!request.getParameter("Logo").equals("")){
             infoLogo = request.getParameter("Logo");
+            LOG.info("Logo enviado " + infoLogo);
+
+            try {
+                URL urlLogo = new URL(infoLogo);
+                overlayImage =  ImageIO.read(urlLogo);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // TODO resize of overlayImage para que quede bien en un qr de 500 x 500
+    /*
+            BufferedImage resizedOverlay = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g = resizedOverlay.createGraphics();
+            g.drawImage(overlayImage, 0, 0, 250, 300, null);
+            g.dispose();
+    */
+            combinedImage = new BufferedImage(500,500,BufferedImage.TYPE_INT_RGB);
+
+
+            // Cambiar iverlayImage por resizedOverlay cuando este completado
+            Graphics2D g = (Graphics2D)combinedImage.getGraphics();
+            g.drawImage(image, 0, 0, null);
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+            g.drawImage(overlayImage, (int)Math.round(150), (int)Math.round(150), null);
+
+            // Here we codify the image to send it as a String
+            Base64 encoder = new Base64();
+
+            ByteOutputStream bos = null;
+            try {
+                bos = new ByteOutputStream();
+                ImageIO.write(combinedImage, "png", bos);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            byte[] imgUrl = bos.getBytes();
+
+
+            qrEncoded = encoder.encodeToString(imgUrl);
+
+            return qrEncoded;
+
+        } else {
+            // Here we codify the image to send it as a String
+            Base64 encoder = new Base64();
+
+            ByteOutputStream bos = null;
+            try {
+                bos = new ByteOutputStream();
+                ImageIO.write(image, "png", bos);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            byte[] imgUrl = bos.getBytes();
+
+
+            qrEncoded = encoder.encodeToString(imgUrl);
+
+            return qrEncoded;
         }
-
-
-
-        // Here we codify the image to send it as a String
-        Base64 encoder = new Base64();
-
-        ByteOutputStream bos = null;
-        try {
-            bos = new ByteOutputStream();
-            ImageIO.write(image, "png", bos);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        byte[] imgUrl = bos.getBytes();
-
-
-        qrEncoded = encoder.encodeToString(imgUrl);
-
-        return qrEncoded;
     }
 
     // Method that returns a time Stamp to generate the Vcard
