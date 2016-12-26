@@ -56,8 +56,6 @@ angular.module('urlShortener')
 
             if($scope.wantQr.toString() == 'true'){
                 $scope.qr = "data:image/png;base64," + message.qrCode;
-                var decoded = decodeURIComponent("BEGIN%3AVCARD%0AVERSION%3A3.0%0AURL%3Ahttp%3A%2F%2Flocalhost%3A8080%2F5ce5e04c%0AFN%3AAlberto+%0AREV%3A2016-12-19+21%3A03%3A29%0AEND%3AVCARD%0A");
-                window.alert(decoded);
             }
             $scope.avaiableQR = true;
         };

@@ -178,7 +178,7 @@ public class QrGenerator {
             infoLogo = request.getParameter("Logo");
         }
 
-        // TODO add logo to the qrCode image and fix vcard format
+        
 
         // Here we codify the image to send it as a String
         Base64 encoder = new Base64();
