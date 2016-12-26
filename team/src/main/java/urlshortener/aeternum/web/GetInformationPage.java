@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,10 +35,14 @@ public class GetInformationPage {
     @Autowired
     protected ClickRepository clickRepository;
 
+//    @Autowired
+//    protected SafeBrowsing safebrowsing;
+
     @RequestMapping(value = "/unsafePage", method = RequestMethod.GET)
     public ResponseEntity<JSONObject> getInformationPage (HttpServletRequest request) {
         LOG.info("Doing the request to information page...");
 
+        //Matches m  = safebrowsing.getM();
         Matches m  = SafeBrowsing.getM();
         List<String> listThreatTypes = new ArrayList<>();
         List<String> listPlatforms = new ArrayList<>();
