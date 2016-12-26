@@ -15,7 +15,12 @@ angular.module('urlShortener', ['ui.router', 'base64', 'ngStomp'])
             .state('signUp', {
                 url: "/signUp",
                 templateUrl: "templates/signUp.html",
-                controller: "signUpCtrl"
+                controller: "signUpCtrl",
+                onEnter: function($state, auth){
+                    if(!auth.isAuthenticated()){
+                        $state.go('starter');
+                    }
+                }
             })
 
             //sign in screen
@@ -52,6 +57,12 @@ angular.module('urlShortener', ['ui.router', 'base64', 'ngStomp'])
                         $state.go('starter');
                     }
                 }
+            })
+
+            //forbidden access
+            .state('forbiddenAccess', {
+                url: "/forbiddenAccess",
+                templateUrl: "templates/forbiddenAccess.html"
             });
 
         $urlRouterProvider.otherwise('starter');

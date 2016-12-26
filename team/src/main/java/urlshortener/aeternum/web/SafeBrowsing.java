@@ -4,16 +4,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import org.springframework.http.HttpEntity;
 import urlshortener.common.domain.*;
 
+@Component
 public class SafeBrowsing {
     private static final Logger LOG = LoggerFactory.getLogger(SafeBrowsing.class);
 
     private boolean isSafe;
+
     private static Matches m;
 
     public SafeBrowsing() {}
@@ -22,9 +26,10 @@ public class SafeBrowsing {
         return m;
     }
 
-    public boolean safe(String url)  {
 
+    public boolean safe(String url)  {
         String peticionSafe = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyDG39Zc-4BtPjLR_6gVj7LUJjbGEdV-oqI";
+
         ObjectMapper mapper = new ObjectMapper();
         ThreatEntry entries = new ThreatEntry(url);
         ThreatInfo info = new ThreatInfo(new ThreatEntry[]{entries});
@@ -58,7 +63,4 @@ public class SafeBrowsing {
         }
         return isSafe;
     }
-
-
-
 }

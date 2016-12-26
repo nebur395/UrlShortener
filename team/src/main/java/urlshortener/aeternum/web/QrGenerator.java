@@ -178,7 +178,7 @@ public class QrGenerator {
             infoLogo = request.getParameter("Logo");
         }
 
-        
+
 
         // Here we codify the image to send it as a String
         Base64 encoder = new Base64();

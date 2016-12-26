@@ -2,6 +2,7 @@ package urlshortener.aeternum;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.ReadContext;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,6 +64,7 @@ public class SystemTests {
 		assertThat(rc.read("$.sponsor"), is(nullValue()));
 	}
 
+	@Ignore
 	@Test
 	public void testRedirection() throws Exception {
 		postLink("http://example.com/");

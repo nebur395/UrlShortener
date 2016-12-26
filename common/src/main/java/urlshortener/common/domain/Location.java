@@ -4,7 +4,7 @@ public class Location {
 
     private String statusCode;
     private String statusMessage;
-    private String ip;
+    private String ipAddress;
     private String countryCode;
     private String countryName;
     private String regionName;
@@ -19,7 +19,7 @@ public class Location {
     }
 
     public String getIp() {
-        return ip;
+        return ipAddress;
     }
 
     public String getCountryName() {
@@ -41,7 +41,7 @@ public class Location {
         return "Location{" +
             "statusCode='" + statusCode + '\'' +
             ", statusMessage='" + statusMessage + '\'' +
-            ", ip='" + ip + '\'' +
+            ", ipAddress='" + ipAddress + '\'' +
             ", countryCode='" + countryCode + '\'' +
             ", countryName='" + countryName + '\'' +
             ", regionName='" + regionName + '\'' +

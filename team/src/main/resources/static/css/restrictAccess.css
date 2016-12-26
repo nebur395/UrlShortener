@@ -1,0 +1,19 @@
+#restrictAccess h1 {
+  font-size: 200%;
+  text-align: center;
+}
+
+#restrictAccess h2 {
+  font-size: 100%;
+  margin-top: 2%;
+  font-weight: bold;
+}
+
+#restrictAccess .spaces {
+  margin-top: 1%;
+}
+
+#restrictAccess .form {
+  margin-top: 1%;
+  font-weight: inherit;
+}

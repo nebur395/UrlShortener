@@ -47,6 +47,8 @@ CREATE TABLE USERS(
 
 CREATE TABLE COUNTRYRESTRICTION(
     COUNTRY         VARCHAR(50) PRIMARY KEY,		-- Country
-    ACCESSALLOWED   BOOLEAN                         -- True if access is allowed
+    ACCESSALLOWED   BOOLEAN,                        -- True if access is allowed
+    TIME            INT,                            -- Time of range (in second)
+    REQUEST         INT                             -- Number of request in time allowed
 );
 

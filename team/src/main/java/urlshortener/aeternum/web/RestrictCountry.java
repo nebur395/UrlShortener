@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import urlshortener.common.domain.CountryRestriction;
 import urlshortener.common.repository.CountryResRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,5 +59,22 @@ public class RestrictCountry {
         Boolean unblocked = countryResRepository.unblockCountry(country);
         LOG.info("Access from "+country+" unblocked");
         return new ResponseEntity<>(unblocked, HttpStatus.CREATED);
+    }
+
+    /**
+     * Returns the response with true if the country has been unblocked
+     */
+    @RequestMapping(value = "/restrictAccess/updateFrequency", method = RequestMethod.POST)
+    public ResponseEntity<Boolean> updateFrequency(@RequestParam("updatedCountry") String country,
+                                                   @RequestParam("request") Integer req,
+                                                   @RequestParam("time") Integer time,
+                                                 HttpServletRequest request) {
+        if(country==null || req==null || time==null){
+            return new ResponseEntity<>(false,HttpStatus.NO_CONTENT);
+        }else{
+            Boolean updated = countryResRepository.updateFrequency(country,req,time);
+            if (updated) LOG.info("Update from "+country+": request "+req+" time "+time);
+            return new ResponseEntity<>(updated,HttpStatus.CREATED);
+        }
     }
 }
