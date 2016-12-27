@@ -174,32 +174,30 @@ public class QrGenerator {
             e.printStackTrace();
         }
 
-         //If we want an image in the qr we read it
-        if (!request.getParameter("Logo").equals("")){
+        //If we want an image in the qr we read it
+        if (!request.getParameter("Logo").equals("")) {
             infoLogo = request.getParameter("Logo");
             LOG.info("Logo enviado " + infoLogo);
 
             try {
                 URL urlLogo = new URL(infoLogo);
-                overlayImage =  ImageIO.read(urlLogo);
+                overlayImage = ImageIO.read(urlLogo);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             // TODO resize of overlayImage para que quede bien en un qr de 500 x 500
-    /*
-            BufferedImage resizedOverlay = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+
+            BufferedImage resizedOverlay = new BufferedImage(125, 80, BufferedImage.TYPE_INT_RGB);
             Graphics2D g = resizedOverlay.createGraphics();
-            g.drawImage(overlayImage, 0, 0, 250, 300, null);
+            g.drawImage(overlayImage, 0, 0, 125, 80, null);
             g.dispose();
-    */
-            combinedImage = new BufferedImage(500,500,BufferedImage.TYPE_INT_RGB);
 
+            combinedImage = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 
-            // Cambiar iverlayImage por resizedOverlay cuando este completado
-            Graphics2D g = (Graphics2D)combinedImage.getGraphics();
+            g = (Graphics2D) combinedImage.getGraphics();
             g.drawImage(image, 0, 0, null);
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-            g.drawImage(overlayImage, (int)Math.round(150), (int)Math.round(150), null);
+            g.drawImage(resizedOverlay, (int) Math.round(180), (int) Math.round(200), null);
 
             // Here we codify the image to send it as a String
             Base64 encoder = new Base64();
