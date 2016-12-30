@@ -1,49 +1,34 @@
 package urlshortener.aeternum.web;
 
-import com.auth0.jwt.internal.org.apache.commons.codec.EncoderException;
+
 import com.auth0.jwt.internal.org.apache.commons.codec.binary.Base64;
-import com.auth0.jwt.internal.org.apache.commons.io.IOUtils;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.google.zxing.qrcode.encoder.QRCode;
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.web.util.JavaScriptUtils;
 import urlshortener.common.repository.ClickRepository;
 import urlshortener.common.repository.ShortURLRepository;
-import urlshortener.common.web.UrlShortenerController;
-
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.*;
 import javax.ws.rs.client.*;
-import javax.ws.rs.core.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-
 import com.google.zxing.*;
 
 @RestController
 public class QrGenerator {
     private static String infoLevel, infoColour, infoLogo;
-    private static String vCardText, urlVcard, qrEncoded;
+    private static String vCardText, qrEncoded;
     private static BufferedImage image, overlayImage, combinedImage;
     private static ByteOutputStream bos;
 
