@@ -5,6 +5,8 @@ import com.jayway.jsonpath.ReadContext;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -15,6 +17,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import urlshortener.aeternum.web.QrGenerator;
 
 import java.net.URI;
 import java.nio.charset.Charset;
@@ -22,12 +25,15 @@ import java.nio.charset.Charset;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.springframework.boot.Banner.Mode.LOG;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= RANDOM_PORT)
 @DirtiesContext
 public class SystemTests {
+    private static final Logger LOG = LoggerFactory
+        .getLogger(SystemTests.class);
 
 	@Value("${local.server.port}")
 	private int port = 0;
@@ -63,7 +69,7 @@ public class SystemTests {
 		assertThat(rc.read("$.target"), is("http://example.com/"));
 		assertThat(rc.read("$.sponsor"), is(nullValue()));
 	}
-    @Ignore
+
 	@Test
 	public void testRedirection() throws Exception {
 		postLink("http://example.com/");
@@ -71,7 +77,9 @@ public class SystemTests {
 				"http://localhost:" + this.port
 						+ "/f684a3c4", String.class);
 		assertThat(entity.getStatusCode(), is(HttpStatus.TEMPORARY_REDIRECT));
+        LOG.info("STATUS: " + entity.getStatusCode().toString());
 		assertThat(entity.getHeaders().getLocation(), is(new URI("http://example.com/")));
+        LOG.info("Direction: " + entity.getHeaders().getLocation());
 	}
 
 	private ResponseEntity<String> postLink(String url) {
