@@ -76,7 +76,7 @@ public class SystemTests {
 		ResponseEntity<String> entity = new TestRestTemplate().getForEntity(
 				"http://localhost:" + this.port
 						+ "/f684a3c4", String.class);
-		assertThat(entity.getStatusCode().toString(), is("307"));
+		assertThat(entity.getStatusCode().toString(), is(HttpStatus.TEMPORARY_REDIRECT.toString()));
 		assertThat(entity.getHeaders().getLocation().toString(), is("http://example.com/"));
 	}
 
