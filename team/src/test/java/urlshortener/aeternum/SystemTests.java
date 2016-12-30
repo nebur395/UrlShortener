@@ -64,7 +64,6 @@ public class SystemTests {
 		assertThat(rc.read("$.sponsor"), is(nullValue()));
 	}
 
-	@Ignore
 	@Test
 	public void testRedirection() throws Exception {
 		postLink("http://example.com/");
