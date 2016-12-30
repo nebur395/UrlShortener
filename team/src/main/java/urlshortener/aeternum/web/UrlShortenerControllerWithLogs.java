@@ -23,6 +23,12 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 	private static final Logger logger = LoggerFactory.getLogger(UrlShortenerControllerWithLogs.class);
     private boolean isSafe;
 
+    //Timer time = new Timer(); // Instantiate Timer Object
+    ScheduledTask st = new ScheduledTask();
+    private static final Logger LOG = LoggerFactory
+        .getLogger(QrGenerator.class);
+
+
     @Autowired
     protected CountryResRepository countryResRepository;
 
@@ -93,6 +99,8 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 
         miShort.setSafe(isSafe);
         shortURLRepository.mark(miShort, isSafe);
+
+        LOG.info("OBJETO JSON?:" + r.toString());
 
         return r;
 	}

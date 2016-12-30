@@ -1,6 +1,6 @@
 angular.module('urlShortener')
 
-    .controller('starterCtrl', ['$scope', '$state', 'urlShortener', function ($scope, $state, urlShortener, checkRegion) {
+    .controller('starterCtrl', ['$scope', '$state', 'urlShortener', function ($scope, $state, urlShortener) {
 
         $scope.url = "";    // initial url input form
         $scope.qr = "https://66.media.tumblr.com/44e89309ea155b3be1213e64cc872f2a/tumblr_n0wqfhEW9K1sghdp8o1_400.gif";
@@ -19,6 +19,8 @@ angular.module('urlShortener')
         $scope.qrCity = "";
         $scope.qrCountry = "";
         $scope.qrLevel = "L";
+        $scope.qrColour = "Black";
+        $scope.qrLogo = "";
 
         // FEEDBACK MESSAGES
 
@@ -51,7 +53,7 @@ angular.module('urlShortener')
             $scope.safe = message.safe;
 
             if($scope.wantQr.toString() == 'true'){
-                $scope.qr = message.qrCode;
+                $scope.qr = "data:image/png;base64," + message.qrCode;
             }
             $scope.avaiableQR = true;
         };
@@ -69,32 +71,35 @@ angular.module('urlShortener')
         };
 
         $scope.shortURL = function () {
-            if ($scope.wantQr.toString() == 'false') {
-                var url = {
-                    url: $scope.url,
-                    safe: $scope.safe,
-                    wantQr: 'false'
-                };
+                    if ($scope.wantQr.toString() == 'false') {
+                        var url = {
+                            url: $scope.url,
+                            safe: $scope.safe,
+                            wantQr: 'false'
+                        };
 
-                urlShortener.shortURL(url, showSuccess, showError);
-            }else{
-                var url = {
-                    url: $scope.url,
-                    safe: $scope.safe,
-                    wantQr: 'true',
-                    fName:  "" + $scope.qrFName,
-                    lName: "" + $scope.qrLName,
-                    Email:  "" + $scope.qrEmail,
-                    Phone: "" + $scope.qrPhone,
-                    Company: "" + $scope.qrCompany,
-                    Street: "" + $scope.qrStreet,
-                    Zip: "" + $scope.qrZip,
-                    City: "" + $scope.qrCity,
-                    Country: "" + $scope.qrCountry,
-                    Level: "" + $scope.qrLevel
-                };
-                urlShortener.shortURL(url, showSuccess, showError);
-            }
+                        urlShortener.shortURL(url, showSuccess, showError);
+                    }else{
+                        var url = {
+                            url: $scope.url,
+                            safe: $scope.safe,
+                            wantQr: 'true',
+                            fName:  "" + $scope.qrFName,
+                            lName: "" + $scope.qrLName,
+                            Email:  "" + $scope.qrEmail,
+                            Phone: "" + $scope.qrPhone,
+                            Company: "" + $scope.qrCompany,
+                            Street: "" + $scope.qrStreet,
+                            Zip: "" + $scope.qrZip,
+                            City: "" + $scope.qrCity,
+                            Country: "" + $scope.qrCountry,
+                            Level: "" + $scope.qrLevel,
+                            Colour: "" + $scope.qrColour,
+                            Logo: "" + $scope.qrLogo
+                        };
+
+                        urlShortener.shortURL(url, showSuccess, showError);
+                    };
         };
 
     }]);
