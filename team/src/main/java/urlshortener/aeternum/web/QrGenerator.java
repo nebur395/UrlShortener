@@ -45,6 +45,7 @@ public class QrGenerator {
     private static String infoLevel, infoColour, infoLogo;
     private static String vCardText, urlVcard, qrEncoded;
     private static BufferedImage image, overlayImage, combinedImage;
+    private static ByteOutputStream bos;
 
     private static final Logger LOG = LoggerFactory
         .getLogger(QrGenerator.class);
@@ -202,7 +203,7 @@ public class QrGenerator {
             // Here we codify the image to send it as a String
             Base64 encoder = new Base64();
 
-            ByteOutputStream bos = null;
+
             try {
                 bos = new ByteOutputStream();
                 ImageIO.write(combinedImage, "png", bos);
