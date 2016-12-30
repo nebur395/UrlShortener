@@ -76,10 +76,8 @@ public class SystemTests {
 		ResponseEntity<String> entity = new TestRestTemplate().getForEntity(
 				"http://localhost:" + this.port
 						+ "/f684a3c4", String.class);
-		assertThat(entity.getStatusCode(), is("307"));
-        LOG.info("STATUS: " + entity.getStatusCode().toString());
-		assertThat(entity.getHeaders().getLocation(), is("http://example.com/"));
-        LOG.info("Direction: " + entity.getHeaders().getLocation());
+		assertThat(entity.getStatusCode().toString(), is("307"));
+		assertThat(entity.getHeaders().getLocation().toString(), is("http://example.com/"));
 	}
 
 	private ResponseEntity<String> postLink(String url) {
