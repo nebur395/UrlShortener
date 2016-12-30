@@ -78,7 +78,7 @@ public class SystemTests {
 						+ "/f684a3c4", String.class);
 		assertThat(entity.getStatusCode(), is(HttpStatus.TEMPORARY_REDIRECT));
         LOG.info("STATUS: " + entity.getStatusCode().toString());
-		assertThat(entity.getHeaders().getLocation(), is(new URI("http://example.com/")));
+		assertThat(entity.getHeaders().getLocation(), is("http://example.com/"));
         LOG.info("Direction: " + entity.getHeaders().getLocation());
 	}
 
