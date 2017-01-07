@@ -31,26 +31,26 @@
       </form>
 
     <!--Change the frequency of requests-->
-    <!--<h2>Select unblocked country for updating it request/time frequency allowed: </h2>-->
-    <!--<form name="update">-->
-      <!--<select name="updateCountry"class="form-control" ng-if="countryList.unblockList.length == 0"-->
-              <!--ng-click="hideError();hideSuccess()">-->
-        <!--<option value="">There aren't countries unblocked</option>-->
-      <!--</select>-->
-      <!--<select name="updateCountry" class="form-control"-->
-              <!--ng-options="option for option in countryList.unblockList" ng-model="updatedCountry" required-->
-              <!--ng-click="hideError();hideSuccess()">-->
-        <!--<option value="">Select country</option>-->
-      <!--</select>-->
-      <!--<label class="form">-->
-        <!--Request: <input type="number" ng-model="request" required ng-click="hideError();hideSuccess()">-->
-      <!--</label>-->
-      <!--<label class="form">-->
-        <!--Time (in seconds): <input type="number" ng-model="time" required ng-click="hideError();hideSuccess()">-->
-      <!--</label>-->
-      <!--</br>-->
-      <!--<input type="submit" value="Update" class="btn btn-default theme-accent spaces" ng-click="updateFrequency()">-->
-    <!--</form>-->
+    <h2>Select unblocked country for updating it request/time frequency allowed: </h2>
+    <form name="update">
+      <select name="updateCountry"class="form-control" ng-if="countryList.unblockList.length == 0"
+              ng-click="hideError();hideSuccess()">
+        <option value="">There aren't countries unblocked</option>
+      </select>
+      <select name="updateCountry" class="form-control"
+              ng-options="option for option in countryList.unblockList" ng-model="updatedCountry" required
+              ng-click="hideError();hideSuccess()">
+        <option value="">Select country</option>
+      </select>
+      <label class="form">
+        Request: <input type="number" ng-model="request" required ng-click="hideError();hideSuccess()">
+      </label>
+      <label class="form">
+        Time (in seconds): <input type="number" ng-model="time" required ng-click="hideError();hideSuccess()">
+      </label>
+      </br>
+      <input type="submit" value="Update" class="btn btn-default theme-accent spaces" ng-click="updateFrequency()">
+    </form>
 
     <!-- this div will show only when an error occurs -->
     <div ng-if="error" class="alert alert-danger feedbackMessages spaces">
