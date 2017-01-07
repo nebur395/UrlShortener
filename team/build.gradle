@@ -45,6 +45,9 @@ dependencies {
     compile group: 'com.google.zxing', name: 'javase', version: '3.3.0'
     compile 'com.google.zxing:zxing-parent:3.3.0'
 
+    //Send mail
+    compile 'javax.mail:mail:1.4.7'
+
     // Testing framework
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.apache.httpcomponents:httpclient:4.5.2'
