@@ -24,7 +24,6 @@ public class ReadLocation {
         //HTTP GET request and extract response with JSON format
         RestTemplate restTemplate = new RestTemplate();
         Location l = restTemplate.getForObject(request, Location.class);
-        System.out.println(l);
         if(l.getStatusCode().equals("OK")){
             LOG.info("Reading location");
             return l;
