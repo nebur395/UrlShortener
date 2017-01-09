@@ -34,6 +34,8 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 
     @Autowired
     protected ReadLocation readLocation;
+    @Autowired
+    protected RequestQueue requestQueue;
 
     @Autowired
     protected SafeBrowsing sf;
@@ -56,7 +58,11 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
             if (rs.isaccessAllowed()) {
                 logger.info("Access allowed");
                 if (!isSafe) {
+                    logger.info("Unsafe page");
                     return sendUnsafePage();
+                } else if (!requestQueue.canAccess(country)){
+                    logger.info("Too much requests");
+                    return createForbiddenRedirectToResponse();
                 } else {
                     return r;
                 }
