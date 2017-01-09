@@ -66,7 +66,6 @@ public class ScheduledTask {
     *Para testear el envio del email
     @Scheduled(fixedRate = 50000)
     public void changeUrl() {
-        System.out.println("Haciendo cosas malas...");
         allUrls = shortURLRepository.listAllUrls();
         if(allUrls != null && !allUrls.isEmpty()) {
             saaaf = false;
