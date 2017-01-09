@@ -1,25 +1,22 @@
 package urlshortener.aeternum.web;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 
+@Component
 public class SendMail {
-
-    @Value("${user.mail}")
-    private String user_name;
-    @Value("${psswd.mail}")
-    private String psswd_name;
 
     private static String RECIPIENT = "anagonzalor@gmail.com";
 
-    public void sendMail(String[] args) {
-        String from = user_name;
-        String pass = psswd_name;
+    public void sendMail(String url) {
+        String from = "pruprupru9@gmail.com";
+        String pass = "pruprupru99";
         String[] to = { RECIPIENT }; // list of recipient email addresses
-        String subject = "Java send mail example";
-        String body = "Welcome to JavaMail!";
+        String subject = "Warning!";
+        String body = "The url " + url + " has become unsafe! To be able to visit the page go to http://localhost:8080/#/unsafePage";
 
         Properties props = System.getProperties();
         String host = "smtp.gmail.com";
@@ -59,7 +56,6 @@ public class SendMail {
         catch (MessagingException me) {
             me.printStackTrace();
         }
-
         System.out.println("¡Correo enviado!");
     }
 }

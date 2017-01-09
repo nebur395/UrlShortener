@@ -23,4 +23,6 @@ public interface ShortURLRepository {
 	List<ShortURL> list(Long limit, Long offset);
 
     List<String> listAllUrls();
+
+    List<String> listSubscribedUrls(boolean isSubscribed);
 }

@@ -35,8 +35,11 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
     @Autowired
     protected ReadLocation readLocation;
 
+    @Autowired
+    protected SafeBrowsing sf;
+
     @Override
-	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn|unsafePage|restrictAccess|forbiddenAccess).*}",
+	@RequestMapping(value = "/{id:(?!link|index|app|viewStatistics|qr|signUp|signIn|unsafePage|restrictAccess|forbiddenAccess|subscription).*}",
         method = RequestMethod.GET)
 	public ResponseEntity<?> redirectTo(@PathVariable String id, HttpServletRequest request) {
         logger.info("Requested redirection with hash " + id);
@@ -45,7 +48,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         ShortURL s = shortURLRepository.findByKey(id);
         //Read ip client from shortURL and obtain its location info if there is a click with this hash
         if (s != null) {
-            Location loc = readLocation.location();
+            Location loc = readLocation.location(s.getIP());
             updateLocation(s, loc);
             //Search if the country is restricted
             String country = loc.getCountryName();
@@ -82,6 +85,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         ResponseEntity<ShortURL> r = super.shortener(url, sponsor, wantQr, request);
 
         ShortURL miShort = r.getBody();
+        System.out.println(miShort);
 
         if (wantQr){
             logger.info("ESTOY  APUNTO DE PEDIR EL QR");
@@ -93,10 +97,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
             r = new ResponseEntity<ShortURL>(miShort, h, HttpStatus.CREATED);
         }
 
-        SafeBrowsing sb = new SafeBrowsing();
-        isSafe = sb.safe(url);
-
-
+        isSafe = sf.safe(url);
         miShort.setSafe(isSafe);
         shortURLRepository.mark(miShort, isSafe);
 

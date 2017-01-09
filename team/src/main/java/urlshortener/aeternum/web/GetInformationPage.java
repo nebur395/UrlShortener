@@ -8,6 +8,7 @@ import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ import urlshortener.common.repository.ClickRepository;
 import urlshortener.common.repository.ShortURLRepository;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,19 +37,18 @@ public class GetInformationPage {
     @Autowired
     protected ClickRepository clickRepository;
 
-//    @Autowired
-//    protected SafeBrowsing safebrowsing;
+    @Autowired
+    protected SafeBrowsing safebrowsing;
 
     @RequestMapping(value = "/unsafePage", method = RequestMethod.GET)
     public ResponseEntity<JSONObject> getInformationPage (HttpServletRequest request) {
         LOG.info("Doing the request to information page...");
 
-        //Matches m  = safebrowsing.getM();
-        Matches m  = SafeBrowsing.getM();
+        Matches m  = safebrowsing.getM();
         List<String> listThreatTypes = new ArrayList<>();
         List<String> listPlatforms = new ArrayList<>();
         String url = "";
-            JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
 
         if(m.getMatches() != null) {
             ThreatMatch[] t = m.getMatches();
@@ -65,7 +66,6 @@ public class GetInformationPage {
             jsonObject.put("listPlatforms", listPlatforms);
             jsonObject.put("url", url);
         }
-
         return new ResponseEntity<>(jsonObject, HttpStatus.CREATED);
     }
 }

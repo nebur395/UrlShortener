@@ -24,16 +24,14 @@ import javax.mail.internet.*;
 public class SafeBrowsing {
     private static final Logger LOG = LoggerFactory.getLogger(SafeBrowsing.class);
 
-    private boolean isSafe;
-
-    private static Matches m;
+    public boolean isSafe;
+    private Matches m;
 
     public SafeBrowsing() {}
 
-    public static Matches getM() {
+    public Matches getM() {
         return m;
     }
-
 
     public boolean safe(String url)  {
         String peticionSafe = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyDG39Zc-4BtPjLR_6gVj7LUJjbGEdV-oqI";
@@ -58,57 +56,18 @@ public class SafeBrowsing {
 
         HttpEntity request= new HttpEntity(jsonUnion, headers );
         ResponseEntity<Matches> tm = restTemplate.exchange(peticionSafe, HttpMethod.POST, request, Matches.class);
-        m = new Matches(tm.getBody().getMatches());
+
         if(tm.getStatusCodeValue() == 200) {
             if(tm.getBody().getMatches() == null) {
                 LOG.info("La URL " + url + " es segura");
                 isSafe = true;
             }
             else {
+                m = new Matches(tm.getBody().getMatches());
                 LOG.info("La URL " + url + " NO es segura");
                 isSafe = false;
             }
         }
         return isSafe;
     }
-
-    /*public void sendMail() {
-        // Common variables
-        String host = "localhost";
-        String from = "anagonzalor@gmail.com";
-        String to = "anagonzalor@gmail.com";
-
-// Set properties
-        Properties props = new Properties();
-        props.put("mail.smtp.host", host);
-        props.put("mail.debug", "true");
-
-// Get session
-        Session session = Session.getInstance(props);
-
-        try {
-            // Instantiate a message
-            Message msg = new MimeMessage(session);
-
-            // Set the FROM message
-            msg.setFrom(new InternetAddress(from));
-
-            // The recipients can be more than one so we use an array but you can
-            // use 'new InternetAddress(to)' for only one address.
-            InternetAddress[] address = {new InternetAddress(to)};
-            msg.setRecipients(Message.RecipientType.TO, address);
-
-            // Set the message subject and date we sent it.
-            msg.setSubject("Email from JavaMail test");
-
-            // Set message content
-            msg.setText("This is the text for this simple demo using JavaMail.");
-
-            // Send the message
-            Transport.send(msg);
-        }
-        catch (MessagingException mex) {
-            mex.printStackTrace();
-        }
-    }*/
 }

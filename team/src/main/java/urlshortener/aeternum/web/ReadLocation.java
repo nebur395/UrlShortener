@@ -18,9 +18,14 @@ public class ReadLocation {
     /**
      * Returns info about location of client
      */
-    public Location location(){
-        String request = "http://api.ipinfodb.com/v3/ip-city/?key="+API_KEY+"&format=json";
-
+    public Location location(String ip){
+        String request;
+        if (ip.equals("0:0:0:0:0:0:0:1")) {
+            request = "http://api.ipinfodb.com/v3/ip-city/?key="+API_KEY+"&format=json";
+        }
+        else {
+            request = "http://api.ipinfodb.com/v3/ip-city/?ip=" + ip + "&key="+API_KEY+"&format=json";
+        }
         //HTTP GET request and extract response with JSON format
         RestTemplate restTemplate = new RestTemplate();
         Location l = restTemplate.getForObject(request, Location.class);
