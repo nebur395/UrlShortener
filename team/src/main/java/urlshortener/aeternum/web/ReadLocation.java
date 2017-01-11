@@ -30,7 +30,7 @@ public class ReadLocation {
         }
         else{
             LOG.info("Error reading location: "+l.getStatusCode());
-            return  null;
+            return null;
         }
     }
 }
