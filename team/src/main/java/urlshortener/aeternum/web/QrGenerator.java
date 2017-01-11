@@ -70,11 +70,11 @@ public class QrGenerator {
         if ((!request.getParameter("Street").equals("")) || (!request.getParameter("Zip").equals("") && !request.getParameter("Zip").equals("null")) || (!request.getParameter("City").equals("")) || (!request.getParameter("Country").equals(""))) {
             output.append("ADR:" + request.getParameter("Street") + ";" + request.getParameter("City") + ";" + request.getParameter("Zip") + ";" + request.getParameter("Country") + "\n");
         }
-        LOG.info("Nombre: " + request.getParameter("fName"));
-        LOG.info(request.getParameter("Street"));
-        LOG.info(request.getParameter("Zip"));
-        LOG.info(request.getParameter("City"));
-        LOG.info(request.getParameter("Country"));
+        LOG.debug("Nombre: " + request.getParameter("fName"));
+        LOG.debug(request.getParameter("Street"));
+        LOG.debug(request.getParameter("Zip"));
+        LOG.debug(request.getParameter("City"));
+        LOG.debug(request.getParameter("Country"));
         // Final text for Vcard
         output.append("REV:" + getCurrentTimeStamp() + "\n");
         output.append("END:VCARD\n");
@@ -162,7 +162,7 @@ public class QrGenerator {
         //If we want an image in the qr we read it
         if (!request.getParameter("Logo").equals("")) {
             infoLogo = request.getParameter("Logo");
-            LOG.info("Logo enviado " + infoLogo);
+            LOG.debug("Logo enviado " + infoLogo);
 
             try {
                 URL urlLogo = new URL(infoLogo);
