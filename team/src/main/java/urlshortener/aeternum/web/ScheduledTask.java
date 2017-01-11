@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class ScheduledTask {
 
-    boolean saaaf = true;
+    boolean testMail = true;
     @Autowired
     protected ShortURLRepository shortURLRepository;
 
@@ -47,9 +47,12 @@ public class ScheduledTask {
         allUrls = shortURLRepository.listAllUrls();
         if(allUrls != null && !allUrls.isEmpty()) {
             for (int i = 0; i <= allUrls.size()-1; i++) {
-                isSafe = sf.safe(allUrls.get(i));
-                //Para testear el envio del email
-                //isSafe = saaaf;
+                if(!testMail){
+                    isSafe = sf.safe("http://1800shopnet.com");
+                }
+                else {
+                    isSafe = sf.safe(allUrls.get(i));
+                }
                 ShortURL s = shortURLRepository.findByTarget(allUrls.get(i)).get(0);
                 shortURLRepository.mark(s, isSafe);
                 if (!subscription.getMap().isEmpty() && subscription.getMap().containsKey(allUrls.get(i))) {
@@ -58,17 +61,18 @@ public class ScheduledTask {
                         subscription.getMap().put(allUrls.get(i), false);
                         sm.sendMail(allUrls.get(i));
                     }
+
                 }
             }
         }
     }
-    /*
-    *Para testear el envio del email
+
+    //To test email sending
     @Scheduled(fixedRate = 50000)
     public void changeUrl() {
         allUrls = shortURLRepository.listAllUrls();
         if(allUrls != null && !allUrls.isEmpty()) {
-            saaaf = false;
+            testMail = false;
         }
-    }*/
+    }
 }
