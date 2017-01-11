@@ -3,6 +3,7 @@
 DROP TABLE CLICK IF EXISTS;
 DROP TABLE SHORTURL IF EXISTS;
 DROP TABLE USERS IF EXISTS;
+DROP TABLE COUNTRYRESTRICTION IF EXISTS;
 
 -- ShortURL
 
@@ -30,7 +31,7 @@ CREATE TABLE CLICK(
 	PLATFORM	VARCHAR(50),				-- Platform
 	IP			VARCHAR(20),				-- IP
 	COUNTRY		VARCHAR(50),				-- Country
-    LATITUDE    DOUBLE PRECISION,            -- Latitude
+    LATITUDE    DOUBLE PRECISION,           -- Latitude
     LONGITUDE   DOUBLE PRECISION            -- Longitude
 );
 
@@ -52,4 +53,3 @@ CREATE TABLE COUNTRYRESTRICTION(
     TIME            INT,                            -- Time of range (in second)
     REQUEST         INT                             -- Number of request in time allowed
 );
-
