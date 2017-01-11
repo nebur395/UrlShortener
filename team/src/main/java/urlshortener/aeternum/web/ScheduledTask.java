@@ -68,11 +68,11 @@ public class ScheduledTask {
     }
 
     //To test email sending
-    @Scheduled(fixedRate = 50000)
+    /*@Scheduled(fixedRate = 50000)
     public void changeUrl() {
         allUrls = shortURLRepository.listAllUrls();
         if(allUrls != null && !allUrls.isEmpty()) {
             testMail = false;
         }
-    }
+    }*/
 }
