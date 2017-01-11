@@ -31,7 +31,7 @@
       </form>
 
     <!--Change the frequency of requests-->
-    <h2>Select unblocked country for updating it request/time frequency allowed: </h2>
+    <h2>Select unblocked country for updating it requests/time frequency allowed: </h2>
     <form name="update">
       <select name="updateCountry"class="form-control" ng-if="countryList.unblockList.length == 0"
               ng-click="hideError();hideSuccess()">
@@ -43,7 +43,7 @@
         <option value="">Select country</option>
       </select>
       <label class="form">
-        Request: <input type="number" ng-model="request" required ng-click="hideError();hideSuccess()">
+        Requests: <input type="number" ng-model="request" required ng-click="hideError();hideSuccess()">
       </label>
       <label class="form">
         Time (in seconds): <input type="number" ng-model="time" required ng-click="hideError();hideSuccess()">
