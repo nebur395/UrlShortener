@@ -58,10 +58,10 @@ public class ShortURLRepositoryImpl implements ShortURLRepository {
 	@Override
 	public ShortURL save(ShortURL su) {
 		try {
-			jdbc.update("INSERT INTO shorturl VALUES (?,?,?,?,?,?,?,?,?,?)",
+            jdbc.update("INSERT INTO shorturl VALUES (?,?,?,?,?,?,?,?,?,?)",
 					su.getHash(), su.getTarget(), su.getSponsor(),
 					su.getCreated(), su.getOwner(), su.getMode(), su.getSafe(),
-					su.getIP(), su.getCountry(), su.isSubscribed());
+					su.getIP(), su.getCountry(), su.getSubscribed());
 		} catch (DuplicateKeyException e) {
 			log.debug("When insert for key " + su.getHash(), e);
 			return su;
@@ -94,7 +94,7 @@ public class ShortURLRepositoryImpl implements ShortURLRepository {
 					"update shorturl set target=?, sponsor=?, created=?, owner=?, mode=?, safe=?, ip=?, country=?, subscribed=? where hash=?",
 					su.getTarget(), su.getSponsor(), su.getCreated(),
 					su.getOwner(), su.getMode(), su.getSafe(), su.getIP(),
-					su.getCountry(),  su.isSubscribed(), su.getHash());
+					su.getCountry(),  su.getSubscribed(), su.getHash());
 		} catch (Exception e) {
 			log.debug("When update for hash " + su.getHash(), e);
 		}
@@ -154,9 +154,9 @@ public class ShortURLRepositoryImpl implements ShortURLRepository {
         }
     }
 
-    public List<String> listSubscribedUrls(boolean isSubscribed) {
+    public List<String> listSubscribedUrls(boolean getSubscribed) {
         try {
-            return jdbc.queryForList("SELECT TARGET FROM shorturl WHERE subscribed=?", String.class, isSubscribed);
+            return jdbc.queryForList("SELECT TARGET FROM shorturl WHERE subscribed=?", String.class, getSubscribed);
         }
         catch (Exception e) {
             log.debug("No selected targets subscribed from shortul ");

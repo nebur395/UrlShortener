@@ -24,5 +24,5 @@ public interface ShortURLRepository {
 
     List<String> listAllUrls();
 
-    List<String> listSubscribedUrls(boolean isSubscribed);
+    List<String> listSubscribedUrls(boolean getSubscribed);
 }

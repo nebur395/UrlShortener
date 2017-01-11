@@ -91,7 +91,6 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         ResponseEntity<ShortURL> r = super.shortener(url, sponsor, wantQr, request);
 
         ShortURL miShort = r.getBody();
-        System.out.println(miShort);
 
         if (wantQr){
             logger.info("ESTOY  APUNTO DE PEDIR EL QR");

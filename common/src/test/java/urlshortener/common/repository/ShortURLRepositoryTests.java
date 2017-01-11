@@ -40,7 +40,9 @@ public class ShortURLRepositoryTests {
 
 	@Test
 	public void thatSavePersistsTheShortURL() {
-		assertNotNull(repository.save(url1()));
+        ShortURL url1 = url1();
+        System.out.println(url1);
+        assertNotNull(repository.save(url1));
 		assertSame(jdbc.queryForObject("select count(*) from SHORTURL",
 				Integer.class), 1);
 	}
