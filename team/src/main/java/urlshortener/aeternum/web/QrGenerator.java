@@ -106,7 +106,6 @@ public class QrGenerator {
                 break;
         }
 
-
         try {
             matrix = qrWriter.encode(vCardText, BarcodeFormat.QR_CODE, 500, 500, hints);
 
@@ -171,11 +170,10 @@ public class QrGenerator {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            // TODO resize of overlayImage para que quede bien en un qr de 500 x 500
 
-            BufferedImage resizedOverlay = new BufferedImage(125, 80, BufferedImage.TYPE_INT_RGB);
+            BufferedImage resizedOverlay = new BufferedImage(100, 65, BufferedImage.TYPE_INT_RGB);
             Graphics2D g = resizedOverlay.createGraphics();
-            g.drawImage(overlayImage, 0, 0, 125, 80, null);
+            g.drawImage(overlayImage, 0, 0, 100, 65, null);
             g.dispose();
 
             combinedImage = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
@@ -183,7 +181,7 @@ public class QrGenerator {
             g = (Graphics2D) combinedImage.getGraphics();
             g.drawImage(image, 0, 0, null);
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-            g.drawImage(resizedOverlay, (int) Math.round(180), (int) Math.round(200), null);
+            g.drawImage(resizedOverlay, (int) Math.round(200), (int) Math.round(220), null);
 
             // Here we codify the image to send it as a String
             Base64 encoder = new Base64();
