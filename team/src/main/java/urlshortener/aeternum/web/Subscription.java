@@ -55,7 +55,7 @@ public class Subscription {
     public ResponseEntity<JSONObject> removeUnsubscribedUrls (@RequestParam("unsubscribed") String urlUnsubscribed, HttpServletRequest request) {
         List<ShortURL> s = shortURLRepository.findByTarget(urlUnsubscribed);
         for (int i = 0; i < s.size(); i++) {
-            s.get(i).setSubscribed(true);
+            s.get(i).setSubscribed(false);
             shortURLRepository.update(s.get(i));
         }
         logger.info("url "+urlUnsubscribed+" unsubscribed");
