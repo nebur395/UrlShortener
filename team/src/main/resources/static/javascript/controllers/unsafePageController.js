@@ -11,6 +11,7 @@ angular.module('urlShortener')
         $scope.successMsg = "";
         $scope.errorMsg = "";
         $scope.safe = true;
+        $scope.json = false;
 
         // hide the error mensage
         $scope.hideError = function () {
@@ -35,11 +36,20 @@ angular.module('urlShortener')
             $scope.successMsg = "";
         };
 
+        $scope.viewJSON = function () {
+            $scope.json = true;
+        };
+
+        $scope.hideJSON = function () {
+            $scope.json = false;
+        };
+
 
         $scope.getInformationPage = function () {
-                unsafePage.getInformationPage(function (informationLists) {
-                    $scope.information = informationLists;
-                });
+            $scope.hideJSON();
+            unsafePage.getInformationPage(function (informationLists) {
+                $scope.information = informationLists;
+            });
         };
         $scope.getInformationPage();
     }]);
