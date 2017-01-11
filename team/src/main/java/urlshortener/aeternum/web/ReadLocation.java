@@ -19,17 +19,18 @@ public class ReadLocation {
      * Returns info about location of client
      */
     public Location location(String ip){
-        String request;
-        if (ip.equals("0:0:0:0:0:0:0:1")) {
-            request = "http://api.ipinfodb.com/v3/ip-city/?key="+API_KEY+"&format=json";
-        }
-        else {
-            request = "http://api.ipinfodb.com/v3/ip-city/?ip=" + ip + "&key="+API_KEY+"&format=json";
-        }
+        String request = "http://api.ipinfodb.com/v3/ip-city/?ip=" + ip + "&key="+API_KEY+"&format=json";
+        Location l;
+
         //HTTP GET request and extract response with JSON format
         RestTemplate restTemplate = new RestTemplate();
-        Location l = restTemplate.getForObject(request, Location.class);
-        if(l.getStatusCode().equals("OK")){
+        l = restTemplate.getForObject(request, Location.class);
+        if(l.getStatusCode().equals("OK") && !l.getCountryName().equals("-")){
+            LOG.info("Reading location");
+            return l;
+        } else if(l.getStatusCode().equals("OK")){
+            request = "http://api.ipinfodb.com/v3/ip-city/?key="+API_KEY+"&format=json";
+            l = restTemplate.getForObject(request, Location.class);
             LOG.info("Reading location");
             return l;
         }
