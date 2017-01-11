@@ -8,6 +8,7 @@ import javax.mail.internet.*;
 
 @Component
 public class SendMail {
+    private static final Logger logger = LoggerFactory.getLogger(SendMail.class);
 
     private static String RECIPIENT = "anagonzalor@gmail.com";
 
@@ -56,6 +57,6 @@ public class SendMail {
         catch (MessagingException me) {
             me.printStackTrace();
         }
-        System.out.println("¡Correo enviado!");
+        logger.info("Correo enviado!")
     }
 }
