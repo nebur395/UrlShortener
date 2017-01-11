@@ -112,10 +112,78 @@ angular.module('urlShortener')
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
-                }).success(function (data) { //Object Matches in data
+                }).success(function (data) {
                     callbackSuccess(data);
                 }).error(function (data) {
                     callbackError('error getting information of unsafe page');
+                });
+            }
+        };
+    })
+
+    .factory('subscription', function ($state, $http, $httpParamSerializer) {
+        return {
+
+            //send the register info to the server
+            listSubscribedUrlsAdmin: function (callbackSuccess,callbackError) {
+                $http({
+                    method: 'GET',
+                    url: '/subscription',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) { //Object Matches in data
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('error getting information of subscribed urls');
+                });
+            },
+
+            //block access from a country
+            addSubscription: function (subscribed,callbackSuccess,callbackError) {
+                $http({
+                    method: 'POST',
+                    url: '/subscription/addSubscription',
+                    data: $httpParamSerializer(subscribed),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Error to administrate restrictions about location');
+                });
+            },
+
+            //unblock access from a country
+            removeSubscription: function (unsubscribed,callbackSuccess,callbackError) {
+                $http({
+                    method: 'POST',
+                    url: '/subscription/removeSubscription',
+                    data: $httpParamSerializer(unsubscribed),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Error to administrate restrictions about location');
+                });
+            },
+
+            //unblock access from a country
+            removeUrl: function (removed,callbackSuccess,callbackError) {
+                $http({
+                    method: 'POST',
+                    url: '/subscription/removeUrl',
+                    data: $httpParamSerializer(removed),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).success(function (data) {
+                    callbackSuccess(data);
+                }).error(function (data) {
+                    callbackError('Error to administrate restrictions about location');
                 });
             }
         };

@@ -1,0 +1,15 @@
+#subscriptionStyle h1 {
+  font-size: 200%;
+  text-align: center;
+}
+
+#subscriptionStyle .feedbackMessages {
+  text-align: center;
+  margin: 1%;
+}
+
+#subscriptionStyle .information{
+  margin-top: 0.3%;
+  margin-right: 3.5%;
+  float: right;
+}

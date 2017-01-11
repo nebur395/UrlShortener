@@ -59,6 +59,18 @@ angular.module('urlShortener', ['ui.router', 'base64', 'ngStomp'])
                 }
             })
 
+            //subscribe urls
+            .state('subscription', {
+                url: "/subscription",
+                templateUrl: "templates/subscription.html",
+                controller: "subscriptionCtrl",
+                onEnter: function($state, auth){
+                    if(!auth.isAuthenticated()){
+                        $state.go('starter');
+                    }
+                }
+            })
+
             //forbidden access
             .state('forbiddenAccess', {
                 url: "/forbiddenAccess",

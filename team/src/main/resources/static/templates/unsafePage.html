@@ -12,17 +12,30 @@
       <strong>&#10008</strong> {{errorMsg}}
     </div>
 
-
+    <div ng-if="json == false">
       <strong>Information of the malicious software: </strong>
-    <li ng-repeat="element in information.listThreatTypes">
-      {{element}}
-    </li>
+      <li ng-repeat="element in information.listThreatTypes">
+        {{element}}
+      </li>
       <br>
       <strong>Information of the affected platforms: </strong>
-    <li ng-repeat="element in information.listPlatforms">
-      {{element}}
-    </li>
+      <li ng-repeat="element in information.listPlatforms">
+        {{element}}
+      </li>
+      <br><br>
+      <button type="submit" class="btn btn-default theme-accent" ng-click="viewJSON()">View page in JSON format</button>
+      <br>
+    </div>
+
+    <div ng-if="json">
+      <p ng-if="json">
+        {{information}}
+      </p>
+      <br>
+      <button type="submit" class="btn btn-default theme-accent" ng-click="hideJSON()">View page in HTML format</button>
+    </div>
     <br>
     <a target='_blank' ng-href="{{information.url}}">See the asked page</a>
+
   </div>
 </div>
