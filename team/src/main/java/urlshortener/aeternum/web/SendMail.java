@@ -17,8 +17,8 @@ public class SendMail {
     private String from;
     @Value("${psswd.mail}")
     private String pass;
-    @Value("${psswd.mail}")
-    private static String RECIPIENT;
+    @Value("${recipent.mail}")
+    private String RECIPIENT;
 
     public void sendMail(String url) {
         String[] to = { RECIPIENT }; // list of recipient email addresses
