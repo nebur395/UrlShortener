@@ -24,6 +24,9 @@ import javax.mail.internet.*;
 public class SafeBrowsing {
     private static final Logger LOG = LoggerFactory.getLogger(SafeBrowsing.class);
 
+    @Value("${safeBrowsing.api_key}")
+    private String API_KEY;
+
     public boolean isSafe;
     private Matches m;
 
@@ -34,7 +37,7 @@ public class SafeBrowsing {
     }
 
     public boolean safe(String url)  {
-        String peticionSafe = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=AIzaSyDG39Zc-4BtPjLR_6gVj7LUJjbGEdV-oqI";
+        String peticionSafe = "https://safebrowsing.googleapis.com/v4/threatMatches:find?key=" + API_KEY;
 
         ObjectMapper mapper = new ObjectMapper();
         ThreatEntry entries = new ThreatEntry(url);

@@ -1,4 +1,5 @@
 package urlshortener.aeternum.web;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
@@ -12,11 +13,14 @@ import javax.mail.internet.*;
 public class SendMail {
     private static final Logger logger = LoggerFactory.getLogger(SendMail.class);
 
-    private static String RECIPIENT = "anagonzalor@gmail.com";
+    @Value("${user.mail}")
+    private String from;
+    @Value("${psswd.mail}")
+    private String pass;
+    @Value("${psswd.mail}")
+    private static String RECIPIENT;
 
     public void sendMail(String url) {
-        String from = "pruprupru9@gmail.com";
-        String pass = "pruprupru99";
         String[] to = { RECIPIENT }; // list of recipient email addresses
         String subject = "Warning!";
         String body = "The url " + url + " has become unsafe! To be able to visit the page go to http://localhost:8080/#/unsafePage";
