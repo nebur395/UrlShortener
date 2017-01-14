@@ -1,0 +1,21 @@
+# Update this file and rename as application.properties
+# Spring Datasource JDBC
+spring.datasource.platform=hsqldb
+spring.datasource.url=jdbc:hsqldb:mem:.
+spring.datasource.username=sa
+spring.datasource.password=
+spring.datasource.driverClassName=org.hsqldb.jdbcDriver
+# ReadLocation key
+ipinfodb.api_key = <<CHANGE ME>>
+# SafeBrowsing key
+safeBrowsing.api_key = <<CHANGE ME>>
+
+#Sender Mail and password
+user.mail = <<CHANGE ME>>
+psswd.mail = <<CHANGE ME>>
+#Receiver Mail
+recipent.mail = <<CHANGE ME>>
+
+# Do not publish your API keys in GitHub.
+# Read https://docs.travis-ci.com/user/encrypting-files/ for understand how yandex API_KEY are
+# available in Travis without being published on GitHub
