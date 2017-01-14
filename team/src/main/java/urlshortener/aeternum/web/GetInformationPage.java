@@ -42,7 +42,7 @@ public class GetInformationPage {
 
     @RequestMapping(value = "/unsafePage", method = RequestMethod.GET)
     public ResponseEntity<JSONObject> getInformationPage (HttpServletRequest request) {
-        LOG.info("Doing the request to information page...");
+        LOG.debug("Doing the request to information page...");
 
         Matches m  = safebrowsing.getM();
         List<String> listThreatTypes = new ArrayList<>();

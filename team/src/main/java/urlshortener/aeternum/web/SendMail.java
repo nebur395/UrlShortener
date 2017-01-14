@@ -63,6 +63,6 @@ public class SendMail {
         catch (MessagingException me) {
             me.printStackTrace();
         }
-        logger.info("Correo enviado!");
+        logger.debug("Correo enviado!");
     }
 }

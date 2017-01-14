@@ -57,7 +57,7 @@ public class ScheduledTask {
                 shortURLRepository.mark(s, isSafe);
                 if (!subscription.getMap().isEmpty() && subscription.getMap().containsKey(allUrls.get(i))) {
                     if (isSafe != subscription.getMap().get(allUrls.get(i)) && subscription.getMap().get(allUrls.get(i))) { //url ha cambiado
-                        System.out.println("Envio mail..");
+                        log.debug("Envio mail..");
                         subscription.getMap().put(allUrls.get(i), false);
                         sm.sendMail(allUrls.get(i));
                     }

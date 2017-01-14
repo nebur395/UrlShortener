@@ -26,16 +26,16 @@ public class ReadLocation {
         RestTemplate restTemplate = new RestTemplate();
         l = restTemplate.getForObject(request, Location.class);
         if(l.getStatusCode().equals("OK") && !l.getCountryName().equals("-")){
-            LOG.info("Reading location");
+            LOG.debug("Reading location");
             return l;
         } else if(l.getStatusCode().equals("OK")){
             request = "http://api.ipinfodb.com/v3/ip-city/?key="+API_KEY+"&format=json";
             l = restTemplate.getForObject(request, Location.class);
-            LOG.info("Reading location");
+            LOG.debug("Reading location");
             return l;
         }
         else{
-            LOG.info("Error reading location: "+l.getStatusCode());
+            LOG.debug("Error reading location: "+l.getStatusCode());
             return null;
         }
     }

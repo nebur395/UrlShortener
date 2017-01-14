@@ -56,18 +56,18 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
             String country = loc.getCountryName();
             CountryRestriction rs = countryResRepository.findCountry(country);
             if (rs.isaccessAllowed()) {
-                logger.info("Access allowed");
+                logger.debug("Access allowed");
                 if (!isSafe) {
-                    logger.info("Unsafe page");
+                    logger.debug("Unsafe page");
                     return sendUnsafePage();
                 } else if (!requestQueue.canAccess(country)){
-                    logger.info("Too much requests");
+                    logger.debug("Too much requests");
                     return createForbiddenRedirectToResponse();
                 } else {
                     return r;
                 }
             } else {
-                logger.info("Access denied");
+                logger.debug("Access denied");
                 return createForbiddenRedirectToResponse();
             }
         }
@@ -93,9 +93,9 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         ShortURL miShort = r.getBody();
 
         if (wantQr){
-            logger.info("ESTOY  APUNTO DE PEDIR EL QR");
+            logger.debug("ESTOY  APUNTO DE PEDIR EL QR");
             String qrCode = QrGenerator.generateQR(miShort.getUri(),request);
-            logger.info("EL QR OBTENIDO HA SIDO: " + qrCode);
+            logger.debug("EL QR OBTENIDO HA SIDO: " + qrCode);
             miShort.setQrCode(qrCode);
             HttpHeaders h = new HttpHeaders();
             h.setLocation(miShort.getUri());
@@ -106,7 +106,7 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
         miShort.setSafe(isSafe);
         shortURLRepository.mark(miShort, isSafe);
 
-        LOG.info("OBJETO JSON?:" + r.toString());
+        LOG.debug("OBJETO JSON?:" + r.toString());
 
         return r;
 	}

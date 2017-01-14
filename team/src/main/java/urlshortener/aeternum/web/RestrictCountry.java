@@ -47,7 +47,7 @@ public class RestrictCountry {
     @RequestMapping(value = "/restrictAccess/blockCountry", method = RequestMethod.POST)
     public ResponseEntity<Boolean> blockCountry(@RequestParam("unblocked") String country, HttpServletRequest request) {
         Boolean blocked = countryResRepository.restrictCountry(country);
-        LOG.info("Access from "+country+" blocked");
+        LOG.debug("Access from "+country+" blocked");
         return new ResponseEntity<>(blocked, HttpStatus.CREATED);
     }
 
@@ -57,7 +57,7 @@ public class RestrictCountry {
     @RequestMapping(value = "/restrictAccess/unblockCountry", method = RequestMethod.POST)
     public ResponseEntity<Boolean> unblockCountry(@RequestParam("blocked") String country, HttpServletRequest request) {
         Boolean unblocked = countryResRepository.unblockCountry(country);
-        LOG.info("Access from "+country+" unblocked");
+        LOG.debug("Access from "+country+" unblocked");
         return new ResponseEntity<>(unblocked, HttpStatus.CREATED);
     }
 
@@ -73,7 +73,7 @@ public class RestrictCountry {
             return new ResponseEntity<>(false,HttpStatus.NO_CONTENT);
         }else{
             Boolean updated = countryResRepository.updateFrequency(country,req,time);
-            if (updated) LOG.info("Update from "+country+": request "+req+" time "+time);
+            if (updated) LOG.debug("Update from "+country+": request "+req+" time "+time);
             return new ResponseEntity<>(updated,HttpStatus.CREATED);
         }
     }

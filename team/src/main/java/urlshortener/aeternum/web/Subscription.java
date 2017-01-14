@@ -46,7 +46,7 @@ public class Subscription {
         ShortURL s = shortURLRepository.findByTarget(urlSubscribed).get(0);
         s.setSubscribed(true);
         shortURLRepository.update(s);
-        logger.info("url subscribed");
+        logger.debug("url subscribed");
         map.put(urlSubscribed, s.getSafe());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -58,7 +58,7 @@ public class Subscription {
             s.get(i).setSubscribed(false);
             shortURLRepository.update(s.get(i));
         }
-        logger.info("url "+urlUnsubscribed+" unsubscribed");
+        logger.debug("url "+urlUnsubscribed+" unsubscribed");
         map.remove(urlUnsubscribed);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -70,7 +70,7 @@ public class Subscription {
         for (int i = 0; i < s.size(); i++) {
             shortURLRepository.delete(s.get(i).getHash());
         }
-        logger.info("url "+urlRemoved+" removed");
+        logger.debug("url "+urlRemoved+" removed");
         map.remove(urlRemoved);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
