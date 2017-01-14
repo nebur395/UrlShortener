@@ -14,8 +14,6 @@ import urlshortener.common.repository.CountryResRepository;
 import urlshortener.common.web.UrlShortenerController;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
-import java.util.List;
-import java.util.Timer;
 
 @RestController
 public class UrlShortenerControllerWithLogs extends UrlShortenerController {
@@ -23,7 +21,6 @@ public class UrlShortenerControllerWithLogs extends UrlShortenerController {
 	private static final Logger logger = LoggerFactory.getLogger(UrlShortenerControllerWithLogs.class);
     private boolean isSafe;
 
-    //Timer time = new Timer(); // Instantiate Timer Object
     ScheduledTask st = new ScheduledTask();
     private static final Logger LOG = LoggerFactory
         .getLogger(QrGenerator.class);

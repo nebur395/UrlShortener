@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import urlshortener.common.domain.CountryRestriction;
 import urlshortener.common.repository.CountryResRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +44,7 @@ public class RestrictCountry {
      * Returns the response with true if the country has been blocked
      */
     @RequestMapping(value = "/restrictAccess/blockCountry", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> blockCountry(@RequestParam("unblocked") String country, HttpServletRequest request) {
+    public ResponseEntity<Boolean> blockCountry(@RequestParam("unblocked") String country) {
         Boolean blocked = countryResRepository.restrictCountry(country);
         LOG.debug("Access from "+country+" blocked");
         return new ResponseEntity<>(blocked, HttpStatus.CREATED);
@@ -55,7 +54,7 @@ public class RestrictCountry {
      * Returns the response with true if the country has been unblocked
      */
     @RequestMapping(value = "/restrictAccess/unblockCountry", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> unblockCountry(@RequestParam("blocked") String country, HttpServletRequest request) {
+    public ResponseEntity<Boolean> unblockCountry(@RequestParam("blocked") String country) {
         Boolean unblocked = countryResRepository.unblockCountry(country);
         LOG.debug("Access from "+country+" unblocked");
         return new ResponseEntity<>(unblocked, HttpStatus.CREATED);

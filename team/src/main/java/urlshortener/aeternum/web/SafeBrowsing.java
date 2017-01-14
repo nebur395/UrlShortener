@@ -6,19 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import org.springframework.http.HttpEntity;
-import org.springframework.web.socket.sockjs.client.Transport;
 import urlshortener.common.domain.*;
-
-import javax.websocket.Session;
-import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.*;
 
 @Component
 public class SafeBrowsing {

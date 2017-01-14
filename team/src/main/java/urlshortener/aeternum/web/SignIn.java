@@ -1,10 +1,6 @@
 package urlshortener.aeternum.web;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.impl.Base64Codec;
-import io.jsonwebtoken.impl.crypto.MacProvider;
-
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

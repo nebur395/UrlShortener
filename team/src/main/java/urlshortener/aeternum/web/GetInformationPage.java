@@ -1,29 +1,20 @@
 package urlshortener.aeternum.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.DataFormatReaders;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import urlshortener.common.domain.ClickTop;
 import urlshortener.common.domain.Matches;
-import urlshortener.common.domain.ShortURL;
 import urlshortener.common.domain.ThreatMatch;
 import urlshortener.common.repository.ClickRepository;
 import urlshortener.common.repository.ShortURLRepository;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +32,7 @@ public class GetInformationPage {
     protected SafeBrowsing safebrowsing;
 
     @RequestMapping(value = "/unsafePage", method = RequestMethod.GET)
-    public ResponseEntity<JSONObject> getInformationPage (HttpServletRequest request) {
+    public ResponseEntity<JSONObject> getInformationPage () {
         LOG.debug("Doing the request to information page...");
 
         Matches m  = safebrowsing.getM();

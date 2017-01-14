@@ -15,7 +15,6 @@ import urlshortener.common.domain.ShortURL;
 import urlshortener.common.repository.ShortURLRepository;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,7 @@ public class Subscription {
     protected ShortURLRepository shortURLRepository;
 
     @RequestMapping(value = "/subscription", method = RequestMethod.GET)
-    public ResponseEntity<JSONObject> listSubscribedUrls (HttpServletRequest request) {
+    public ResponseEntity<JSONObject> listSubscribedUrls () {
 
         List<String> subscribedUrls = shortURLRepository.listSubscribedUrls(true);
         List<String> unsubscribedUrls = shortURLRepository.listSubscribedUrls(false);
@@ -42,7 +41,7 @@ public class Subscription {
     }
 
     @RequestMapping(value = "/subscription/addSubscription", method = RequestMethod.POST)
-    public ResponseEntity<JSONObject> addSubscribedUrls (@RequestParam("subscribed") String urlSubscribed, HttpServletRequest request) {
+    public ResponseEntity<JSONObject> addSubscribedUrls (@RequestParam("subscribed") String urlSubscribed) {
         ShortURL s = shortURLRepository.findByTarget(urlSubscribed).get(0);
         s.setSubscribed(true);
         shortURLRepository.update(s);
@@ -52,7 +51,7 @@ public class Subscription {
     }
 
     @RequestMapping(value = "/subscription/removeSubscription", method = RequestMethod.POST)
-    public ResponseEntity<JSONObject> removeUnsubscribedUrls (@RequestParam("unsubscribed") String urlUnsubscribed, HttpServletRequest request) {
+    public ResponseEntity<JSONObject> removeUnsubscribedUrls (@RequestParam("unsubscribed") String urlUnsubscribed) {
         List<ShortURL> s = shortURLRepository.findByTarget(urlUnsubscribed);
         for (int i = 0; i < s.size(); i++) {
             s.get(i).setSubscribed(false);
@@ -64,7 +63,7 @@ public class Subscription {
     }
 
     @RequestMapping(value = "/subscription/removeUrl", method = RequestMethod.POST)
-    public ResponseEntity<JSONObject> removeSubscribedUrls (@RequestParam("removed") String urlRemoved, HttpServletRequest request) {
+    public ResponseEntity<JSONObject> removeSubscribedUrls (@RequestParam("removed") String urlRemoved) {
         List<ShortURL> s = shortURLRepository.findByTarget(urlRemoved);
 
         for (int i = 0; i < s.size(); i++) {
